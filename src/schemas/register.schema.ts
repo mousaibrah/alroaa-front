@@ -14,6 +14,9 @@ export const registerSchema = z
 			.trim()
 			.min(1, 'validation.lastNameRequired')
 			.max(100, 'validation.tooLong'),
+		// Optional Arabic spelling (certificates, Arabic UI).
+		firstNameAr: z.string().trim().max(100, 'validation.tooLong'),
+		lastNameAr: z.string().trim().max(100, 'validation.tooLong'),
 		email: z.email('validation.emailInvalid').max(255, 'validation.tooLong'),
 		password: z.string().min(8, 'validation.passwordMin').max(72, 'validation.passwordMax'),
 		confirmPassword: z.string(),

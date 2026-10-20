@@ -10,7 +10,8 @@ export interface OpenAttempt {
 	status: 'in_progress';
 	examId: number;
 	courseId: number;
-	examTitle: string;
+	examTitleEn: string;
+	examTitleAr: string;
 	passingScore: number;
 	startedAt: string;
 	// null when the exam has no time limit.
@@ -19,22 +20,30 @@ export interface OpenAttempt {
 	serverNow: string;
 	questions: {
 		id: number;
-		text: string;
+		textEn: string;
+		textAr: string;
 		questionType: QuestionType;
 		points: number;
-		options: { id: number; text: string }[];
+		options: { id: number; textEn: string; textAr: string }[];
 	}[];
 }
 
 export interface ReviewQuestion {
 	id: number;
-	text: string;
+	textEn: string;
+	textAr: string;
 	questionType: QuestionType;
 	points: number;
 	earned: number;
 	answered: boolean;
 	correct: boolean;
-	options: { id: number; text: string; isCorrect: boolean; selected: boolean }[];
+	options: {
+		id: number;
+		textEn: string;
+		textAr: string;
+		isCorrect: boolean;
+		selected: boolean;
+	}[];
 }
 
 // A finished attempt: graded by the server, with the correct answers.
@@ -43,7 +52,8 @@ export interface AttemptResult {
 	status: 'submitted' | 'expired';
 	examId: number;
 	courseId: number;
-	examTitle: string;
+	examTitleEn: string;
+	examTitleAr: string;
 	passingScore: number;
 	startedAt: string;
 	submittedAt: string;

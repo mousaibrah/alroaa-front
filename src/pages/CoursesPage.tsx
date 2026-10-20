@@ -65,7 +65,7 @@ export default function CoursesPage() {
 			? (published.data ?? []).filter((c) => enrolledIds.has(c.id))
 			: (source.data ?? []);
 	const items = needle
-		? inScope.filter((c) => `${c.title} ${c.description ?? ''}`.toLowerCase().includes(needle))
+		? inScope.filter((c) => `${c.titleEn} ${c.titleAr} ${c.descriptionEn ?? ''} ${c.descriptionAr ?? ''}`.toLowerCase().includes(needle))
 		: inScope;
 	const totalPages = Math.max(1, Math.ceil(items.length / PAGE_SIZE));
 	const current = Math.min(page, totalPages);

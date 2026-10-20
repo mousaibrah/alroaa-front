@@ -19,6 +19,7 @@ import { CourseDetailSkeleton } from '../components/feedback/skeletons';
 import { useApiQuery } from '../hooks/useApiQuery';
 import { usePageTitle } from '../hooks/usePageTitle';
 import { formatDuration, formatPrice } from '../utils/format';
+import { useLocalize } from '../hooks/useLocalize';
 
 // Photos (public/assets/img/<name>.webp) used until a program has its own thumbnail.
 const PHOTOS = ['records', 'audit', 'mgmt', 'park', 'tests', 'rehab'] as const;
@@ -28,6 +29,7 @@ const PHOTOS = ['records', 'audit', 'mgmt', 'park', 'tests', 'rehab'] as const;
 // pay, or continue). The lessons player lives at paths.learn(id).
 export default function CourseOverviewPage() {
 	const { t, i18n } = useTranslation();
+	const { l } = useLocalize();
 	const { id } = useParams();
 	const courseId = Number(id);
 	const navigate = useNavigate();
@@ -40,7 +42,7 @@ export default function CourseOverviewPage() {
 		loading,
 		reload,
 	} = useApiQuery((signal) => getCourse(courseId, signal), `course:${courseId}`);
-	usePageTitle(course?.title ?? t('courses.title'));
+	usePageTitle(course ? l(course, 'title') : t('courses.title'));
 
 	if (loading) return <CourseDetailSkeleton />;
 	if (error != null || !course) {
@@ -150,7 +152,7 @@ export default function CourseOverviewPage() {
 					{t('courses.title')}
 				</Link>
 				<span aria-hidden> / </span>
-				<span className="text-foreground">{course.title}</span>
+				<span className="text-foreground">{l(course, 'title')}</span>
 			</nav>
 
 			<div className="grid items-start gap-8 lg:grid-cols-[1fr_22rem]">
@@ -159,11 +161,11 @@ export default function CourseOverviewPage() {
 						{isFree ? t('courses.free') : t('courses.paidTag')}
 					</Badge>
 					<h1 className="mt-4 text-3xl font-extrabold text-primary-dark md:text-4xl">
-						{course.title}
+						{l(course, 'title')}
 					</h1>
-					{course.description && (
+					{l(course, 'description') && (
 						<p className="mt-4 max-w-2xl text-lg leading-8 text-foreground/80">
-							{course.description}
+							{l(course, 'description')}
 						</p>
 					)}
 					<p className="mt-4 flex flex-wrap gap-x-5 gap-y-1 text-foreground/80">
@@ -212,7 +214,7 @@ export default function CourseOverviewPage() {
 													onClick={() => setTab('content')}
 													className="flex w-full items-center justify-between gap-4 py-4 text-start transition hover:text-primary">
 													<span className="font-medium">
-														{String(i + 1).padStart(2, '0')} · {section.title}
+														{String(i + 1).padStart(2, '0')} · {l(section, 'title')}
 													</span>
 													<span className="flex shrink-0 items-center gap-1 text-sm font-bold">
 														{lessonCount(section.lessons.length)}
@@ -234,14 +236,14 @@ export default function CourseOverviewPage() {
 							{course.sections.map((section, i) => (
 								<Card key={section.id} className="gap-0 rounded-2xl py-0">
 									<h2 className="border-b bg-sand px-5 py-3 font-bold text-primary-dark">
-										{String(i + 1).padStart(2, '0')} · {section.title}
+										{String(i + 1).padStart(2, '0')} · {l(section, 'title')}
 									</h2>
 									<ul className="divide-y px-5">
 										{section.lessons.map((lesson) => (
 											<li
 												key={lesson.id}
 												className="flex items-center justify-between gap-3 py-3 text-sm">
-												<span>{lesson.title}</span>
+												<span>{l(lesson, 'title')}</span>
 												<span className="flex shrink-0 items-center gap-2 text-muted-foreground">
 													{!isFree && lesson.isPreview && (
 														<Badge variant="secondary" className="bg-sand text-primary">

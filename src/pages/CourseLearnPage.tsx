@@ -21,9 +21,11 @@ import { Stagger, StaggerItem } from '../components/motion/motion';
 import { CourseDetailSkeleton } from '../components/feedback/skeletons';
 import { useApiQuery } from '../hooks/useApiQuery';
 import { paths } from '@/routes/paths';
+import { useLocalize } from '../hooks/useLocalize';
 
 export default function CourseLearnPage() {
 	const { t, i18n } = useTranslation();
+	const { l } = useLocalize();
 	const { id } = useParams();
 	const courseId = Number(id);
 	const { user, role, hasPermission } = useAuth();
@@ -88,7 +90,7 @@ export default function CourseLearnPage() {
 				</Link>
 				<span aria-hidden> / </span>
 				<Link to={paths.course(course.id)} className="hover:text-primary hover:underline">
-					{course.title}
+					{l(course, 'title')}
 				</Link>
 				<span aria-hidden> / </span>
 				<span className="text-foreground">{t('courses.lessons')}</span>
@@ -103,10 +105,10 @@ export default function CourseLearnPage() {
 					</Badge>
 				)}
 			</div>
-			<h1 className="mt-3 text-3xl font-extrabold text-primary-dark md:text-4xl">{course.title}</h1>
-			{course.description && (
+			<h1 className="mt-3 text-3xl font-extrabold text-primary-dark md:text-4xl">{l(course, 'title')}</h1>
+			{l(course, 'description') && (
 				<p className="mt-3 max-w-3xl text-lg leading-8 text-muted-foreground">
-					{course.description}
+					{l(course, 'description')}
 				</p>
 			)}
 
@@ -133,7 +135,7 @@ export default function CourseLearnPage() {
 				<div>
 					{active && activeState === 'enroll' ? (
 						<LessonGate
-							lessonTitle={active.title}
+							lessonTitle={l(active, 'title')}
 							title={t('courses.enrollTitle')}
 							body={t(isFree ? 'courses.enrollBodyFree' : 'courses.enrollBodyPaid', { price })}>
 							{canEnroll ? (
@@ -144,7 +146,7 @@ export default function CourseLearnPage() {
 						</LessonGate>
 					) : active && activeState === 'payment' ? (
 						<LessonGate
-							lessonTitle={active.title}
+							lessonTitle={l(active, 'title')}
 							title={t('courses.payTitle')}
 							body={t('courses.payBody', { price })}>
 							<UnlockButton courseId={course.id} price={price} />
@@ -181,7 +183,7 @@ export default function CourseLearnPage() {
 							<StaggerItem key={section.id}>
 								<Card className="gap-0 py-0">
 									<h2 className="border-b bg-sand px-4 py-3 text-sm font-bold text-primary-dark">
-										{index + 1}. {section.title}
+										{index + 1}. {l(section, 'title')}
 									</h2>
 									<ul className="divide-y">
 										{section.lessons.map((lesson) => (

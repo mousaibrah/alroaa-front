@@ -13,7 +13,8 @@ export interface Enrollment {
 }
 
 export interface MyEnrollment extends Enrollment {
-	courseTitle: string;
+	courseTitleEn: string;
+	courseTitleAr: string;
 	courseSlug: string;
 }
 

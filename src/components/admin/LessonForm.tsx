@@ -4,11 +4,11 @@ import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
 import type { LessonInput } from '../../types/admin';
 import type { Lesson, LessonType } from '../../types/courses';
 import SimpleSelect from '../common/SimpleSelect';
 import { ErrorBanner } from '../common/ErrorBanner';
+import { BilingualField } from '../common/BilingualField';
 import { Field } from '../common/Field';
 import { errorMessage } from '../../utils/errors';
 
@@ -20,10 +20,17 @@ interface Props {
 
 export default function LessonForm({ lesson, onSubmit, onCancel }: Props) {
 	const { t } = useTranslation();
-	const [title, setTitle] = useState(lesson?.title ?? '');
-	const [description, setDescription] = useState(lesson?.description ?? '');
+	const [title, setTitle] = useState({ en: lesson?.titleEn ?? '', ar: lesson?.titleAr ?? '' });
+	const [description, setDescription] = useState({
+		en: lesson?.descriptionEn ?? '',
+		ar: lesson?.descriptionAr ?? '',
+	});
 	const [lessonType, setLessonType] = useState<LessonType>(lesson?.lessonType ?? 'video');
-	const [contentUrl, setContentUrl] = useState(lesson?.contentUrl ?? '');
+	// The recording can differ per language; fill only one if there is a single one.
+	const [contentUrl, setContentUrl] = useState({
+		en: lesson?.contentUrlEn ?? '',
+		ar: lesson?.contentUrlAr ?? '',
+	});
 	const [durationSec, setDurationSec] = useState(
 		lesson?.durationSec != null ? String(lesson.durationSec) : ''
 	);
@@ -37,10 +44,13 @@ export default function LessonForm({ lesson, onSubmit, onCancel }: Props) {
 		setSaving(true);
 		try {
 			await onSubmit({
-				title: title.trim(),
-				description,
+				titleEn: title.en.trim(),
+				titleAr: title.ar.trim(),
+				descriptionEn: description.en,
+				descriptionAr: description.ar,
 				lessonType,
-				contentUrl: contentUrl.trim() || null,
+				contentUrlEn: contentUrl.en.trim() || null,
+				contentUrlAr: contentUrl.ar.trim() || null,
 				durationSec: durationSec === '' ? null : Number(durationSec),
 				isPreview,
 			});
@@ -55,12 +65,21 @@ export default function LessonForm({ lesson, onSubmit, onCancel }: Props) {
 			onSubmit={(e) => void submit(e)}
 			className="space-y-3 rounded-lg border border-primary/20 bg-primary/5 p-4">
 			<ErrorBanner message={error} />
-			<Field label={t('admin.lesson.title')}>
-				<Input required maxLength={255} value={title} onChange={(e) => setTitle(e.target.value)} />
-			</Field>
-			<Field label={t('admin.lesson.description')}>
-				<Textarea rows={2} value={description} onChange={(e) => setDescription(e.target.value)} />
-			</Field>
+			<BilingualField
+				label={t('admin.lesson.title')}
+				required
+				maxLength={255}
+				valueEn={title.en}
+				valueAr={title.ar}
+				onChange={setTitle}
+			/>
+			<BilingualField
+				label={t('admin.lesson.description')}
+				rows={2}
+				valueEn={description.en}
+				valueAr={description.ar}
+				onChange={setDescription}
+			/>
 			<div className="grid grid-cols-2 gap-3">
 				<Field label={t('admin.lesson.type')}>
 					<SimpleSelect
@@ -82,15 +101,26 @@ export default function LessonForm({ lesson, onSubmit, onCancel }: Props) {
 				</Field>
 			</div>
 			<p className="text-xs text-muted-foreground">{t('admin.lesson.durationHint')}</p>
-			<Field label={t('admin.lesson.contentUrl')}>
-				<Input
-					type="url"
-					dir="ltr"
-					placeholder="https://"
-					value={contentUrl}
-					onChange={(e) => setContentUrl(e.target.value)}
-				/>
-			</Field>
+			<div className="grid gap-3 sm:grid-cols-2">
+				<Field label={`${t('admin.lesson.contentUrl')} (${t('common.english')})`}>
+					<Input
+						type="url"
+						dir="ltr"
+						placeholder="https://"
+						value={contentUrl.en}
+						onChange={(e) => setContentUrl({ ...contentUrl, en: e.target.value })}
+					/>
+				</Field>
+				<Field label={`${t('admin.lesson.contentUrl')} (${t('common.arabic')})`}>
+					<Input
+						type="url"
+						dir="ltr"
+						placeholder="https://"
+						value={contentUrl.ar}
+						onChange={(e) => setContentUrl({ ...contentUrl, ar: e.target.value })}
+					/>
+				</Field>
+			</div>
 			<Label className="gap-2">
 				<Checkbox checked={isPreview} onCheckedChange={(v) => setIsPreview(v === true)} />
 				{t('admin.lesson.isPreview')}

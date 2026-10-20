@@ -7,6 +7,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { formatPrice } from '../../utils/format';
 import StatusBadge from './StatusBadge';
 import { paths } from '@/routes/paths';
+import { useLocalize } from '../../hooks/useLocalize';
 
 // Photos (public/assets/img/<name>.webp) used until a program has its own thumbnail.
 const FALLBACK_PHOTOS = ['records', 'audit', 'mgmt', 'park', 'tests', 'rehab'] as const;
@@ -19,6 +20,7 @@ export default function CourseCard({
 	enrolled?: boolean;
 }) {
 	const { t, i18n } = useTranslation();
+	const { l } = useLocalize();
 	const Arrow = i18n.dir() === 'rtl' ? ArrowLeft : ArrowRight;
 	const photo = FALLBACK_PHOTOS[course.id % FALLBACK_PHOTOS.length];
 
@@ -43,10 +45,10 @@ export default function CourseCard({
 						)}
 						{course.status !== 'published' && <StatusBadge status={course.status} />}
 					</div>
-					<h2 className="line-clamp-2 text-lg font-bold text-primary-dark">{course.title}</h2>
-					{course.description && (
+					<h2 className="line-clamp-2 text-lg font-bold text-primary-dark">{l(course, 'title')}</h2>
+					{l(course, 'description') && (
 						<p className="line-clamp-3 text-sm leading-6 text-muted-foreground">
-							{course.description}
+							{l(course, 'description')}
 						</p>
 					)}
 					<div className="mt-auto flex items-center justify-between gap-2 pt-3">

@@ -11,9 +11,11 @@ import type { AttemptResult } from '../../types/attempts';
 import { CountUp, Reveal, Stagger, StaggerItem } from '../motion/motion';
 import { paths } from '@/routes/paths';
 import { toast } from 'sonner';
+import { useLocalize } from '../../hooks/useLocalize';
 
 export default function ExamResult({ result }: { result: AttemptResult }) {
 	const { t } = useTranslation();
+	const { l } = useLocalize();
 	const navigate = useNavigate();
 	const [busy, setBusy] = useState(false);
 
@@ -40,7 +42,7 @@ export default function ExamResult({ result }: { result: AttemptResult }) {
 						'gap-2 py-6 text-center',
 						result.passed ? 'bg-success-soft ring-success/30' : 'bg-danger-soft ring-danger/30'
 					)}>
-					<p className="text-sm font-medium text-muted-foreground">{result.examTitle}</p>
+					<p className="text-sm font-medium text-muted-foreground">{l(result, 'examTitle')}</p>
 					<h1
 						className={`text-2xl font-bold ${result.passed ? 'text-success-ink' : 'text-danger-ink'}`}>
 						{result.passed ? t('exam.passedTitle') : t('exam.failedTitle')}
@@ -94,7 +96,7 @@ export default function ExamResult({ result }: { result: AttemptResult }) {
 								<CardContent className="space-y-3">
 									<div className="flex items-start justify-between gap-3">
 										<p className="font-medium text-foreground">
-											{index + 1}. {q.text}
+											{index + 1}. {l(q, 'text')}
 										</p>
 										<div className="flex shrink-0 flex-col items-end gap-1">
 											<Badge
@@ -125,7 +127,7 @@ export default function ExamResult({ result }: { result: AttemptResult }) {
 												<li
 													key={o.id}
 													className={`flex items-center justify-between gap-3 rounded-lg border px-3 py-2 text-sm ${tone}`}>
-													<span>{o.text}</span>
+													<span>{l(o, 'text')}</span>
 													<span className="flex shrink-0 gap-2 text-xs font-medium">
 														{o.selected && (
 															<span

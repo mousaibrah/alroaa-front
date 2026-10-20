@@ -10,6 +10,7 @@ import { usePlaybackSource } from '../../hooks/usePlaybackSource';
 import { useProgressReporter } from '../../hooks/useProgressReporter';
 import { LoadingRegion, Skeleton } from '../feedback/Skeleton';
 import VideoPlayer from '../video/VideoPlayer';
+import { useLocalize } from '../../hooks/useLocalize';
 
 interface Props {
 	lesson: Lesson;
@@ -82,6 +83,7 @@ function LessonVideo({ lesson, trackProgress, onProgress }: Props) {
 export default function LessonPlayer(props: Props) {
 	const { lesson, trackProgress, onProgress } = props;
 	const { t } = useTranslation();
+	const { l } = useLocalize();
 	const [saving, setSaving] = useState(false);
 
 	const markComplete = async () => {
@@ -99,15 +101,15 @@ export default function LessonPlayer(props: Props) {
 
 			<CardContent className="space-y-3 py-4">
 				<div className="flex items-center justify-between gap-2">
-					<h2 className="text-lg font-semibold text-foreground">{lesson.title}</h2>
+					<h2 className="text-lg font-semibold text-foreground">{l(lesson, 'title')}</h2>
 					{lesson.completed && (
 						<Badge variant="secondary" className="bg-success-soft text-success-ink">
 							{t('courses.completed')}
 						</Badge>
 					)}
 				</div>
-				{lesson.description && (
-					<p className="text-sm whitespace-pre-line text-foreground">{lesson.description}</p>
+				{l(lesson, 'description') && (
+					<p className="text-sm whitespace-pre-line text-foreground">{l(lesson, 'description')}</p>
 				)}
 				{lesson.lessonType === 'text' && trackProgress && !lesson.completed && (
 					<Button type="button" onClick={() => void markComplete()} disabled={saving}>

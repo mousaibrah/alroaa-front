@@ -2,10 +2,10 @@ import { useState, type FormEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
 import type { CourseInput } from '../../types/admin';
 import type { Course } from '../../types/courses';
 import { ErrorBanner } from '../common/ErrorBanner';
+import { BilingualField } from '../common/BilingualField';
 import { Field } from '../common/Field';
 import { errorMessage } from '../../utils/errors';
 import { toast } from 'sonner';
@@ -19,8 +19,11 @@ interface Props {
 
 export default function CourseForm({ course, submitLabel, onSubmit }: Props) {
 	const { t } = useTranslation();
-	const [title, setTitle] = useState(course?.title ?? '');
-	const [description, setDescription] = useState(course?.description ?? '');
+	const [title, setTitle] = useState({ en: course?.titleEn ?? '', ar: course?.titleAr ?? '' });
+	const [description, setDescription] = useState({
+		en: course?.descriptionEn ?? '',
+		ar: course?.descriptionAr ?? '',
+	});
 	const [price, setPrice] = useState(String(course?.price ?? 0));
 	const [currency, setCurrency] = useState(course?.currency ?? 'SAR');
 	const [thumbnailUrl, setThumbnailUrl] = useState(course?.thumbnailUrl ?? '');
@@ -33,8 +36,10 @@ export default function CourseForm({ course, submitLabel, onSubmit }: Props) {
 		setSaving(true);
 		try {
 			await onSubmit({
-				title: title.trim(),
-				description,
+				titleEn: title.en.trim(),
+				titleAr: title.ar.trim(),
+				descriptionEn: description.en,
+				descriptionAr: description.ar,
 				price: Number(price),
 				currency: currency.toUpperCase(),
 				thumbnailUrl: thumbnailUrl.trim() || null,
@@ -50,12 +55,21 @@ export default function CourseForm({ course, submitLabel, onSubmit }: Props) {
 	return (
 		<form onSubmit={(e) => void submit(e)} className="space-y-4">
 			<ErrorBanner message={error} />
-			<Field label={t('admin.course.title')}>
-				<Input required maxLength={255} value={title} onChange={(e) => setTitle(e.target.value)} />
-			</Field>
-			<Field label={t('admin.course.description')}>
-				<Textarea rows={4} value={description} onChange={(e) => setDescription(e.target.value)} />
-			</Field>
+			<BilingualField
+				label={t('admin.course.title')}
+				required
+				maxLength={255}
+				valueEn={title.en}
+				valueAr={title.ar}
+				onChange={setTitle}
+			/>
+			<BilingualField
+				label={t('admin.course.description')}
+				rows={4}
+				valueEn={description.en}
+				valueAr={description.ar}
+				onChange={setDescription}
+			/>
 			<div className="grid grid-cols-2 gap-4">
 				<Field label={t('admin.course.price')}>
 					<Input

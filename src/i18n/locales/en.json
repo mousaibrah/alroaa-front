@@ -4,7 +4,9 @@
 		"language": "Language",
 		"toggleMenu": "Toggle menu",
 		"appTagline": "Environment · Skills · Impact",
-		"whatsapp": "WhatsApp"
+		"whatsapp": "WhatsApp",
+		"english": "English",
+		"arabic": "Arabic"
 	},
 	"nav": {
 		"main": "Main",
@@ -58,6 +60,8 @@
 		"submitting": "Submitting...",
 		"firstName": "First name",
 		"lastName": "Last name",
+		"firstNameAr": "First name in Arabic (optional)",
+		"lastNameAr": "Last name in Arabic (optional)",
 		"role": "I am a",
 		"haveAccount": "Already have an account?",
 		"loginLink": "Log in"

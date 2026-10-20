@@ -17,12 +17,14 @@ import { useApiQuery } from '../hooks/useApiQuery';
 import { AdminCourseSkeleton } from '../components/feedback/skeletons';
 import { paths } from '@/routes/paths';
 import { toast } from 'sonner';
+import { useLocalize } from '../hooks/useLocalize';
 
 type Tab = 'details' | 'curriculum' | 'exams';
 const TABS: Tab[] = ['details', 'curriculum', 'exams'];
 
 export default function AdminCoursePage() {
 	const { t } = useTranslation();
+	const { l } = useLocalize();
 	const navigate = useNavigate();
 	const courseId = Number(useParams().id);
 	const [tab, setTab] = useState<Tab>('curriculum');
@@ -51,7 +53,7 @@ export default function AdminCoursePage() {
 	}
 
 	const remove = async () => {
-		if (!window.confirm(t('admin.courses.confirmDelete', { title: course.title }))) return;
+		if (!window.confirm(t('admin.courses.confirmDelete', { title: l(course, 'title') }))) return;
 		try {
 			await deleteCourse(course.id);
 			toast.success(t('toast.deleted'));
@@ -67,7 +69,7 @@ export default function AdminCoursePage() {
 				← {t('admin.back')}
 			</Link>
 			<div className="mt-2 mb-4 flex items-center justify-between gap-3">
-				<h1 className="text-2xl font-bold text-foreground">{course.title}</h1>
+				<h1 className="text-2xl font-bold text-foreground">{l(course, 'title')}</h1>
 				<StatusControl
 					status={course.status}
 					onChange={async (status) => {

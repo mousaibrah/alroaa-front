@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { paths } from '@/routes/paths';
 import type { Certificate } from '../../types/certificates';
+import { useLocalize } from '../../hooks/useLocalize';
 
 // "8 learning hours", or minutes for short programs (same wording as the course page).
 function learningTime(seconds: number, t: (key: never, options?: object) => string): string {
@@ -14,6 +15,10 @@ function learningTime(seconds: number, t: (key: never, options?: object) => stri
 // stylesheet (index.css) keeps on the page.
 export default function CertificateCard({ certificate }: { certificate: Certificate }) {
 	const { t, i18n } = useTranslation();
+	const { l, lang } = useLocalize();
+	// The Arabic spelling is optional: fall back to the name as entered.
+	const holder =
+		lang === 'ar' ? certificate.holderNameAr || certificate.holderName : certificate.holderName;
 	const date = new Intl.DateTimeFormat(i18n.language, { dateStyle: 'long' }).format(
 		new Date(certificate.issuedAt)
 	);
@@ -38,9 +43,9 @@ export default function CertificateCard({ certificate }: { certificate: Certific
 						{t('certificate.heading')}
 					</h2>
 					<p className="pt-3 text-muted-foreground">{t('certificate.certifies')}</p>
-					<p className="text-2xl font-extrabold text-primary-dark">{certificate.holderName}</p>
+					<p className="text-2xl font-extrabold text-primary-dark">{holder}</p>
 					<p className="pt-2 text-muted-foreground">{t('certificate.completed')}</p>
-					<p className="text-2xl font-extrabold text-primary-dark">{certificate.courseTitle}</p>
+					<p className="text-2xl font-extrabold text-primary-dark">{l(certificate, 'courseTitle')}</p>
 					<p className="pt-3 text-muted-foreground">
 						{t('certificate.learningTime', {
 							time: learningTime(certificate.learningSeconds, t as never),

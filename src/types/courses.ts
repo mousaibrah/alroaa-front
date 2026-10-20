@@ -4,9 +4,11 @@ export type LessonType = 'video' | 'text';
 
 export interface Course {
 	id: number;
-	title: string;
+	titleEn: string;
+	titleAr: string;
 	slug: string;
-	description: string | null;
+	descriptionEn: string | null;
+	descriptionAr: string | null;
 	price: number;
 	currency: string;
 	status: CourseStatus;
@@ -25,8 +27,10 @@ export interface CourseList {
 
 export interface Lesson {
 	id: number;
-	title: string;
-	description: string | null;
+	titleEn: string;
+	titleAr: string;
+	descriptionEn: string | null;
+	descriptionAr: string | null;
 	lessonType: LessonType;
 	durationSec: number | null;
 	sortOrder: number;
@@ -39,14 +43,18 @@ export interface Lesson {
 	paymentRequired: boolean;
 	// The learner may watch it now: ask GET /lessons/:id/playback for the URL.
 	playable: boolean;
-	// The stored video address; only sent to the people who edit the course.
-	contentUrl: string | null;
+	// The stored video addresses; only sent to the people who edit the course.
+	// Either may be null when the lesson exists in a single language.
+	contentUrlEn: string | null;
+	contentUrlAr: string | null;
 }
 
 export interface Section {
 	id: number;
-	title: string;
-	description: string | null;
+	titleEn: string;
+	titleAr: string;
+	descriptionEn: string | null;
+	descriptionAr: string | null;
 	sortOrder: number;
 	lessons: Lesson[];
 }
@@ -54,8 +62,10 @@ export interface Section {
 // Exam summary on the course page (no questions or answers).
 export interface CourseExam {
 	id: number;
-	title: string;
-	description: string | null;
+	titleEn: string;
+	titleAr: string;
+	descriptionEn: string | null;
+	descriptionAr: string | null;
 	passingScore: number;
 	durationSec: number | null;
 	questionCount: number;

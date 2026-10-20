@@ -11,9 +11,11 @@ import { useAuth } from '../../auth/useAuth';
 import { CheckIcon, LockIcon } from './Icons';
 import { paths } from '@/routes/paths';
 import { toast } from 'sonner';
+import { useLocalize } from '../../hooks/useLocalize';
 
 function ExamRow({ exam, canTake }: { exam: CourseExam; canTake: boolean }) {
 	const { t } = useTranslation();
+	const { l } = useLocalize();
 	const navigate = useNavigate();
 	const [busy, setBusy] = useState(false);
 
@@ -42,7 +44,7 @@ function ExamRow({ exam, canTake }: { exam: CourseExam; canTake: boolean }) {
 			<div className="flex-1 space-y-1">
 				<div className="flex flex-wrap items-center gap-2">
 					<p className={exam.locked ? 'text-muted-foreground' : 'font-medium text-foreground'}>
-						{exam.title}
+						{l(exam, 'title')}
 					</p>
 					{exam.passed ? (
 						<Badge variant="secondary" className="bg-success-soft text-success-ink">
@@ -56,7 +58,9 @@ function ExamRow({ exam, canTake }: { exam: CourseExam; canTake: boolean }) {
 						)
 					)}
 				</div>
-				{exam.description && <p className="text-xs text-muted-foreground">{exam.description}</p>}
+				{l(exam, 'description') && (
+					<p className="text-xs text-muted-foreground">{l(exam, 'description')}</p>
+				)}
 				<p className="text-xs text-muted-foreground">
 					{t('courses.examMeta', { count: exam.questionCount, passing: exam.passingScore })}
 					{exam.durationSec

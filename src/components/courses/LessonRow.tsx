@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { formatDuration } from '../../utils/format';
 import { CheckIcon, LockIcon, PlayIcon, TextIcon } from './Icons';
+import { useLocalize } from '../../hooks/useLocalize';
 
 interface Props {
 	lesson: Lesson;
@@ -19,6 +20,7 @@ interface Props {
 
 export default function LessonRow({ lesson, state, tag, active, onSelect }: Props) {
 	const { t } = useTranslation();
+	const { l } = useLocalize();
 
 	const gated = state !== 'open';
 	const icon = gated ? (
@@ -54,7 +56,7 @@ export default function LessonRow({ lesson, state, tag, active, onSelect }: Prop
 				)}>
 				{icon}
 				<span className="flex-1">
-					{lesson.title}
+					{l(lesson, 'title')}
 					{gated && <span className="sr-only"> ({t('courses.locked')})</span>}
 				</span>
 				{tag === 'free' && (
