@@ -1,0 +1,86 @@
+- generic [ref=e2]:
+  - generic [ref=e3]:
+    - banner [ref=e4]:
+      - generic [ref=e5]:
+        - link "الرؤى للتعلّم البيئة · المهارات · الأثر" [ref=e6] [cursor=pointer]:
+          - /url: /
+          - generic [ref=e7]:
+            - generic [ref=e8]: الرؤى للتعلّم
+            - text: البيئة · المهارات · الأثر
+        - generic [ref=e9]:
+          - button "اللغة" [ref=e10]: English
+          - button "تبديل القائمة" [ref=e11]
+    - main [ref=e12]:
+      - generic [ref=e14]:
+        - generic [ref=e15]:
+          - heading "التحقق من شهادة" [level=1] [ref=e17]
+          - paragraph [ref=e18]: أدخل الرمز المطبوع على الشهادة للتأكد من صحتها.
+        - generic [ref=e19]:
+          - generic [ref=e20]:
+            - generic [ref=e21]: رمز الشهادة
+            - textbox "رمز الشهادة" [ref=e22]:
+              - /placeholder: RNEC-XXXXX-XXXXX
+              - text: rnec-45jnu-987sg
+          - button "تحقق" [ref=e23]
+        - status "جارٍ التحقق..." [ref=e24]
+    - contentinfo [ref=e26]:
+      - generic [ref=e27]:
+        - generic [ref=e28]:
+          - generic [ref=e30]:
+            - generic [ref=e31]: الرؤى للتعلّم
+            - text: البيئة · المهارات · الأثر
+          - paragraph [ref=e32]: شركة الرؤى الطبيعية للتجارة — حلول بيئية مبتكرة لتحسين جودة الحياة وفق رؤية المملكة 2030.
+        - generic [ref=e33]:
+          - heading "خدماتنا" [level=4] [ref=e34]
+          - list [ref=e35]:
+            - listitem [ref=e36]:
+              - link "إصدار وتحديث السجلات البيئية" [ref=e37] [cursor=pointer]:
+                - /url: /services#records
+            - listitem [ref=e38]:
+              - link "التدقيق والتقييم البيئي" [ref=e39] [cursor=pointer]:
+                - /url: /services#audit
+            - listitem [ref=e40]:
+              - link "الإدارة والإشراف البيئي" [ref=e41] [cursor=pointer]:
+                - /url: /services#mgmt
+            - listitem [ref=e42]:
+              - link "التصاريح والتراخيص البيئية" [ref=e43] [cursor=pointer]:
+                - /url: /services#permits
+            - listitem [ref=e44]:
+              - link "التأهيل والمعالجة البيئية" [ref=e45] [cursor=pointer]:
+                - /url: /services#rehab
+            - listitem [ref=e46]:
+              - link "الخطط والبرامج البيئية" [ref=e47] [cursor=pointer]:
+                - /url: /services#plans
+            - listitem [ref=e48]:
+              - link "التقييم البيئي والاجتماعي" [ref=e49] [cursor=pointer]:
+                - /url: /services#social
+            - listitem [ref=e50]:
+              - link "الفحوصات والتحاليل البيئية" [ref=e51] [cursor=pointer]:
+                - /url: /services#tests
+            - listitem [ref=e52]:
+              - link "التحقق من شهادة" [ref=e53] [cursor=pointer]:
+                - /url: /verify
+        - generic [ref=e54]:
+          - heading "تواصل معنا" [level=4] [ref=e55]
+          - list [ref=e56]:
+            - listitem [ref=e57]: الرياض، المملكة العربية السعودية
+            - listitem [ref=e58]:
+              - link "info@rnec.sa" [ref=e59] [cursor=pointer]:
+                - /url: mailto:info@rnec.sa
+            - listitem [ref=e60]:
+              - link "+966595727858" [ref=e61] [cursor=pointer]:
+                - /url: tel:+966595727858
+            - listitem [ref=e62]:
+              - link "+966595612754" [ref=e63] [cursor=pointer]:
+                - /url: tel:+966595612754
+          - generic [ref=e64]:
+            - link "X" [ref=e65] [cursor=pointer]:
+              - /url: https://x.com/rnec2024
+            - link "Instagram" [ref=e66] [cursor=pointer]:
+              - /url: https://instagram.com/rnec.2024
+            - link "TikTok" [ref=e67] [cursor=pointer]:
+              - /url: https://tiktok.com/@rnec.2024
+      - generic [ref=e68]: © 2026 شركة الرؤى الطبيعية للتجارة. جميع الحقوق محفوظة.
+    - link "واتساب" [ref=e69] [cursor=pointer]:
+      - /url: https://wa.me/966595727858
+  - region "Notifications alt+T"

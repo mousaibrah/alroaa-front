@@ -1,0 +1,105 @@
+/* Look and feel of the public site (white header, reveal on scroll, lifted
+   cards, WhatsApp button). Colours come from theme.css. */
+
+html {
+	scroll-behavior: smooth;
+}
+
+/* Header: white with a thin line, always. */
+.site-header {
+	background: color-mix(in oklab, var(--brand-surface) 96%, transparent);
+	backdrop-filter: blur(8px);
+	border-bottom: 1px solid var(--brand-border);
+}
+.site-header.is-solid {
+	box-shadow: 0 4px 18px color-mix(in oklab, var(--brand-primary-dark) 8%, transparent);
+}
+
+.site-nav-link {
+	position: relative;
+	color: var(--brand-text);
+	padding: 0.5rem 0.9rem;
+	border-radius: var(--brand-radius);
+	font-weight: 500;
+	font-size: 0.98rem;
+	transition: 0.2s;
+	white-space: nowrap;
+}
+.site-nav-link:hover {
+	background: var(--brand-sand);
+	color: var(--brand-primary);
+}
+.site-nav-link.is-active {
+	color: var(--brand-primary);
+	font-weight: 700;
+}
+.site-nav-link.is-active::after {
+	content: '';
+	position: absolute;
+	inset-inline: 0.9rem;
+	bottom: 0;
+	height: 2px;
+	border-radius: 2px;
+	background: var(--brand-secondary);
+}
+
+/* Fades in when scrolled into view (see hooks/useScrollReveal.ts). */
+.reveal {
+	opacity: 0;
+	transform: translateY(20px);
+	transition:
+		opacity 0.7s ease,
+		transform 0.7s ease;
+}
+.reveal.is-visible {
+	opacity: 1;
+	transform: none;
+}
+
+.lift {
+	transition:
+		transform 0.3s,
+		box-shadow 0.3s;
+}
+.lift:hover {
+	transform: translateY(-4px);
+	box-shadow: 0 14px 30px color-mix(in oklab, var(--brand-primary-dark) 12%, transparent);
+}
+
+.whatsapp-pulse {
+	animation: whatsapp-pulse 2.4s infinite;
+}
+@keyframes whatsapp-pulse {
+	0% {
+		box-shadow: 0 0 0 0 rgb(37 211 102 / 0.6);
+	}
+	70% {
+		box-shadow: 0 0 0 18px rgb(37 211 102 / 0);
+	}
+	100% {
+		box-shadow: 0 0 0 0 rgb(37 211 102 / 0);
+	}
+}
+
+.logo-grey {
+	filter: grayscale(1);
+	opacity: 0.75;
+	transition: 0.3s;
+}
+.logo-grey:hover {
+	filter: none;
+	opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.whatsapp-pulse,
+	.lift,
+	.site-nav-link {
+		animation: none !important;
+		transition: none !important;
+	}
+	.reveal {
+		opacity: 1;
+		transform: none;
+	}
+}

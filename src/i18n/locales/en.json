@@ -1,0 +1,608 @@
+{
+	"common": {
+		"appName": "Alroaa Learning",
+		"language": "Language",
+		"toggleMenu": "Toggle menu",
+		"appTagline": "Environment · Skills · Impact",
+		"whatsapp": "WhatsApp"
+	},
+	"nav": {
+		"main": "Main",
+		"home": "Home",
+		"register": "Start Learning",
+		"login": "Log in",
+		"logout": "Log out",
+		"courses": "Programs",
+		"admin": "Admin",
+		"about": "About the Platform",
+		"services": "For Companies",
+		"clients": "Partners",
+		"contact": "Contact Us",
+		"profile": "Profile"
+	},
+	"certificate": {
+		"title": "Verify a certificate",
+		"sub": "Enter the code printed on the certificate to check that it is genuine.",
+		"codeLabel": "Certificate code",
+		"codePlaceholder": "RNEC-XXXXX-XXXXX",
+		"check": "Verify",
+		"checking": "Checking...",
+		"valid": "This certificate is genuine",
+		"validSub": "It was issued by Alroaa Learning to the person below.",
+		"notFound": "No certificate matches this code. Check the code and try again.",
+		"loadError": "We could not check the certificate right now. Please try again.",
+		"print": "Print or save as PDF",
+		"view": "View certificate",
+		"earned": "Congratulations! You completed the program and earned a certificate.",
+		"mine": "My certificates",
+		"none": "Certificates you earn will appear here.",
+		"listError": "We could not load your certificates.",
+		"verifyLink": "Verify a certificate",
+		"issuer": "Alroaa Natural Trading Company",
+		"heading": "Certificate of Completion",
+		"certifies": "This certifies that the learner",
+		"completed": "has completed the requirements of the program",
+		"learningTime": "{{time}} · issued on {{date}}",
+		"number": "Certificate no. {{code}}",
+		"verifyAt": "Verify at {{url}}"
+	},
+	"notFound": {
+		"title": "404",
+		"message": "No page found at",
+		"back": "Back to home"
+	},
+	"register": {
+		"title": "Create account",
+		"confirmPassword": "Confirm password",
+		"submit": "Register",
+		"submitting": "Submitting...",
+		"firstName": "First name",
+		"lastName": "Last name",
+		"role": "I am a",
+		"haveAccount": "Already have an account?",
+		"loginLink": "Log in"
+	},
+	"validation": {
+		"emailInvalid": "Enter a valid email address",
+		"passwordMin": "Password must be at least 8 characters",
+		"passwordsMismatch": "Passwords do not match",
+		"firstNameRequired": "First name is required",
+		"lastNameRequired": "Last name is required",
+		"passwordRequired": "Password is required",
+		"passwordMax": "Password must be at most 72 characters",
+		"tooLong": "Too long"
+	},
+	"auth": {
+		"email": "Email",
+		"emailPlaceholder": "john@example.com",
+		"password": "Password",
+		"errors": {
+			"invalidCredentials": "Invalid email or password",
+			"emailTaken": "This email is already registered",
+			"network": "Cannot reach the server. Check your connection and try again.",
+			"server": "Something went wrong on the server. Please try again later.",
+			"unknown": "Something went wrong. Please try again."
+		}
+	},
+	"login": {
+		"title": "Log in",
+		"submit": "Log in",
+		"submitting": "Logging in...",
+		"noAccount": "Don't have an account?",
+		"registerLink": "Register"
+	},
+	"roles": {
+		"admin": "Admin",
+		"student": "Student",
+		"instructor": "Instructor"
+	},
+	"forbidden": {
+		"title": "403",
+		"message": "You don't have permission to view this page."
+	},
+	"courses": {
+		"title": "Programs",
+		"all": "All programs",
+		"mine": "My programs",
+		"loading": "Loading...",
+		"empty": "No programs yet.",
+		"loadError": "Could not load the programs. Please try again.",
+		"notFound": "This program does not exist.",
+		"back": "Back to programs",
+		"free": "Free",
+		"prev": "Previous",
+		"next": "Next",
+		"pagination": "Pagination",
+		"status": {
+			"draft": "Draft",
+			"published": "Published",
+			"archived": "Archived"
+		},
+		"curriculum": "Program content",
+		"noSections": "This program has no content yet.",
+		"nothingToPlay": "Select an available lesson to start.",
+		"locked": "locked",
+		"preview": "Free",
+		"completed": "Completed",
+		"markComplete": "Mark as complete",
+		"completeHint": "The lesson completes automatically when you watch 95% of it.",
+		"noContent": "No video is available for this lesson.",
+		"progress": "{{done}} of {{total}} lessons completed",
+		"exams": "Exams",
+		"examMinutes": "{{minutes}} min",
+		"examLocked": "Complete all lessons to unlock this exam.",
+		"examUnlocked": "Unlocked",
+		"examMeta_one": "{{count}} question · passing score {{passing}}",
+		"examMeta_other": "{{count}} questions · passing score {{passing}}",
+		"paidTag": "Paid",
+		"enrolledBadge": "Enrolled",
+		"cannotEnroll": "Your account type can't enroll in programs.",
+		"signInToLearn": "Log in or create an account to open the lessons.",
+		"enroll": "Enroll",
+		"enrollFree": "Enroll for free",
+		"enrolling": "Enrolling...",
+		"enrollTitle": "Enroll to start learning",
+		"enrollBodyFree": "Enrolling is free and opens every lesson right away.",
+		"enrollBodyPaid": "Enrolling is free and opens the free lessons. Unlock the rest of the program for {{price}} whenever you're ready.",
+		"enrollError": "Could not enroll. Please try again.",
+		"unlock": "Unlock the full program · {{price}}",
+		"unlocking": "Starting payment...",
+		"payError": "Could not start the payment. Please try again.",
+		"payTitle": "This lesson is part of the paid content",
+		"payBody": "Unlock the full program for {{price}} to continue. Your progress is saved.",
+		"unlockBanner": "You're enrolled and the free lessons are open. Unlock the full program for {{price}}.",
+		"enrolledBanner": "You're enrolled in this program.",
+		"enrolled": "Enrolled",
+		"emptyEnrolled": "You haven't enrolled in any program yet.",
+		"emptyAuthored": "You haven't created a program yet.",
+		"eyebrow": "Training programs",
+		"subtitle": "Search by field, level and learning style",
+		"searchPlaceholder": "Search programs",
+		"resultCount_one": "1 result",
+		"resultCount_other": "{{count}} results",
+		"resultCount_zero": "No results",
+		"noResults": "No programs match your search.",
+		"clearSearch": "Clear search",
+		"viewProgram": "View program",
+		"breadcrumb": "Breadcrumb",
+		"lessonCount_one": "1 lesson",
+		"lessonCount_other": "{{count}} lessons",
+		"lessons": "Lessons",
+		"startJourney": "Start your professional journey",
+		"previewLessons": "Preview lessons",
+		"freeLessonsOpen": "Start with the free lessons",
+		"continueLearning": "Continue learning",
+		"startLearning": "Start learning",
+		"durationMinutes": "{{value}} min",
+		"durationHours": "{{value}} learning hours",
+		"examCount_one": "1 exam",
+		"examCount_other": "{{count}} exams",
+		"tabs": {
+			"overview": "Overview",
+			"content": "Content",
+			"exams": "Exams"
+		},
+		"facts": {
+			"lessons": "Lessons",
+			"duration": "Duration",
+			"exams": "Exams"
+		}
+	},
+	"admin": {
+		"title": "Manage programs",
+		"back": "Back to programs",
+		"manage": "Manage",
+		"save": "Save",
+		"saving": "Saving...",
+		"saved": "Saved",
+		"cancel": "Cancel",
+		"edit": "Edit",
+		"delete": "Delete",
+		"rename": "Rename",
+		"tabs": {
+			"details": "Details",
+			"curriculum": "Curriculum",
+			"exams": "Exams"
+		},
+		"courses": {
+			"new": "New program",
+			"create": "Create program",
+			"author": "Author",
+			"confirmDelete": "Delete the program \"{{title}}\"? Learners will no longer see it.",
+			"delete": "Delete this program",
+			"dangerZone": "Danger zone",
+			"deleteHint": "The program is hidden from everyone. Its data is kept in the database.",
+			"confirmPublishEmpty": "This program has no lessons yet. Publish it anyway?"
+		},
+		"course": {
+			"title": "Title",
+			"description": "Description",
+			"price": "Price",
+			"currency": "Currency (3 letters)",
+			"currencyHint": "3-letter code, e.g. USD",
+			"thumbnailUrl": "Thumbnail URL",
+			"status": "Status"
+		},
+		"curriculum": {
+			"empty": "No sections yet. Add the first one below.",
+			"addSection": "Add section",
+			"sectionTitle": "New section title",
+			"addLesson": "Add lesson",
+			"moveSection": "Move section",
+			"moveLesson": "Move lesson",
+			"confirmDeleteSection": "Delete this section and all its lessons?",
+			"confirmDeleteLesson": "Delete this lesson?"
+		},
+		"lesson": {
+			"title": "Lesson title",
+			"description": "Description",
+			"type": "Type",
+			"video": "Video",
+			"text": "Text",
+			"durationSec": "Duration (seconds)",
+			"durationHint": "Video lessons complete automatically at 95% of the duration. Text lessons (no duration) are completed by the learner.",
+			"contentUrl": "Content URL",
+			"isPreview": "Free preview (visible without enrolling)"
+		},
+		"exam": {
+			"back": "Back to exams",
+			"title": "Exam title",
+			"description": "Description",
+			"passingScore": "Passing score (out of {{total}})",
+			"durationMin": "Time limit (minutes)",
+			"noLimit": "No limit",
+			"noQuestions": "No questions yet.",
+			"question": "Question {{n}}",
+			"questionText": "Question",
+			"type": "Type",
+			"points": "Points",
+			"types": {
+				"single_choice": "Single choice",
+				"multiple_choice": "Multiple choice",
+				"true_false": "True / False"
+			},
+			"true": "True",
+			"false": "False",
+			"markCorrect": "Correct answer",
+			"optionText": "Answer text",
+			"optionPlaceholder": "Answer {{n}}",
+			"addOption": "Add answer",
+			"deleteOption": "Remove answer",
+			"moveOption": "Move answer",
+			"moveQuestion": "Move question",
+			"addQuestion": "Add question",
+			"confirmDeleteQuestion": "Delete this question?",
+			"save": "Save exam",
+			"unsaved": "Unsaved changes",
+			"discard": "Discard your unsaved changes?",
+			"empty": "No exams in this program yet.",
+			"newTitle": "New exam title",
+			"create": "Create exam",
+			"confirmDelete": "Delete this exam?",
+			"issues": {
+				"title": "The exam needs a title.",
+				"questionText": "Question {{n}}: enter the question text.",
+				"points": "Question {{n}}: points must be a number between 0 and 999.99.",
+				"optionText": "Question {{n}}: every answer needs text.",
+				"optionsMin": "Question {{n}}: add at least 2 answers.",
+				"trueFalseOptions": "Question {{n}}: a true/false question has exactly 2 answers.",
+				"oneCorrect": "Question {{n}}: mark exactly one correct answer.",
+				"someCorrect": "Question {{n}}: mark at least one correct answer.",
+				"passingScore": "Passing score must be a number between 0 and 999.99.",
+				"duration": "Time limit must be a positive number of minutes.",
+				"passingTooHigh": "Passing score ({{passing}}) is higher than the total points ({{total}})."
+			},
+			"summary_one": "{{count}} question · passing score {{passing}}",
+			"summary_other": "{{count}} questions · passing score {{passing}}"
+		}
+	},
+	"checkout": {
+		"title": "Checkout",
+		"testNotice": "Test payment: no real money is charged.",
+		"course": "Program",
+		"amount": "Amount",
+		"pay": "Pay {{price}}",
+		"paying": "Processing...",
+		"cancel": "Cancel and go back",
+		"success": "Payment successful",
+		"successBody": "The whole program is now unlocked.",
+		"toCourse": "Go to the program",
+		"failed": "This payment failed. Go back to the program to try again.",
+		"loadError": "Could not load this payment.",
+		"payError": "The payment could not be completed. Please try again."
+	},
+	"exam": {
+		"startExam": "Start exam",
+		"resumeExam": "Resume exam",
+		"retakeExam": "Retake exam",
+		"starting": "Starting...",
+		"startError": "Could not start the exam. Please try again.",
+		"timeNotice": "The timer starts when you begin and keeps running if you leave.",
+		"passedBadge": "Passed",
+		"notPassedBadge": "Not passed yet",
+		"bestScore": "Best score: {{score}} / {{max}}",
+		"reviewResult": "Review last result",
+		"answered": "Answered {{done}} of {{total}}",
+		"timeLeft": "Time left",
+		"points": "{{points}} pts",
+		"chooseOne": "Choose one answer",
+		"chooseMany": "Choose all that apply",
+		"submit": "Submit exam",
+		"submitting": "Submitting...",
+		"confirmUnanswered": "You left some questions unanswered. Submit anyway?",
+		"submitError": "Could not submit. Check your connection and try again.",
+		"timeUp": "Time is up. Your answers are being submitted...",
+		"expiredBanner": "Time ran out, so this attempt was not graded. Try again when you're ready.",
+		"loadError": "Could not load this exam attempt.",
+		"yourScore": "Your score",
+		"scoreOf": "{{score}} out of {{max}} points",
+		"passingNote": "Passing score: {{passing}}",
+		"passedTitle": "You passed!",
+		"failedTitle": "You did not pass this time",
+		"review": "Review your answers",
+		"correctAnswer": "Correct answer",
+		"yourAnswer": "Your answer",
+		"correct": "Correct",
+		"incorrect": "Incorrect",
+		"unanswered": "Not answered",
+		"earned": "{{earned}} / {{points}} pts",
+		"backToCourse": "Back to the program",
+		"retake": "Try again",
+		"selected": "your answer",
+		"isCorrect": "correct answer"
+	},
+	"player": {
+		"label": "Video player",
+		"play": "Play",
+		"pause": "Pause",
+		"seek": "Seek",
+		"volume": "Volume",
+		"mute": "Mute",
+		"unmute": "Unmute",
+		"speed": "Playback speed",
+		"fullscreen": "Fullscreen",
+		"exitFullscreen": "Exit fullscreen",
+		"loading": "Loading video...",
+		"buffering": "Buffering...",
+		"error": "The video could not be played. Check your connection and try again.",
+		"unsupported": "This browser cannot play this video.",
+		"retry": "Try again",
+		"unavailable": "The video is not available right now."
+	},
+	"site": {
+		"company": "Alroaa Natural Trading Company",
+		"description": "An Arabic-first platform for environmental skills: applied programs that link each lesson to a task and an assessment, for individuals and companies.",
+		"cta": {
+			"title": "Contact Us for Environmental Consulting",
+			"text": "We are here to help you achieve the best environmental outcomes. Contact us today to see how we can support your projects and strengthen your commitment to sustainability.",
+			"button": "Contact Us"
+		},
+		"footer": {
+			"about": "Alroaa Natural Trading Company — innovative environmental solutions improving quality of life in line with Saudi Vision 2030.",
+			"services": "Services",
+			"contact": "Contact",
+			"address": "Riyadh, Saudi Arabia",
+			"rights": "Alroaa Natural Trading Company. All rights reserved."
+		},
+		"home": {
+			"title": "Home",
+			"hero": {
+				"eyebrow": "Environmental knowledge turned into practice",
+				"title": "Grow your skills. Build lasting impact.",
+				"text": "Applied programs in environmental compliance, inspection, waste, reserves and wildlife.",
+				"programs": "Explore programs",
+				"companies": "Corporate training solutions"
+			},
+			"search": {
+				"placeholder": "Search for a skill or training program…",
+				"button": "Search"
+			},
+			"programs": {
+				"title": "Latest programs"
+			},
+			"fields": {
+				"title": "Start from the field closest to you",
+				"all": "View all programs",
+				"view": "View programs",
+				"items": {
+					"compliance": {
+						"title": "Environmental compliance",
+						"tag": "For graduates",
+						"meta": "Applied learning · Arabic"
+					},
+					"inspection": {
+						"title": "Environmental inspection",
+						"tag": "For practitioners",
+						"meta": "Applied learning · Arabic"
+					},
+					"waste": {
+						"title": "Waste management",
+						"tag": "For employees",
+						"meta": "Applied learning · Arabic"
+					},
+					"wildlife": {
+						"title": "Wildlife",
+						"tag": "For enthusiasts",
+						"meta": "Applied learning · Arabic"
+					}
+				}
+			},
+			"services": {
+				"eyebrow": "For companies",
+				"title": "Environmental solutions and services for companies"
+			},
+			"why": {
+				"eyebrow": "Why us",
+				"title": "Experts in environment and sustainable development",
+				"text": "Our team of experts and consultants spans many fields of environment and sustainable development, with more than 25 years of accumulated experience."
+			},
+			"partners": {
+				"title": "Success Partners"
+			}
+		},
+		"about": {
+			"title": "About Us",
+			"sub": "A deep understanding of environmental culture in the Kingdom and sustainable planning for environmental challenges.",
+			"whoTitle": "Who We Are",
+			"p1": "Alroaa Natural Trading Company is guided by a deep understanding of environmental culture in Saudi Arabia, sustainable planning to meet environmental challenges, and scientific contribution to environmental solutions serving society within a civilized vision.",
+			"p2": "We recognize the importance of young national talent and work to develop it and involve it in decision-making, by hiring outstanding environmental experts, developing their skills and delivering services that earn client satisfaction.",
+			"p3": "Our clients’ trust comes first. Building communication bridges and delivering consulting at a level worthy of our clients is a priority we take pride in, out of respect for their opinions and a commitment to meeting their needs with quality and credibility.",
+			"mission": {
+				"title": "Our Mission",
+				"text": "Providing specialized environmental consulting based on scientific knowledge and innovation to support sustainability and protect natural resources, while complying with local and international environmental laws and keeping pace with their continuous updates."
+			},
+			"vision": {
+				"title": "Our Vision",
+				"text": "To be the preferred choice in environmental consulting, with innovative solutions that improve environmental quality and resource sustainability locally and regionally, enhancing quality of life in line with Saudi Vision 2030."
+			},
+			"goalsTitle": "Our Goals"
+		},
+		"services": {
+			"title": "Our Services",
+			"sub": "We offer a wide range of specialized environmental services, chiefly the following.",
+			"request": "Request this service",
+			"items": {
+				"records": {
+					"title": "Environmental Records",
+					"text": "Issuing and updating environmental records for all types of activities, ensuring compliance."
+				},
+				"audit": {
+					"title": "Environmental Audit",
+					"text": "Environmental audit studies for activities with environmental impact."
+				},
+				"mgmt": {
+					"title": "Environmental Management",
+					"text": "Consulting and supervision of environmental management plans."
+				},
+				"permits": {
+					"title": "Permits & Licenses",
+					"text": "Meeting requirements to obtain and renew environmental permits and licenses from the relevant authorities."
+				},
+				"rehab": {
+					"title": "Rehabilitation & Remediation",
+					"text": "Preparing rehabilitation plans for contaminated sites, supervising implementation and assessing results."
+				},
+				"plans": {
+					"title": "Environmental Plans & Programs",
+					"text": "Plans and programs that reduce the negative impacts of activities affecting the environment."
+				},
+				"social": {
+					"title": "Environmental & Social Assessment",
+					"text": "Assessing the environmental, social and cultural factors of activities with environmental impact."
+				},
+				"tests": {
+					"title": "Testing & Analysis",
+					"text": "Supervising scientific testing of environmental samples to detect pollutants and change indicators against local and international standards."
+				}
+			}
+		},
+		"clients": {
+			"title": "Success Partners",
+			"sub": "Our clients’ trust comes first, and building bridges of communication is our priority.",
+			"items": {
+				"env": "Ministry of Environment, Water & Agriculture",
+				"industry": "Ministry of Industry & Mineral Resources",
+				"commerce": "Ministry of Commerce",
+				"veg": "National Center for Vegetation Cover & Combating Desertification",
+				"waste": "National Center for Waste Management",
+				"ncec": "National Center for Environmental Compliance",
+				"rakana": "Rakana Law Firm & Legal Consultancy",
+				"momah": "Ministry of Municipalities & Housing"
+			}
+		},
+		"values": {
+			"quality": {
+				"title": "Quality",
+				"text": "We deliver consulting and services to the highest quality standards."
+			},
+			"innovation": {
+				"title": "Innovation",
+				"text": "We adopt innovative approaches to environmental challenges."
+			},
+			"dedication": {
+				"title": "Dedication",
+				"text": "We work with sincerity and professionalism to deliver the best results."
+			},
+			"commitment": {
+				"title": "Commitment",
+				"text": "We commit to environmental solutions aligned with top global standards."
+			}
+		},
+		"goals": {
+			"g1": "Comprehensive environmental consulting that supports sustainable development and conserves natural resources",
+			"g2": "Strengthening partnerships with government and private entities to achieve shared environmental goals",
+			"g3": "Using advanced technologies to assess and manage the environmental impacts of projects",
+			"g4": "Achieving the highest standards of quality and professionalism in environmental consulting",
+			"g5": "Building an environmental culture that encourages conservation and optimal use of resources",
+			"g6": "Continuously developing our team and keeping pace with environmental advances to ensure professional excellence"
+		},
+		"contact": {
+			"title": "Contact for Environmental Consulting",
+			"sub": "We are here to help you achieve the best environmental results and strengthen your commitment to sustainability.",
+			"formTitle": "Send us a message",
+			"formSub": "Tell us about your project or question and we will get back to you.",
+			"panelTitle": "Prefer a quick chat?",
+			"panelText": "Reach our team directly on WhatsApp for fast answers about programs, training and environmental consulting.",
+			"whatsappCta": "Chat on WhatsApp",
+			"followUs": "Follow us",
+			"pageTitle": "Contact Us",
+			"address": "Address",
+			"email": "Email",
+			"phone": "Phone",
+			"whatsapp": "WhatsApp",
+			"addressValue": "Riyadh, Saudi Arabia",
+			"form": {
+				"name": "Name *",
+				"phone": "Phone",
+				"email": "Email *",
+				"message": "Your message *",
+				"send": "Send",
+				"sending": "Sending..."
+			},
+			"errors": {
+				"name": "Please enter your name.",
+				"email": "Please enter a valid email address.",
+				"message": "Please write your message.",
+				"invalid": "Please fill in the required fields correctly."
+			},
+			"sent": "Thank you, your message was received and we will contact you soon."
+		}
+	},
+	"profile": {
+		"welcome": "Welcome, {{name}}. Let's keep going",
+		"role": "Role",
+		"permissions": "Permissions",
+		"title": "My profile",
+		"account": "Account",
+		"name": "Name",
+		"myCourses": "My programs",
+		"noCourses": "You haven't enrolled in a program yet.",
+		"browse": "Browse programs",
+		"active": "In progress",
+		"completed": "Completed",
+		"paymentRequired": "Payment required",
+		"eyebrow": "Your learning space",
+		"dashboard": "Dashboard",
+		"menu": "Account menu",
+		"continueTitle": "Continue where you left off",
+		"continue": "Continue learning",
+		"stats": {
+			"active": "My current programs",
+			"activeHint": "Programs in progress",
+			"completed": "Completed programs",
+			"completedHint": "Programs you finished"
+		}
+	},
+	"toast": {
+		"loggedIn": "Logged in successfully",
+		"registered": "Your account was created",
+		"loggedOut": "You have been logged out",
+		"enrolled": "You are enrolled in this program",
+		"paid": "Payment successful. The whole program is now unlocked.",
+		"saved": "Saved",
+		"created": "Created",
+		"deleted": "Deleted",
+		"statusChanged": "Program status updated",
+		"examSaved": "Exam saved"
+	}
+}

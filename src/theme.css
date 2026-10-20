@@ -1,0 +1,211 @@
+/* ==========================================================================
+   BRAND THEME
+
+   To rebrand the app, change the values in section 1. Any CSS colour works
+   (hex, rgb(), hsl(), oklch()). Everything else - buttons, links, badges,
+   cards, inputs, menus, status colours - is derived from these in section 2,
+   so there is nothing else to edit.
+
+   Dark mode: the `.dark` block in section 1 overrides the same variables
+   (add class="dark" to <html> to use it).
+   ========================================================================== */
+
+/* 1. BRAND CONFIG ---------------------------------------------------------- */
+:root {
+	/* Main colour (Alroaa green): buttons, links, active menu items, focus rings. */
+	--brand-primary: #245a40;
+	--brand-primary-contrast: #ffffff; /* text on top of the main colour */
+	--brand-primary-dark: #1a4330; /* footer, hover state, big headings */
+	--brand-primary-light: #3f7a5a; /* soft tints */
+
+	/* Second colour (gold): highlighted actions, accents and thin rules.
+	   Too light for small text on white: use --brand-gold-ink for that. */
+	--brand-secondary: #b49b61;
+	--brand-secondary-contrast: #1b2a22; /* text on top of the second colour */
+	--brand-gold-ink: #7d6a38; /* small gold labels (eyebrows) on light backgrounds */
+
+	/* Text */
+	--brand-text: #1d2b24;
+	--brand-text-muted: #55655c; /* captions, hints, secondary text */
+
+	/* Surfaces */
+	--brand-background: #ffffff; /* the page */
+	--brand-sand: #edf3e7; /* light green: background of app pages and alternate sections */
+	--brand-ivory: #faf5e9; /* warm ivory: highlighted sections */
+	--brand-surface: #ffffff; /* cards, menus, dialogs, inputs */
+	--brand-border: #d5e0cf; /* lines around cards, inputs and tables */
+
+	/* Status colours: success (passed, completed), warning (draft, paid
+	   content), danger (errors, delete), info (free lessons). */
+	--brand-success: #2f7a4f;
+	--brand-warning: #b7791f;
+	--brand-danger: #c0392b;
+	--brand-info: #2b6f8f;
+
+	/* Shape and type */
+	--brand-radius: 0.7rem; /* roundness of buttons, inputs and cards */
+	/* Roboto has no Arabic glyphs, so Latin text is set in Roboto and Arabic
+	   falls through to Tajawal, character by character. */
+	--brand-font: 'Roboto Variable', 'Tajawal', system-ui, sans-serif;
+}
+
+.dark {
+	--brand-primary: #4a9a72;
+	--brand-primary-contrast: #ffffff;
+	--brand-primary-dark: #0d1f17;
+	--brand-primary-light: #7cc29d;
+	--brand-secondary: #c9b27a;
+	--brand-secondary-contrast: #1b1608;
+	--brand-gold-ink: #d9c58e;
+	--brand-text: #f1f5f2;
+	--brand-text-muted: #9db0a5;
+	--brand-background: #0c130f;
+	--brand-sand: #111b15;
+	--brand-ivory: #17211a;
+	--brand-surface: #16211a;
+	--brand-border: #263a2e;
+	--brand-success: #4ade80;
+	--brand-warning: #fbbf24;
+	--brand-danger: #f87171;
+	--brand-info: #38bdf8;
+}
+
+/* 2. DERIVED TOKENS (no need to edit) --------------------------------------
+   Maps the brand variables to the names the shadcn/ui components and the
+   Tailwind classes (bg-primary, text-muted-foreground, ...) use. It is
+   declared for `.dark` too, so the dark values above take effect. */
+:root,
+.dark {
+	--background: var(--brand-background);
+	--foreground: var(--brand-text);
+	--card: var(--brand-surface);
+	--card-foreground: var(--brand-text);
+	--popover: var(--brand-surface);
+	--popover-foreground: var(--brand-text);
+	--primary: var(--brand-primary);
+	--primary-foreground: var(--brand-primary-contrast);
+	--secondary: color-mix(in oklab, var(--brand-primary) 8%, var(--brand-surface));
+	--secondary-foreground: var(--brand-text);
+	--muted: color-mix(in oklab, var(--brand-text) 5%, var(--brand-surface));
+	--muted-foreground: var(--brand-text-muted);
+	--accent: color-mix(in oklab, var(--brand-primary) 10%, var(--brand-surface));
+	--accent-foreground: var(--brand-text);
+	--destructive: var(--brand-danger);
+	--border: var(--brand-border);
+	--input: var(--brand-border);
+	--ring: var(--brand-primary);
+	--radius: var(--brand-radius);
+
+	--chart-1: var(--brand-primary);
+	--chart-2: var(--brand-secondary);
+	--chart-3: var(--brand-info);
+	--chart-4: var(--brand-warning);
+	--chart-5: var(--brand-success);
+
+	--sidebar: var(--brand-surface);
+	--sidebar-foreground: var(--brand-text);
+	--sidebar-primary: var(--brand-primary);
+	--sidebar-primary-foreground: var(--brand-primary-contrast);
+	--sidebar-accent: var(--accent);
+	--sidebar-accent-foreground: var(--brand-text);
+	--sidebar-border: var(--brand-border);
+	--sidebar-ring: var(--brand-primary);
+
+	/* Status tones: a solid colour, a soft background and a readable text
+	   colour for each status (used by badges and notices). */
+	/* Soft tints of the main colour (backgrounds of notes and info boxes). */
+	--brand-50: color-mix(in oklab, var(--brand-primary-light) 8%, var(--brand-surface));
+	--brand-100: color-mix(in oklab, var(--brand-primary-light) 18%, var(--brand-surface));
+
+	--tone-ink: #000000;
+	--success: var(--brand-success);
+	--success-soft: color-mix(in oklab, var(--brand-success) 14%, var(--brand-surface));
+	--success-ink: color-mix(in oklab, var(--brand-success) 60%, var(--tone-ink));
+	--warning: var(--brand-warning);
+	--warning-soft: color-mix(in oklab, var(--brand-warning) 14%, var(--brand-surface));
+	--warning-ink: color-mix(in oklab, var(--brand-warning) 60%, var(--tone-ink));
+	--danger: var(--brand-danger);
+	--danger-soft: color-mix(in oklab, var(--brand-danger) 14%, var(--brand-surface));
+	--danger-ink: color-mix(in oklab, var(--brand-danger) 60%, var(--tone-ink));
+	--info: var(--brand-info);
+	--info-soft: color-mix(in oklab, var(--brand-info) 14%, var(--brand-surface));
+	--info-ink: color-mix(in oklab, var(--brand-info) 60%, var(--tone-ink));
+}
+
+.dark {
+	--tone-ink: #ffffff; /* in dark mode the status text is lightened, not darkened */
+}
+
+/* 3. TAILWIND COLOUR NAMES ------------------------------------------------- */
+@theme inline {
+	--font-sans: var(--brand-font);
+	--font-heading: var(--brand-font);
+
+	--color-background: var(--background);
+	--color-foreground: var(--foreground);
+	--color-card: var(--card);
+	--color-card-foreground: var(--card-foreground);
+	--color-popover: var(--popover);
+	--color-popover-foreground: var(--popover-foreground);
+	--color-primary: var(--primary);
+	--color-primary-foreground: var(--primary-foreground);
+	--color-secondary: var(--secondary);
+	--color-secondary-foreground: var(--secondary-foreground);
+	--color-muted: var(--muted);
+	--color-muted-foreground: var(--muted-foreground);
+	--color-accent: var(--accent);
+	--color-accent-foreground: var(--accent-foreground);
+	--color-destructive: var(--destructive);
+	--color-border: var(--border);
+	--color-input: var(--input);
+	--color-ring: var(--ring);
+
+	/* bg-primary-dark, text-primary-light, bg-brand-50, border-brand-100, bg-sand */
+	--color-primary-dark: var(--brand-primary-dark);
+	--color-primary-light: var(--brand-primary-light);
+	--color-brand-50: var(--brand-50);
+	--color-brand-100: var(--brand-100);
+	--color-sand: var(--brand-sand);
+	--color-ivory: var(--brand-ivory);
+	--color-gold-ink: var(--brand-gold-ink);
+
+	/* bg-brand-secondary text-brand-secondary-foreground */
+	--color-brand-secondary: var(--brand-secondary);
+	--color-brand-secondary-foreground: var(--brand-secondary-contrast);
+
+	/* bg-success-soft text-success-ink, text-success, border-success/30, ... */
+	--color-success: var(--success);
+	--color-success-soft: var(--success-soft);
+	--color-success-ink: var(--success-ink);
+	--color-warning: var(--warning);
+	--color-warning-soft: var(--warning-soft);
+	--color-warning-ink: var(--warning-ink);
+	--color-danger: var(--danger);
+	--color-danger-soft: var(--danger-soft);
+	--color-danger-ink: var(--danger-ink);
+	--color-info: var(--info);
+	--color-info-soft: var(--info-soft);
+	--color-info-ink: var(--info-ink);
+
+	--color-chart-1: var(--chart-1);
+	--color-chart-2: var(--chart-2);
+	--color-chart-3: var(--chart-3);
+	--color-chart-4: var(--chart-4);
+	--color-chart-5: var(--chart-5);
+	--color-sidebar: var(--sidebar);
+	--color-sidebar-foreground: var(--sidebar-foreground);
+	--color-sidebar-primary: var(--sidebar-primary);
+	--color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+	--color-sidebar-accent: var(--sidebar-accent);
+	--color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+	--color-sidebar-border: var(--sidebar-border);
+	--color-sidebar-ring: var(--sidebar-ring);
+
+	--radius-sm: calc(var(--radius) * 0.6);
+	--radius-md: calc(var(--radius) * 0.8);
+	--radius-lg: var(--radius);
+	--radius-xl: calc(var(--radius) * 1.4);
+	--radius-2xl: calc(var(--radius) * 1.8);
+	--radius-3xl: calc(var(--radius) * 2.2);
+	--radius-4xl: calc(var(--radius) * 2.6);
+}

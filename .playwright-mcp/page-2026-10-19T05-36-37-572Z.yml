@@ -1,0 +1,131 @@
+- generic [ref=e2]:
+  - generic [ref=e3]:
+    - banner [ref=e4]:
+      - generic [ref=e5]:
+        - link "الرؤى للتعلّم البيئة · المهارات · الأثر" [ref=e6] [cursor=pointer]:
+          - /url: /
+          - generic [ref=e7]:
+            - generic [ref=e8]: الرؤى للتعلّم
+            - text: البيئة · المهارات · الأثر
+        - generic [ref=e9]:
+          - button "اللغة" [ref=e10]: English
+          - button "تبديل القائمة" [ref=e11]
+    - main [ref=e12]:
+      - generic [ref=e13]:
+        - generic [ref=e16]:
+          - heading "الاتصال للاستشارات البيئية" [level=1] [ref=e18]
+          - paragraph [ref=e19]: نحن متواجدون لمساعدتك في تحقيق أفضل النتائج البيئية وتعزيز التزامك بالاستدامة.
+        - list [ref=e21]:
+          - listitem [ref=e22]:
+            - generic [ref=e26]:
+              - generic [ref=e27]: واتساب
+              - link "+966595727858" [ref=e28] [cursor=pointer]:
+                - /url: https://wa.me/966595727858
+          - listitem [ref=e29]:
+            - generic [ref=e33]:
+              - generic [ref=e34]: الهاتف
+              - link "+966595727858" [ref=e35] [cursor=pointer]:
+                - /url: tel:+966595727858
+              - link "+966595612754" [ref=e36] [cursor=pointer]:
+                - /url: tel:+966595612754
+          - listitem [ref=e37]:
+            - generic [ref=e42]:
+              - generic [ref=e43]: البريد الإلكتروني
+              - link "info@rnec.sa" [ref=e44] [cursor=pointer]:
+                - /url: mailto:info@rnec.sa
+          - listitem [ref=e45]:
+            - generic [ref=e50]:
+              - generic [ref=e51]: العنوان
+              - generic [ref=e52]: الرياض، المملكة العربية السعودية
+        - generic [ref=e54]:
+          - generic [ref=e55]:
+            - generic [ref=e56]:
+              - heading "أرسل لنا رسالة" [level=2] [ref=e58]
+              - paragraph [ref=e59]: أخبرنا عن مشروعك أو استفسارك وسنعاود التواصل معك.
+            - generic [ref=e60]:
+              - generic [ref=e61]:
+                - generic [ref=e62]: الاسم *
+                - textbox "الاسم *" [ref=e64]
+              - generic [ref=e65]:
+                - generic [ref=e66]: رقم الجوال
+                - textbox "رقم الجوال" [ref=e68]
+            - generic [ref=e69]:
+              - generic [ref=e70]: البريد الإلكتروني *
+              - textbox "البريد الإلكتروني *" [ref=e72]
+            - generic [ref=e73]:
+              - generic [ref=e74]: رسالتك *
+              - textbox "رسالتك *" [ref=e75]
+            - button "إرسال" [ref=e76]
+          - complementary [ref=e77]:
+            - generic [ref=e78]:
+              - heading "تفضّل المحادثة السريعة؟" [level=2] [ref=e80]
+              - paragraph [ref=e81]: تواصل مع فريقنا مباشرة عبر واتساب للحصول على إجابات سريعة حول البرامج والتدريب والاستشارات البيئية.
+              - link "تحدث معنا على واتساب" [ref=e82] [cursor=pointer]:
+                - /url: https://wa.me/966595727858
+            - generic [ref=e83]:
+              - generic [ref=e84]: تابعنا
+              - generic [ref=e85]:
+                - link "X" [ref=e86] [cursor=pointer]:
+                  - /url: https://x.com/rnec2024
+                - link "Instagram" [ref=e87] [cursor=pointer]:
+                  - /url: https://instagram.com/rnec.2024
+                - link "TikTok" [ref=e88] [cursor=pointer]:
+                  - /url: https://tiktok.com/@rnec.2024
+    - contentinfo [ref=e89]:
+      - generic [ref=e90]:
+        - generic [ref=e91]:
+          - generic [ref=e93]:
+            - generic [ref=e94]: الرؤى للتعلّم
+            - text: البيئة · المهارات · الأثر
+          - paragraph [ref=e95]: شركة الرؤى الطبيعية للتجارة — حلول بيئية مبتكرة لتحسين جودة الحياة وفق رؤية المملكة 2030.
+        - generic [ref=e96]:
+          - heading "خدماتنا" [level=4] [ref=e97]
+          - list [ref=e98]:
+            - listitem [ref=e99]:
+              - link "إصدار وتحديث السجلات البيئية" [ref=e100] [cursor=pointer]:
+                - /url: /services#records
+            - listitem [ref=e101]:
+              - link "التدقيق والتقييم البيئي" [ref=e102] [cursor=pointer]:
+                - /url: /services#audit
+            - listitem [ref=e103]:
+              - link "الإدارة والإشراف البيئي" [ref=e104] [cursor=pointer]:
+                - /url: /services#mgmt
+            - listitem [ref=e105]:
+              - link "التصاريح والتراخيص البيئية" [ref=e106] [cursor=pointer]:
+                - /url: /services#permits
+            - listitem [ref=e107]:
+              - link "التأهيل والمعالجة البيئية" [ref=e108] [cursor=pointer]:
+                - /url: /services#rehab
+            - listitem [ref=e109]:
+              - link "الخطط والبرامج البيئية" [ref=e110] [cursor=pointer]:
+                - /url: /services#plans
+            - listitem [ref=e111]:
+              - link "التقييم البيئي والاجتماعي" [ref=e112] [cursor=pointer]:
+                - /url: /services#social
+            - listitem [ref=e113]:
+              - link "الفحوصات والتحاليل البيئية" [ref=e114] [cursor=pointer]:
+                - /url: /services#tests
+        - generic [ref=e115]:
+          - heading "تواصل معنا" [level=4] [ref=e116]
+          - list [ref=e117]:
+            - listitem [ref=e118]: الرياض، المملكة العربية السعودية
+            - listitem [ref=e119]:
+              - link "info@rnec.sa" [ref=e120] [cursor=pointer]:
+                - /url: mailto:info@rnec.sa
+            - listitem [ref=e121]:
+              - link "+966595727858" [ref=e122] [cursor=pointer]:
+                - /url: tel:+966595727858
+            - listitem [ref=e123]:
+              - link "+966595612754" [ref=e124] [cursor=pointer]:
+                - /url: tel:+966595612754
+          - generic [ref=e125]:
+            - link "X" [ref=e126] [cursor=pointer]:
+              - /url: https://x.com/rnec2024
+            - link "Instagram" [ref=e127] [cursor=pointer]:
+              - /url: https://instagram.com/rnec.2024
+            - link "TikTok" [ref=e128] [cursor=pointer]:
+              - /url: https://tiktok.com/@rnec.2024
+      - generic [ref=e129]: © 2026 شركة الرؤى الطبيعية للتجارة. جميع الحقوق محفوظة.
+    - link "واتساب" [ref=e130] [cursor=pointer]:
+      - /url: https://wa.me/966595727858
+  - region "Notifications alt+T"
