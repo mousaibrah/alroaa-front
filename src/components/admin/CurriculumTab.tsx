@@ -1,5 +1,6 @@
 import { useState, type FormEvent } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useLocalized } from '../../hooks/useLocalized';
 import {
 	createLesson,
 	createSection,
@@ -17,6 +18,7 @@ import { Input } from '@/components/ui/input';
 import type { CourseDetail, Section } from '../../types/courses';
 import { formatDuration } from '../../utils/format';
 import LessonForm from './LessonForm';
+import ContentStatusBadge from './ContentStatusBadge';
 import { ErrorBanner } from '../common/ErrorBanner';
 import { MoveButtons } from './MoveButtons';
 import { errorMessage } from '../../utils/errors';
@@ -33,6 +35,7 @@ type OpenForm = { kind: 'new'; sectionId: number } | { kind: 'edit'; lessonId: n
 
 export default function CurriculumTab({ course, reload }: Props) {
 	const { t } = useTranslation();
+	const loc = useLocalized();
 	const [error, setError] = useState<string | null>(null);
 	const [busy, setBusy] = useState(false);
 	const [openForm, setOpenForm] = useState<OpenForm>(null);
@@ -170,10 +173,13 @@ export default function CurriculumTab({ course, reload }: Props) {
 											disabled={busy}
 										/>
 										<span className="flex-1">
-											{lesson.title}
+											{loc(lesson.titleEn, lesson.titleAr)}
 											<span className="ms-2 text-xs text-muted-foreground">
 												{t(`admin.lesson.${lesson.lessonType}`)}{' '}
 												{formatDuration(lesson.durationSec)}
+											</span>
+											<span className="ms-2">
+												<ContentStatusBadge status={lesson.contentStatus} />
 											</span>
 											{lesson.isPreview && (
 												<Badge variant="secondary" className="ms-2 bg-info-soft text-info-ink">

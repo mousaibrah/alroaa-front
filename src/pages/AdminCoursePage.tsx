@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useLocalized } from '../hooks/useLocalized';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -23,6 +24,7 @@ const TABS: Tab[] = ['details', 'curriculum', 'exams'];
 
 export default function AdminCoursePage() {
 	const { t } = useTranslation();
+	const loc = useLocalized();
 	const navigate = useNavigate();
 	const courseId = Number(useParams().id);
 	const [tab, setTab] = useState<Tab>('curriculum');
@@ -51,7 +53,7 @@ export default function AdminCoursePage() {
 	}
 
 	const remove = async () => {
-		if (!window.confirm(t('admin.courses.confirmDelete', { title: course.title }))) return;
+		if (!window.confirm(t('admin.courses.confirmDelete', { title: loc(course.titleEn, course.titleAr) }))) return;
 		try {
 			await deleteCourse(course.id);
 			toast.success(t('toast.deleted'));
@@ -67,7 +69,7 @@ export default function AdminCoursePage() {
 				← {t('admin.back')}
 			</Link>
 			<div className="mt-2 mb-4 flex items-center justify-between gap-3">
-				<h1 className="text-2xl font-bold text-foreground">{course.title}</h1>
+				<h1 className="text-2xl font-bold text-foreground">{loc(course.titleEn, course.titleAr)}</h1>
 				<StatusControl
 					status={course.status}
 					onChange={async (status) => {

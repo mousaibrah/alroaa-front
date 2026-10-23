@@ -11,6 +11,7 @@ import SimpleSelect from '../common/SimpleSelect';
 import { ErrorBanner } from '../common/ErrorBanner';
 import { Field } from '../common/Field';
 import { errorMessage } from '../../utils/errors';
+import ContentStatusBadge from './ContentStatusBadge';
 
 interface Props {
 	lesson?: Lesson;
@@ -18,12 +19,20 @@ interface Props {
 	onCancel: () => void;
 }
 
+// What the file picker accepts per lesson type (matches the backend's list).
+const ACCEPT: Record<LessonType, string> = {
+	video: 'video/mp4,video/webm,video/quicktime',
+	text: 'image/jpeg,image/png,image/webp,image/gif',
+};
+
 export default function LessonForm({ lesson, onSubmit, onCancel }: Props) {
 	const { t } = useTranslation();
-	const [title, setTitle] = useState(lesson?.title ?? '');
-	const [description, setDescription] = useState(lesson?.description ?? '');
+	const [titleEn, setTitleEn] = useState(lesson?.titleEn ?? '');
+	const [titleAr, setTitleAr] = useState(lesson?.titleAr ?? '');
+	const [descriptionEn, setDescriptionEn] = useState(lesson?.descriptionEn ?? '');
+	const [descriptionAr, setDescriptionAr] = useState(lesson?.descriptionAr ?? '');
 	const [lessonType, setLessonType] = useState<LessonType>(lesson?.lessonType ?? 'video');
-	const [contentUrl, setContentUrl] = useState(lesson?.contentUrl ?? '');
+	const [file, setFile] = useState<File | null>(null);
 	const [durationSec, setDurationSec] = useState(
 		lesson?.durationSec != null ? String(lesson.durationSec) : ''
 	);
@@ -31,18 +40,23 @@ export default function LessonForm({ lesson, onSubmit, onCancel }: Props) {
 	const [error, setError] = useState<string | null>(null);
 	const [saving, setSaving] = useState(false);
 
+	// A new lesson needs a file; so does an existing one whose type changes.
+	const fileRequired = !lesson || lesson.lessonType !== lessonType;
+
 	const submit = async (e: FormEvent) => {
 		e.preventDefault();
 		setError(null);
 		setSaving(true);
 		try {
 			await onSubmit({
-				title: title.trim(),
-				description,
+				titleEn: titleEn.trim(),
+				titleAr: titleAr.trim(),
+				descriptionEn,
+				descriptionAr,
 				lessonType,
-				contentUrl: contentUrl.trim() || null,
 				durationSec: durationSec === '' ? null : Number(durationSec),
 				isPreview,
+				file,
 			});
 		} catch (err) {
 			setError(errorMessage(err));
@@ -55,17 +69,50 @@ export default function LessonForm({ lesson, onSubmit, onCancel }: Props) {
 			onSubmit={(e) => void submit(e)}
 			className="space-y-3 rounded-lg border border-primary/20 bg-primary/5 p-4">
 			<ErrorBanner message={error} />
-			<Field label={t('admin.lesson.title')}>
-				<Input required maxLength={255} value={title} onChange={(e) => setTitle(e.target.value)} />
-			</Field>
-			<Field label={t('admin.lesson.description')}>
-				<Textarea rows={2} value={description} onChange={(e) => setDescription(e.target.value)} />
-			</Field>
+			<div className="grid gap-3 sm:grid-cols-2">
+				<Field label={t('admin.lesson.titleEn')}>
+					<Input
+						required
+						dir="ltr"
+						maxLength={255}
+						value={titleEn}
+						onChange={(e) => setTitleEn(e.target.value)}
+					/>
+				</Field>
+				<Field label={t('admin.lesson.titleAr')}>
+					<Input
+						required
+						dir="rtl"
+						maxLength={255}
+						value={titleAr}
+						onChange={(e) => setTitleAr(e.target.value)}
+					/>
+				</Field>
+				<Field label={t('admin.lesson.descriptionEn')}>
+					<Textarea
+						rows={2}
+						dir="ltr"
+						value={descriptionEn}
+						onChange={(e) => setDescriptionEn(e.target.value)}
+					/>
+				</Field>
+				<Field label={t('admin.lesson.descriptionAr')}>
+					<Textarea
+						rows={2}
+						dir="rtl"
+						value={descriptionAr}
+						onChange={(e) => setDescriptionAr(e.target.value)}
+					/>
+				</Field>
+			</div>
 			<div className="grid grid-cols-2 gap-3">
 				<Field label={t('admin.lesson.type')}>
 					<SimpleSelect
 						value={lessonType}
-						onValueChange={setLessonType}
+						onValueChange={(v) => {
+							setLessonType(v);
+							setFile(null);
+						}}
 						options={[
 							{ value: 'video', label: t('admin.lesson.video') },
 							{ value: 'text', label: t('admin.lesson.text') },
@@ -82,22 +129,38 @@ export default function LessonForm({ lesson, onSubmit, onCancel }: Props) {
 				</Field>
 			</div>
 			<p className="text-xs text-muted-foreground">{t('admin.lesson.durationHint')}</p>
-			<Field label={t('admin.lesson.contentUrl')}>
+			<Field label={t(lesson ? 'admin.lesson.replaceFile' : 'admin.lesson.file')}>
+				{/* key resets the picker when the type changes */}
 				<Input
-					type="url"
-					dir="ltr"
-					placeholder="https://"
-					value={contentUrl}
-					onChange={(e) => setContentUrl(e.target.value)}
+					key={lessonType}
+					type="file"
+					required={fileRequired}
+					accept={ACCEPT[lessonType]}
+					onChange={(e) => setFile(e.target.files?.[0] ?? null)}
 				/>
 			</Field>
+			{lesson?.contentUrl && !file && (
+				<p className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
+					{t('admin.lesson.currentFile')}
+					<a
+						href={lesson.contentUrl}
+						target="_blank"
+						rel="noreferrer"
+						dir="ltr"
+						className="max-w-full truncate text-primary underline">
+						{lesson.contentUrl}
+					</a>
+					<ContentStatusBadge status={lesson.contentStatus} />
+				</p>
+			)}
+			<p className="text-xs text-muted-foreground">{t('admin.lesson.fileHint')}</p>
 			<Label className="gap-2">
 				<Checkbox checked={isPreview} onCheckedChange={(v) => setIsPreview(v === true)} />
 				{t('admin.lesson.isPreview')}
 			</Label>
 			<div className="flex gap-2">
 				<Button type="submit" disabled={saving}>
-					{saving ? t('admin.saving') : t('admin.save')}
+					{saving ? (file ? t('admin.lesson.uploading') : t('admin.saving')) : t('admin.save')}
 				</Button>
 				<Button type="button" onClick={onCancel} variant="outline" size="sm">
 					{t('admin.cancel')}

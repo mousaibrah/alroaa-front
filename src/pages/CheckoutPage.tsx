@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useLocalized } from '../hooks/useLocalized';
 import { Link, useParams } from 'react-router-dom';
 import { CheckCircle2 } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
@@ -19,6 +20,7 @@ import { toast } from 'sonner';
 // gateway redirects away from the app, and returns to the course page.
 export default function CheckoutPage() {
 	const { t, i18n } = useTranslation();
+	const loc = useLocalized();
 	const { paymentId } = useParams();
 	const id = Number(paymentId);
 	const [result, setResult] = useState<Payment | null>(null);
@@ -32,7 +34,7 @@ export default function CheckoutPage() {
 			() => getCourse(payment.courseId),
 			60_000
 		);
-		return { payment, courseTitle: course.title };
+		return { payment, course };
 	}, `checkout:${id}`);
 
 	if (loading) return <CheckoutSkeleton />;
@@ -75,7 +77,7 @@ export default function CheckoutPage() {
 					<dl className="space-y-2 text-sm">
 						<div className="flex justify-between gap-4">
 							<dt className="text-muted-foreground">{t('checkout.course')}</dt>
-							<dd className="font-medium text-foreground">{data.courseTitle}</dd>
+							<dd className="font-medium text-foreground">{loc(data.course.titleEn, data.course.titleAr)}</dd>
 						</div>
 						<div className="flex justify-between gap-4">
 							<dt className="text-muted-foreground">{t('checkout.amount')}</dt>

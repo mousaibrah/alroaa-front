@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next';
+import { useLocalized } from '../../hooks/useLocalized';
 import type { Lesson } from '../../types/courses';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -19,6 +20,7 @@ interface Props {
 
 export default function LessonRow({ lesson, state, tag, active, onSelect }: Props) {
 	const { t } = useTranslation();
+	const loc = useLocalized();
 
 	const gated = state !== 'open';
 	const icon = gated ? (
@@ -54,7 +56,7 @@ export default function LessonRow({ lesson, state, tag, active, onSelect }: Prop
 				)}>
 				{icon}
 				<span className="flex-1">
-					{lesson.title}
+					{loc(lesson.titleEn, lesson.titleAr)}
 					{gated && <span className="sr-only"> ({t('courses.locked')})</span>}
 				</span>
 				{tag === 'free' && (

@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from 'react';
+import { useEffect, useMemo, useState, type FormEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -17,15 +17,26 @@ interface Props {
 	onSubmit: (data: CourseInput) => Promise<void>;
 }
 
+// Image types the backend accepts for the cover.
+const IMAGE_TYPES = 'image/jpeg,image/png,image/webp,image/gif';
+
 export default function CourseForm({ course, submitLabel, onSubmit }: Props) {
 	const { t } = useTranslation();
-	const [title, setTitle] = useState(course?.title ?? '');
-	const [description, setDescription] = useState(course?.description ?? '');
+	const [titleEn, setTitleEn] = useState(course?.titleEn ?? '');
+	const [titleAr, setTitleAr] = useState(course?.titleAr ?? '');
+	const [descriptionEn, setDescriptionEn] = useState(course?.descriptionEn ?? '');
+	const [descriptionAr, setDescriptionAr] = useState(course?.descriptionAr ?? '');
 	const [price, setPrice] = useState(String(course?.price ?? 0));
 	const [currency, setCurrency] = useState(course?.currency ?? 'SAR');
-	const [thumbnailUrl, setThumbnailUrl] = useState(course?.thumbnailUrl ?? '');
+	const [thumbnail, setThumbnail] = useState<File | null>(null);
 	const [error, setError] = useState<string | null>(null);
 	const [saving, setSaving] = useState(false);
+
+	// Local preview of the picked image (released when it changes).
+	const preview = useMemo(() => (thumbnail ? URL.createObjectURL(thumbnail) : null), [thumbnail]);
+	useEffect(() => () => (preview ? URL.revokeObjectURL(preview) : undefined), [preview]);
+
+	const shown = preview ?? course?.thumbnailUrl ?? null;
 
 	const submit = async (e: FormEvent) => {
 		e.preventDefault();
@@ -33,11 +44,13 @@ export default function CourseForm({ course, submitLabel, onSubmit }: Props) {
 		setSaving(true);
 		try {
 			await onSubmit({
-				title: title.trim(),
-				description,
+				titleEn: titleEn.trim(),
+				titleAr: titleAr.trim(),
+				descriptionEn,
+				descriptionAr,
 				price: Number(price),
 				currency: currency.toUpperCase(),
-				thumbnailUrl: thumbnailUrl.trim() || null,
+				thumbnail,
 			});
 			toast.success(t(course ? 'toast.saved' : 'toast.created'));
 		} catch (err) {
@@ -50,12 +63,42 @@ export default function CourseForm({ course, submitLabel, onSubmit }: Props) {
 	return (
 		<form onSubmit={(e) => void submit(e)} className="space-y-4">
 			<ErrorBanner message={error} />
-			<Field label={t('admin.course.title')}>
-				<Input required maxLength={255} value={title} onChange={(e) => setTitle(e.target.value)} />
-			</Field>
-			<Field label={t('admin.course.description')}>
-				<Textarea rows={4} value={description} onChange={(e) => setDescription(e.target.value)} />
-			</Field>
+			<div className="grid gap-4 sm:grid-cols-2">
+				<Field label={t('admin.course.titleEn')}>
+					<Input
+						required
+						dir="ltr"
+						maxLength={255}
+						value={titleEn}
+						onChange={(e) => setTitleEn(e.target.value)}
+					/>
+				</Field>
+				<Field label={t('admin.course.titleAr')}>
+					<Input
+						required
+						dir="rtl"
+						maxLength={255}
+						value={titleAr}
+						onChange={(e) => setTitleAr(e.target.value)}
+					/>
+				</Field>
+				<Field label={t('admin.course.descriptionEn')}>
+					<Textarea
+						rows={4}
+						dir="ltr"
+						value={descriptionEn}
+						onChange={(e) => setDescriptionEn(e.target.value)}
+					/>
+				</Field>
+				<Field label={t('admin.course.descriptionAr')}>
+					<Textarea
+						rows={4}
+						dir="rtl"
+						value={descriptionAr}
+						onChange={(e) => setDescriptionAr(e.target.value)}
+					/>
+				</Field>
+			</div>
 			<div className="grid grid-cols-2 gap-4">
 				<Field label={t('admin.course.price')}>
 					<Input
@@ -79,15 +122,22 @@ export default function CourseForm({ course, submitLabel, onSubmit }: Props) {
 					/>
 				</Field>
 			</div>
-			<Field label={t('admin.course.thumbnailUrl')}>
+			<Field
+				label={t(course?.thumbnailUrl ? 'admin.course.replaceThumbnail' : 'admin.course.thumbnail')}>
 				<Input
-					type="url"
-					dir="ltr"
-					placeholder="https://"
-					value={thumbnailUrl}
-					onChange={(e) => setThumbnailUrl(e.target.value)}
+					type="file"
+					accept={IMAGE_TYPES}
+					onChange={(e) => setThumbnail(e.target.files?.[0] ?? null)}
 				/>
 			</Field>
+			{shown && (
+				<img
+					src={shown}
+					alt={t('admin.course.thumbnail')}
+					className="aspect-video w-full max-w-xs rounded-md border object-cover"
+				/>
+			)}
+			<p className="text-xs text-muted-foreground">{t('admin.course.thumbnailHint')}</p>
 			<div className="flex items-center gap-3">
 				<Button type="submit" disabled={saving}>
 					{saving ? t('admin.saving') : submitLabel}

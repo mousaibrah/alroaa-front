@@ -40,15 +40,17 @@ export async function request<T>(path: string, options: RequestOptions = {}): Pr
 		if (value !== undefined) url.searchParams.set(key, String(value));
 	}
 
+	// FormData (file uploads) sets its own multipart Content-Type.
+	const isForm = body instanceof FormData;
 	const headers: Record<string, string> = {};
-	if (body !== undefined) headers['Content-Type'] = 'application/json';
+	if (body !== undefined && !isForm) headers['Content-Type'] = 'application/json';
 	const token = getToken();
 	if (token) headers.Authorization = `Bearer ${token}`;
 
 	const response = await fetch(url, {
 		method,
 		headers,
-		body: body === undefined ? undefined : JSON.stringify(body),
+		body: body === undefined ? undefined : isForm ? body : JSON.stringify(body),
 		signal,
 		keepalive,
 	});

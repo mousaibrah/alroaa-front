@@ -1,5 +1,6 @@
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { useLocalized } from '../../hooks/useLocalized';
 import { Link } from 'react-router-dom';
 import type { Course } from '../../types/courses';
 import { Badge } from '@/components/ui/badge';
@@ -19,6 +20,8 @@ export default function CourseCard({
 	enrolled?: boolean;
 }) {
 	const { t, i18n } = useTranslation();
+	const loc = useLocalized();
+	const description = loc(course.descriptionEn, course.descriptionAr);
 	const Arrow = i18n.dir() === 'rtl' ? ArrowLeft : ArrowRight;
 	const photo = FALLBACK_PHOTOS[course.id % FALLBACK_PHOTOS.length];
 
@@ -43,11 +46,11 @@ export default function CourseCard({
 						)}
 						{course.status !== 'published' && <StatusBadge status={course.status} />}
 					</div>
-					<h2 className="line-clamp-2 text-lg font-bold text-primary-dark">{course.title}</h2>
-					{course.description && (
-						<p className="line-clamp-3 text-sm leading-6 text-muted-foreground">
-							{course.description}
-						</p>
+					<h2 className="line-clamp-2 text-lg font-bold text-primary-dark">
+						{loc(course.titleEn, course.titleAr)}
+					</h2>
+					{description && (
+						<p className="line-clamp-3 text-sm leading-6 text-muted-foreground">{description}</p>
 					)}
 					<div className="mt-auto flex items-center justify-between gap-2 pt-3">
 						<span className="flex items-center gap-1.5 font-bold text-primary-dark">

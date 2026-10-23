@@ -18,10 +18,21 @@ export const listAllCourses = (
 ): Promise<AdminCourseList> =>
 	request<AdminCourseList>(endpoints.courses, { params: { ...params, all: true }, signal });
 
+// Multipart sends every field as text; missing values are left out (an empty
+// description is sent, so it can be cleared).
+const toFormData = (data: object): FormData => {
+	const form = new FormData();
+	for (const [key, value] of Object.entries(data)) {
+		if (value === undefined || value === null) continue;
+		form.append(key, value instanceof File ? value : String(value));
+	}
+	return form;
+};
+
 export const createCourse = (data: CourseInput) =>
-	request<Course>(endpoints.courses, { method: 'POST', body: data });
+	request<Course>(endpoints.courses, { method: 'POST', body: toFormData(data) });
 export const updateCourse = (id: number, data: CourseInput) =>
-	request<Course>(endpoints.course(id), { method: 'PATCH', body: data });
+	request<Course>(endpoints.course(id), { method: 'PATCH', body: toFormData(data) });
 export const deleteCourse = (id: number) =>
 	request<void>(endpoints.course(id), { method: 'DELETE' });
 
@@ -38,9 +49,12 @@ export const reorderSections = (courseId: number, ids: number[]) =>
 	});
 
 export const createLesson = (sectionId: number, data: LessonInput) =>
-	request<Lesson>(endpoints.sectionLessons(sectionId), { method: 'POST', body: data });
+	request<Lesson>(endpoints.sectionLessons(sectionId), {
+		method: 'POST',
+		body: toFormData(data),
+	});
 export const updateLesson = (id: number, data: LessonInput) =>
-	request<Lesson>(endpoints.lesson(id), { method: 'PATCH', body: data });
+	request<Lesson>(endpoints.lesson(id), { method: 'PATCH', body: toFormData(data) });
 export const deleteLesson = (id: number) =>
 	request<void>(endpoints.lesson(id), { method: 'DELETE' });
 export const reorderLessons = (sectionId: number, ids: number[]) =>

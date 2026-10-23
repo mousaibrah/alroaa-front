@@ -1,6 +1,7 @@
 import { BookOpen, ChevronDown, ClipboardCheck, Clock } from 'lucide-react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useLocalized } from '../hooks/useLocalized';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -28,6 +29,7 @@ const PHOTOS = ['records', 'audit', 'mgmt', 'park', 'tests', 'rehab'] as const;
 // pay, or continue). The lessons player lives at paths.learn(id).
 export default function CourseOverviewPage() {
 	const { t, i18n } = useTranslation();
+	const loc = useLocalized();
 	const { id } = useParams();
 	const courseId = Number(id);
 	const navigate = useNavigate();
@@ -40,7 +42,7 @@ export default function CourseOverviewPage() {
 		loading,
 		reload,
 	} = useApiQuery((signal) => getCourse(courseId, signal), `course:${courseId}`);
-	usePageTitle(course?.title ?? t('courses.title'));
+	usePageTitle(course ? loc(course.titleEn, course.titleAr) : t('courses.title'));
 
 	if (loading) return <CourseDetailSkeleton />;
 	if (error != null || !course) {
@@ -150,7 +152,7 @@ export default function CourseOverviewPage() {
 					{t('courses.title')}
 				</Link>
 				<span aria-hidden> / </span>
-				<span className="text-foreground">{course.title}</span>
+				<span className="text-foreground">{loc(course.titleEn, course.titleAr)}</span>
 			</nav>
 
 			<div className="grid items-start gap-8 lg:grid-cols-[1fr_22rem]">
@@ -159,11 +161,11 @@ export default function CourseOverviewPage() {
 						{isFree ? t('courses.free') : t('courses.paidTag')}
 					</Badge>
 					<h1 className="mt-4 text-3xl font-extrabold text-primary-dark md:text-4xl">
-						{course.title}
+						{loc(course.titleEn, course.titleAr)}
 					</h1>
-					{course.description && (
+					{loc(course.descriptionEn, course.descriptionAr) && (
 						<p className="mt-4 max-w-2xl text-lg leading-8 text-foreground/80">
-							{course.description}
+							{loc(course.descriptionEn, course.descriptionAr)}
 						</p>
 					)}
 					<p className="mt-4 flex flex-wrap gap-x-5 gap-y-1 text-foreground/80">
@@ -241,7 +243,7 @@ export default function CourseOverviewPage() {
 											<li
 												key={lesson.id}
 												className="flex items-center justify-between gap-3 py-3 text-sm">
-												<span>{lesson.title}</span>
+												<span>{loc(lesson.titleEn, lesson.titleAr)}</span>
 												<span className="flex shrink-0 items-center gap-2 text-muted-foreground">
 													{!isFree && lesson.isPreview && (
 														<Badge variant="secondary" className="bg-sand text-primary">

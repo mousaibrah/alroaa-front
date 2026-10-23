@@ -4,14 +4,18 @@ export type LessonType = 'video' | 'text';
 
 export interface Course {
 	id: number;
-	title: string;
+	titleEn: string;
+	titleAr: string;
 	slug: string;
-	description: string | null;
+	descriptionEn: string | null;
+	descriptionAr: string | null;
 	price: number;
 	currency: string;
 	status: CourseStatus;
 	authorId: number;
+	// The cover image; switches to a resized copy once it is processed.
 	thumbnailUrl: string | null;
+	thumbnailMediaId: string | null;
 	createdAt: string;
 	updatedAt: string;
 }
@@ -23,10 +27,15 @@ export interface CourseList {
 	limit: number;
 }
 
+// The uploaded lesson file: processed in the background after upload.
+export type ContentStatus = 'processing' | 'ready' | 'failed';
+
 export interface Lesson {
 	id: number;
-	title: string;
-	description: string | null;
+	titleEn: string;
+	titleAr: string;
+	descriptionEn: string | null;
+	descriptionAr: string | null;
 	lessonType: LessonType;
 	durationSec: number | null;
 	sortOrder: number;
@@ -39,8 +48,11 @@ export interface Lesson {
 	paymentRequired: boolean;
 	// The learner may watch it now: ask GET /lessons/:id/playback for the URL.
 	playable: boolean;
-	// The stored video address; only sent to the people who edit the course.
+	// The stored file address and its processing state; only sent to the
+	// people who edit the course.
 	contentUrl: string | null;
+	contentMediaId: string | null;
+	contentStatus: ContentStatus | null;
 }
 
 export interface Section {

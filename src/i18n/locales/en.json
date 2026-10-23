@@ -215,13 +215,18 @@
 			"confirmPublishEmpty": "This program has no lessons yet. Publish it anyway?"
 		},
 		"course": {
-			"title": "Title",
-			"description": "Description",
 			"price": "Price",
 			"currency": "Currency (3 letters)",
 			"currencyHint": "3-letter code, e.g. USD",
-			"thumbnailUrl": "Thumbnail URL",
-			"status": "Status"
+			"status": "Status",
+			"titleEn": "Title (English)",
+			"titleAr": "Title (Arabic)",
+			"descriptionEn": "Description (English)",
+			"descriptionAr": "Description (Arabic)",
+			"thumbnail": "Cover image",
+			"replaceThumbnail": "Replace cover image (optional)",
+			"thumbnailHint": "JPEG, PNG, WebP or GIF, up to 10 MB. A resized copy is made in the background.",
+			"title": "Title"
 		},
 		"curriculum": {
 			"empty": "No sections yet. Add the first one below.",
@@ -234,15 +239,25 @@
 			"confirmDeleteLesson": "Delete this lesson?"
 		},
 		"lesson": {
-			"title": "Lesson title",
-			"description": "Description",
 			"type": "Type",
 			"video": "Video",
 			"text": "Text",
 			"durationSec": "Duration (seconds)",
-			"durationHint": "Video lessons complete automatically at 95% of the duration. Text lessons (no duration) are completed by the learner.",
-			"contentUrl": "Content URL",
-			"isPreview": "Free preview (visible without enrolling)"
+			"durationHint": "Leave empty to read it from the uploaded video. Video lessons complete automatically at 95% of the duration; text lessons (no duration) are completed by the learner.",
+			"isPreview": "Free preview (visible without enrolling)",
+			"titleEn": "Title (English)",
+			"titleAr": "Title (Arabic)",
+			"descriptionEn": "Description (English)",
+			"descriptionAr": "Description (Arabic)",
+			"file": "Lesson file",
+			"replaceFile": "Replace file (optional)",
+			"currentFile": "Current file:",
+			"fileHint": "A video for video lessons, an image for text lessons. It is processed after saving; the lesson shows \"Processing\" until it is ready.",
+			"uploading": "Uploading…",
+			"status": {
+				"processing": "Processing",
+				"failed": "Processing failed"
+			}
 		},
 		"exam": {
 			"back": "Back to exams",

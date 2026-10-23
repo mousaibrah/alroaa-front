@@ -11,14 +11,17 @@ export interface AdminCourseList {
 	limit: number;
 }
 
-// `null` clears an optional field on update.
+// Sent as multipart/form-data. `thumbnail` is the cover image; on update it
+// replaces the current one.
 export interface CourseInput {
-	title?: string;
-	description?: string;
+	titleEn?: string;
+	titleAr?: string;
+	descriptionEn?: string;
+	descriptionAr?: string;
 	price?: number;
 	currency?: string;
-	thumbnailUrl?: string | null;
 	status?: CourseStatus;
+	thumbnail?: File | null;
 }
 
 export interface SectionInput {
@@ -26,13 +29,17 @@ export interface SectionInput {
 	description?: string;
 }
 
+// Sent as multipart/form-data. `file` is required when creating; on update it
+// replaces the content. An empty durationSec is read from the video.
 export interface LessonInput {
-	title?: string;
-	description?: string;
+	titleEn?: string;
+	titleAr?: string;
+	descriptionEn?: string;
+	descriptionAr?: string;
 	lessonType?: LessonType;
-	contentUrl?: string | null;
 	durationSec?: number | null;
 	isPreview?: boolean;
+	file?: File | null;
 }
 
 export type QuestionType = 'single_choice' | 'multiple_choice' | 'true_false';

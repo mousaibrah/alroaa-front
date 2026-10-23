@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useLocalized } from '../hooks/useLocalized';
 import { Link, useParams } from 'react-router-dom';
 import { ApiError } from '../api/client';
 import { getCourse } from '../api/courses';
@@ -24,6 +25,7 @@ import { paths } from '@/routes/paths';
 
 export default function CourseLearnPage() {
 	const { t, i18n } = useTranslation();
+	const loc = useLocalized();
 	const { id } = useParams();
 	const courseId = Number(id);
 	const { user, role, hasPermission } = useAuth();
@@ -88,7 +90,7 @@ export default function CourseLearnPage() {
 				</Link>
 				<span aria-hidden> / </span>
 				<Link to={paths.course(course.id)} className="hover:text-primary hover:underline">
-					{course.title}
+					{loc(course.titleEn, course.titleAr)}
 				</Link>
 				<span aria-hidden> / </span>
 				<span className="text-foreground">{t('courses.lessons')}</span>
@@ -103,10 +105,10 @@ export default function CourseLearnPage() {
 					</Badge>
 				)}
 			</div>
-			<h1 className="mt-3 text-3xl font-extrabold text-primary-dark md:text-4xl">{course.title}</h1>
-			{course.description && (
+			<h1 className="mt-3 text-3xl font-extrabold text-primary-dark md:text-4xl">{loc(course.titleEn, course.titleAr)}</h1>
+			{loc(course.descriptionEn, course.descriptionAr) && (
 				<p className="mt-3 max-w-3xl text-lg leading-8 text-muted-foreground">
-					{course.description}
+					{loc(course.descriptionEn, course.descriptionAr)}
 				</p>
 			)}
 
@@ -133,7 +135,7 @@ export default function CourseLearnPage() {
 				<div>
 					{active && activeState === 'enroll' ? (
 						<LessonGate
-							lessonTitle={active.title}
+							lessonTitle={loc(active.titleEn, active.titleAr)}
 							title={t('courses.enrollTitle')}
 							body={t(isFree ? 'courses.enrollBodyFree' : 'courses.enrollBodyPaid', { price })}>
 							{canEnroll ? (
@@ -144,7 +146,7 @@ export default function CourseLearnPage() {
 						</LessonGate>
 					) : active && activeState === 'payment' ? (
 						<LessonGate
-							lessonTitle={active.title}
+							lessonTitle={loc(active.titleEn, active.titleAr)}
 							title={t('courses.payTitle')}
 							body={t('courses.payBody', { price })}>
 							<UnlockButton courseId={course.id} price={price} />
