@@ -1,6 +1,5 @@
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { useLocalized } from '../../hooks/useLocalized';
 import { Link } from 'react-router-dom';
 import type { Course } from '../../types/courses';
 import { Badge } from '@/components/ui/badge';
@@ -8,6 +7,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { formatPrice } from '../../utils/format';
 import StatusBadge from './StatusBadge';
 import { paths } from '@/routes/paths';
+import { useLocalize } from '../../hooks/useLocalize';
 
 // Photos (public/assets/img/<name>.webp) used until a program has its own thumbnail.
 const FALLBACK_PHOTOS = ['records', 'audit', 'mgmt', 'park', 'tests', 'rehab'] as const;
@@ -20,8 +20,7 @@ export default function CourseCard({
 	enrolled?: boolean;
 }) {
 	const { t, i18n } = useTranslation();
-	const loc = useLocalized();
-	const description = loc(course.descriptionEn, course.descriptionAr);
+	const { l } = useLocalize();
 	const Arrow = i18n.dir() === 'rtl' ? ArrowLeft : ArrowRight;
 	const photo = FALLBACK_PHOTOS[course.id % FALLBACK_PHOTOS.length];
 
@@ -46,11 +45,11 @@ export default function CourseCard({
 						)}
 						{course.status !== 'published' && <StatusBadge status={course.status} />}
 					</div>
-					<h2 className="line-clamp-2 text-lg font-bold text-primary-dark">
-						{loc(course.titleEn, course.titleAr)}
-					</h2>
-					{description && (
-						<p className="line-clamp-3 text-sm leading-6 text-muted-foreground">{description}</p>
+					<h2 className="line-clamp-2 text-lg font-bold text-primary-dark">{l(course, 'title')}</h2>
+					{l(course, 'description') && (
+						<p className="line-clamp-3 text-sm leading-6 text-muted-foreground">
+							{l(course, 'description')}
+						</p>
 					)}
 					<div className="mt-auto flex items-center justify-between gap-2 pt-3">
 						<span className="flex items-center gap-1.5 font-bold text-primary-dark">

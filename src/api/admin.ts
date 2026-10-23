@@ -65,7 +65,7 @@ export const reorderLessons = (sectionId: number, ids: number[]) =>
 
 export const listExams = (courseId: number, signal?: AbortSignal) =>
 	request<ExamSummary[]>(endpoints.courseExams(courseId), { signal });
-export const createExam = (courseId: number, data: { title: string }) =>
+export const createExam = (courseId: number, data: { titleEn: string; titleAr: string }) =>
 	request<Exam>(endpoints.courseExams(courseId), { method: 'POST', body: data });
 export const getExam = (id: number, signal?: AbortSignal) =>
 	request<Exam>(endpoints.exam(id), { signal });

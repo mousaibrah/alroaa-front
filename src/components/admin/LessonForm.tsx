@@ -4,11 +4,11 @@ import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
 import type { LessonInput } from '../../types/admin';
 import type { Lesson, LessonType } from '../../types/courses';
 import SimpleSelect from '../common/SimpleSelect';
 import { ErrorBanner } from '../common/ErrorBanner';
+import { BilingualField } from '../common/BilingualField';
 import { Field } from '../common/Field';
 import { errorMessage } from '../../utils/errors';
 import ContentStatusBadge from './ContentStatusBadge';
@@ -27,10 +27,11 @@ const ACCEPT: Record<LessonType, string> = {
 
 export default function LessonForm({ lesson, onSubmit, onCancel }: Props) {
 	const { t } = useTranslation();
-	const [titleEn, setTitleEn] = useState(lesson?.titleEn ?? '');
-	const [titleAr, setTitleAr] = useState(lesson?.titleAr ?? '');
-	const [descriptionEn, setDescriptionEn] = useState(lesson?.descriptionEn ?? '');
-	const [descriptionAr, setDescriptionAr] = useState(lesson?.descriptionAr ?? '');
+	const [title, setTitle] = useState({ en: lesson?.titleEn ?? '', ar: lesson?.titleAr ?? '' });
+	const [description, setDescription] = useState({
+		en: lesson?.descriptionEn ?? '',
+		ar: lesson?.descriptionAr ?? '',
+	});
 	const [lessonType, setLessonType] = useState<LessonType>(lesson?.lessonType ?? 'video');
 	const [file, setFile] = useState<File | null>(null);
 	const [durationSec, setDurationSec] = useState(
@@ -49,10 +50,10 @@ export default function LessonForm({ lesson, onSubmit, onCancel }: Props) {
 		setSaving(true);
 		try {
 			await onSubmit({
-				titleEn: titleEn.trim(),
-				titleAr: titleAr.trim(),
-				descriptionEn,
-				descriptionAr,
+				titleEn: title.en.trim(),
+				titleAr: title.ar.trim(),
+				descriptionEn: description.en,
+				descriptionAr: description.ar,
 				lessonType,
 				durationSec: durationSec === '' ? null : Number(durationSec),
 				isPreview,
@@ -69,42 +70,21 @@ export default function LessonForm({ lesson, onSubmit, onCancel }: Props) {
 			onSubmit={(e) => void submit(e)}
 			className="space-y-3 rounded-lg border border-primary/20 bg-primary/5 p-4">
 			<ErrorBanner message={error} />
-			<div className="grid gap-3 sm:grid-cols-2">
-				<Field label={t('admin.lesson.titleEn')}>
-					<Input
-						required
-						dir="ltr"
-						maxLength={255}
-						value={titleEn}
-						onChange={(e) => setTitleEn(e.target.value)}
-					/>
-				</Field>
-				<Field label={t('admin.lesson.titleAr')}>
-					<Input
-						required
-						dir="rtl"
-						maxLength={255}
-						value={titleAr}
-						onChange={(e) => setTitleAr(e.target.value)}
-					/>
-				</Field>
-				<Field label={t('admin.lesson.descriptionEn')}>
-					<Textarea
-						rows={2}
-						dir="ltr"
-						value={descriptionEn}
-						onChange={(e) => setDescriptionEn(e.target.value)}
-					/>
-				</Field>
-				<Field label={t('admin.lesson.descriptionAr')}>
-					<Textarea
-						rows={2}
-						dir="rtl"
-						value={descriptionAr}
-						onChange={(e) => setDescriptionAr(e.target.value)}
-					/>
-				</Field>
-			</div>
+			<BilingualField
+				label={t('admin.lesson.title')}
+				required
+				maxLength={255}
+				valueEn={title.en}
+				valueAr={title.ar}
+				onChange={setTitle}
+			/>
+			<BilingualField
+				label={t('admin.lesson.description')}
+				rows={2}
+				valueEn={description.en}
+				valueAr={description.ar}
+				onChange={setDescription}
+			/>
 			<div className="grid grid-cols-2 gap-3">
 				<Field label={t('admin.lesson.type')}>
 					<SimpleSelect

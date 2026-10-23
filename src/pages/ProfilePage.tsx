@@ -14,6 +14,8 @@ import { ErrorBanner } from '../components/common/ErrorBanner';
 import { Skeleton } from '../components/feedback/Skeleton';
 import { useApiQuery } from '../hooks/useApiQuery';
 import { usePageTitle } from '../hooks/usePageTitle';
+import { useLocalize } from '../hooks/useLocalize';
+import { firstName, fullName } from '../utils/localized';
 
 const PHOTOS = ['records', 'audit', 'mgmt', 'park', 'tests', 'rehab'] as const;
 
@@ -21,6 +23,7 @@ const PHOTOS = ['records', 'audit', 'mgmt', 'park', 'tests', 'rehab'] as const;
 // where to continue, and the list of your programs.
 export default function ProfilePage() {
 	const { t, i18n } = useTranslation();
+	const { l, lang } = useLocalize();
 	usePageTitle(t('profile.title'));
 	const { user, role, permissions, hasPermission } = useAuth();
 	const canEnroll = hasPermission(Permission.ENROLLMENTS_CREATE);
@@ -37,8 +40,8 @@ export default function ProfilePage() {
 		enabled: canEnroll,
 	});
 
-	const initial = (user?.firstName ?? '?').charAt(0).toUpperCase();
-	const fullName = [user?.firstName, user?.lastName].filter(Boolean).join(' ');
+	const name = user ? fullName(user, lang) : '';
+	const initial = (name || '?').charAt(0).toUpperCase();
 	const list = enrollments.data ?? [];
 	const active = list.filter((e) => e.status === 'active');
 	const completed = list.filter((e) => e.status === 'completed');
@@ -76,7 +79,7 @@ export default function ProfilePage() {
 						className="grid size-16 place-items-center rounded-full bg-sand text-2xl font-bold text-primary">
 						{initial}
 					</span>
-					<p className="text-lg font-bold text-primary-dark">{fullName}</p>
+					<p className="text-lg font-bold text-primary-dark">{name}</p>
 					<p dir="ltr" className="max-w-full truncate text-sm text-muted-foreground">
 						{user?.email}
 					</p>
@@ -101,7 +104,7 @@ export default function ProfilePage() {
 				<header>
 					<p className="mb-2 text-sm font-medium text-gold-ink">{t('profile.eyebrow')}</p>
 					<h1 className="text-3xl font-extrabold text-primary-dark md:text-4xl">
-						{t('profile.welcome', { name: user?.firstName })}
+						{t('profile.welcome', { name: user ? firstName(user, lang) : undefined })}
 					</h1>
 				</header>
 
@@ -142,7 +145,7 @@ export default function ProfilePage() {
 												alt=""
 												className="aspect-video w-full rounded-xl border-b-4 border-brand-secondary object-cover"
 											/>
-											<p className="text-lg font-bold text-primary-dark">{next.courseTitle}</p>
+											<p className="text-lg font-bold text-primary-dark">{l(next, 'courseTitle')}</p>
 											<Button asChild>
 												<Link to={paths.learn(next.courseId)}>{t('profile.continue')}</Link>
 											</Button>
@@ -174,7 +177,7 @@ export default function ProfilePage() {
 													<Link
 														to={paths.course(e.courseId)}
 														className="flex items-center gap-1 font-medium text-foreground hover:text-primary hover:underline">
-														{e.courseTitle}
+														{l(e, 'courseTitle')}
 														<Arrow className="size-3.5 text-muted-foreground" aria-hidden />
 													</Link>
 													<span className="flex items-center gap-2">
@@ -229,7 +232,7 @@ export default function ProfilePage() {
 												<div className="flex min-w-0 items-start gap-3">
 													<Award className="mt-0.5 size-5 shrink-0 text-gold-ink" aria-hidden />
 													<div className="min-w-0">
-														<p className="font-medium text-foreground">{c.courseTitle}</p>
+														<p className="font-medium text-foreground">{l(c, 'courseTitle')}</p>
 														<p className="text-xs text-muted-foreground">
 															{new Intl.DateTimeFormat(i18n.language, { dateStyle: 'medium' }).format(
 																new Date(c.issuedAt)
@@ -258,7 +261,7 @@ export default function ProfilePage() {
 						<dl className="grid gap-4 text-sm sm:grid-cols-2">
 							<div>
 								<dt className="font-medium text-muted-foreground">{t('profile.name')}</dt>
-								<dd className="text-foreground">{fullName}</dd>
+								<dd className="text-foreground">{name}</dd>
 							</div>
 							<div>
 								<dt className="font-medium text-muted-foreground">{t('auth.email')}</dt>

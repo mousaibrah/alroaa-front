@@ -25,8 +25,10 @@ export interface CourseInput {
 }
 
 export interface SectionInput {
-	title?: string;
-	description?: string;
+	titleEn?: string;
+	titleAr?: string;
+	descriptionEn?: string;
+	descriptionAr?: string;
 }
 
 // Sent as multipart/form-data. `file` is required when creating; on update it
@@ -46,13 +48,15 @@ export type QuestionType = 'single_choice' | 'multiple_choice' | 'true_false';
 
 export interface ExamOption {
 	id?: number;
-	optionText: string;
+	optionTextEn: string;
+	optionTextAr: string;
 	isCorrect: boolean;
 }
 
 export interface ExamQuestion {
 	id?: number;
-	text: string;
+	textEn: string;
+	textAr: string;
 	questionType: QuestionType;
 	points: number;
 	options: ExamOption[];
@@ -60,8 +64,10 @@ export interface ExamQuestion {
 
 export interface ExamSummary {
 	id: number;
-	title: string;
-	description: string | null;
+	titleEn: string;
+	titleAr: string;
+	descriptionEn: string | null;
+	descriptionAr: string | null;
 	passingScore: number;
 	durationSec: number | null;
 	questionCount: number;
@@ -70,16 +76,20 @@ export interface ExamSummary {
 export interface Exam {
 	id: number;
 	courseId: number;
-	title: string;
-	description: string | null;
+	titleEn: string;
+	titleAr: string;
+	descriptionEn: string | null;
+	descriptionAr: string | null;
 	passingScore: number;
 	durationSec: number | null;
 	questions: ExamQuestion[];
 }
 
 export interface ExamSaveInput {
-	title: string;
-	description?: string | null;
+	titleEn: string;
+	titleAr: string;
+	descriptionEn?: string | null;
+	descriptionAr?: string | null;
 	passingScore: number;
 	durationSec?: number | null;
 	questions: ExamQuestion[];

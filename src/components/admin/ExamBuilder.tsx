@@ -5,7 +5,6 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
 import { getExam, saveExam } from '../../api/admin';
 import type { QuestionType } from '../../types/admin';
 import { useApiQuery } from '../../hooks/useApiQuery';
@@ -24,6 +23,7 @@ import {
 } from '../../utils/examDraft';
 import SimpleSelect from '../common/SimpleSelect';
 import { ErrorBanner } from '../common/ErrorBanner';
+import { BilingualField } from '../common/BilingualField';
 import { Field } from '../common/Field';
 import { MoveButtons } from './MoveButtons';
 import { errorMessage } from '../../utils/errors';
@@ -83,15 +83,31 @@ function QuestionOptions({ q, editQuestion }: { q: DraftQuestion; editQuestion: 
 				<RadioGroupItem value={o.key} aria-label={t('admin.exam.markCorrect')} />
 			)}
 			<Input
-				value={o.optionText}
+				dir="ltr"
+				value={o.optionTextEn}
 				readOnly={fixed}
 				placeholder={t('admin.exam.optionPlaceholder', { n: oIndex + 1 })}
-				aria-label={t('admin.exam.optionText')}
+				aria-label={`${t('admin.exam.optionText')} (${t('common.english')})`}
 				onChange={(e) =>
 					editQuestion(q.key, (x) => ({
 						...x,
 						options: x.options.map((y) =>
-							y.key === o.key ? { ...y, optionText: e.target.value } : y
+							y.key === o.key ? { ...y, optionTextEn: e.target.value } : y
+						),
+					}))
+				}
+			/>
+			<Input
+				dir="rtl"
+				value={o.optionTextAr}
+				readOnly={fixed}
+				placeholder={t('admin.exam.optionPlaceholder', { n: oIndex + 1 })}
+				aria-label={`${t('admin.exam.optionText')} (${t('common.arabic')})`}
+				onChange={(e) =>
+					editQuestion(q.key, (x) => ({
+						...x,
+						options: x.options.map((y) =>
+							y.key === o.key ? { ...y, optionTextAr: e.target.value } : y
 						),
 					}))
 				}
@@ -146,7 +162,7 @@ function ExamEditor({
 	examId: number;
 	onClose: () => void;
 }) {
-	const { t } = useTranslation();
+	const { t, i18n } = useTranslation();
 	const [draft, setDraft] = useState<Draft>(initial);
 	const [snapshot, setSnapshot] = useState(() => JSON.stringify(initial));
 	const [saving, setSaving] = useState(false);
@@ -191,7 +207,15 @@ function ExamEditor({
 		if (!dirty || window.confirm(t('admin.exam.discard'))) onClose();
 	};
 
-	const typeLabels = { true: t('admin.exam.true'), false: t('admin.exam.false') };
+	// True/false answers are stored in both languages whatever the UI language is.
+	const en = i18n.getFixedT('en');
+	const ar = i18n.getFixedT('ar');
+	const typeLabels = {
+		trueEn: en('admin.exam.true'),
+		trueAr: ar('admin.exam.true'),
+		falseEn: en('admin.exam.false'),
+		falseAr: ar('admin.exam.false'),
+	};
 
 	return (
 		<div className="space-y-4">
@@ -218,20 +242,22 @@ function ExamEditor({
 
 			<Card>
 				<CardContent className="grid gap-4 sm:grid-cols-2">
-					<Field label={t('admin.exam.title')} className="sm:col-span-2">
-						<Input
-							maxLength={255}
-							value={draft.title}
-							onChange={(e) => edit({ title: e.target.value })}
-						/>
-					</Field>
-					<Field label={t('admin.exam.description')} className="sm:col-span-2">
-						<Textarea
-							rows={2}
-							value={draft.description}
-							onChange={(e) => edit({ description: e.target.value })}
-						/>
-					</Field>
+					<BilingualField
+						label={t('admin.exam.title')}
+						className="sm:col-span-2"
+						maxLength={255}
+						valueEn={draft.titleEn}
+						valueAr={draft.titleAr}
+						onChange={({ en, ar }) => edit({ titleEn: en, titleAr: ar })}
+					/>
+					<BilingualField
+						label={t('admin.exam.description')}
+						className="sm:col-span-2"
+						rows={2}
+						valueEn={draft.descriptionEn}
+						valueAr={draft.descriptionAr}
+						onChange={({ en, ar }) => edit({ descriptionEn: en, descriptionAr: ar })}
+					/>
 					<Field label={t('admin.exam.passingScore', { total: totalPoints })}>
 						<Input
 							type="number"
@@ -274,13 +300,16 @@ function ExamEditor({
 							onMove={(d) => edit({ questions: moveItem(draft.questions, index, d) })}
 						/>
 						<div className="grid flex-1 gap-3 sm:grid-cols-[1fr_11rem_6rem]">
-							<Field label={t('admin.exam.questionText')} className="sm:col-span-3">
-								<Textarea
-									rows={2}
-									value={q.text}
-									onChange={(e) => editQuestion(q.key, (x) => ({ ...x, text: e.target.value }))}
-								/>
-							</Field>
+							<BilingualField
+								label={t('admin.exam.questionText')}
+								className="sm:col-span-3"
+								rows={2}
+								valueEn={q.textEn}
+								valueAr={q.textAr}
+								onChange={({ en, ar }) =>
+									editQuestion(q.key, (x) => ({ ...x, textEn: en, textAr: ar }))
+								}
+							/>
 							<Field label={t('admin.exam.type')}>
 								<SimpleSelect
 									value={q.questionType}

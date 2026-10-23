@@ -14,6 +14,7 @@ import { useCountdown } from '../../hooks/useCountdown';
 import ProgressBar from '../courses/ProgressBar';
 import { Stagger, StaggerItem } from '../motion/motion';
 import { formatClock } from '../../utils/clock';
+import { useLocalize } from '../../hooks/useLocalize';
 
 interface Props {
 	attempt: OpenAttempt;
@@ -63,6 +64,7 @@ const saveDraft = (attemptId: number, answers: Answers) => {
 
 export default function ExamTaker({ attempt, onSubmitted }: Props) {
 	const { t } = useTranslation();
+	const { l } = useLocalize();
 	const [answers, setAnswers] = useState<Answers>(() => loadDraft(attempt.id));
 	const [submitting, setSubmitting] = useState(false);
 	const [failed, setFailed] = useState(false);
@@ -124,7 +126,7 @@ export default function ExamTaker({ attempt, onSubmitted }: Props) {
 			<Card className="sticky top-0 z-10 gap-0 bg-card/95 py-3 backdrop-blur">
 				<CardContent className="space-y-2">
 					<div className="flex flex-wrap items-center justify-between gap-2">
-						<h1 className="text-lg font-bold text-foreground">{attempt.examTitle}</h1>
+						<h1 className="text-lg font-bold text-foreground">{l(attempt, 'examTitle')}</h1>
 						{remaining !== null && (
 							<Badge
 								role="timer"
@@ -155,11 +157,11 @@ export default function ExamTaker({ attempt, onSubmitted }: Props) {
 						<StaggerItem as="li" key={q.id}>
 							<fieldset className="rounded-xl bg-card p-4 text-card-foreground shadow-xs ring-1 ring-foreground/10">
 								<legend className="sr-only">
-									{index + 1}. {q.text}
+									{index + 1}. {l(q, 'text')}
 								</legend>
 								<div className="mb-3 flex items-start justify-between gap-3">
 									<p className="font-medium text-foreground">
-										{index + 1}. {q.text}
+										{index + 1}. {l(q, 'text')}
 									</p>
 									<span className="shrink-0 text-xs text-muted-foreground">
 										{t('exam.points', { points: q.points })}
@@ -178,7 +180,7 @@ export default function ExamTaker({ attempt, onSubmitted }: Props) {
 													onCheckedChange={(c) => choose(q.id, o.id, true, c === true)}
 													disabled={submitting}
 												/>
-												<span>{o.text}</span>
+												<span>{l(o, 'text')}</span>
 											</OptionLabel>
 										))}
 									</div>
@@ -191,7 +193,7 @@ export default function ExamTaker({ attempt, onSubmitted }: Props) {
 										{q.options.map((o) => (
 											<OptionLabel key={o.id} id={`o-${o.id}`} checked={selected.includes(o.id)}>
 												<RadioGroupItem id={`o-${o.id}`} value={String(o.id)} />
-												<span>{o.text}</span>
+												<span>{l(o, 'text')}</span>
 											</OptionLabel>
 										))}
 									</RadioGroup>

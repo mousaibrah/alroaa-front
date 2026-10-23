@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useLocalized } from '../hooks/useLocalized';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -22,12 +21,13 @@ import { useApiQuery } from '../hooks/useApiQuery';
 import { ListSkeleton } from '../components/feedback/skeletons';
 import { paths } from '@/routes/paths';
 import { toast } from 'sonner';
+import { useLocalize } from '../hooks/useLocalize';
 
 const PAGE_SIZE = 20;
 
 export default function AdminPage() {
 	const { t, i18n } = useTranslation();
-	const loc = useLocalized();
+	const { l } = useLocalize();
 	const navigate = useNavigate();
 	const [page, setPage] = useState(1);
 	const [creating, setCreating] = useState(false);
@@ -107,7 +107,7 @@ export default function AdminPage() {
 										<Link
 											to={paths.adminCourse(course.id)}
 											className="hover:text-primary hover:underline">
-											{loc(course.titleEn, course.titleAr)}
+											{l(course, 'title')}
 										</Link>
 									</TableCell>
 									<TableCell className="text-muted-foreground">{course.authorName}</TableCell>
@@ -126,7 +126,7 @@ export default function AdminPage() {
 											</Button>
 											<Button
 												type="button"
-												onClick={() => void remove(course.id, loc(course.titleEn, course.titleAr))}
+												onClick={() => void remove(course.id, l(course, 'title'))}
 												variant="destructive"
 												size="sm">
 												{t('admin.delete')}

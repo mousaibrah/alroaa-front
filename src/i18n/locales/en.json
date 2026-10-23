@@ -4,7 +4,9 @@
 		"language": "Language",
 		"toggleMenu": "Toggle menu",
 		"appTagline": "Environment · Skills · Impact",
-		"whatsapp": "WhatsApp"
+		"whatsapp": "WhatsApp",
+		"english": "English",
+		"arabic": "Arabic"
 	},
 	"nav": {
 		"main": "Main",
@@ -58,6 +60,8 @@
 		"submitting": "Submitting...",
 		"firstName": "First name",
 		"lastName": "Last name",
+		"firstNameAr": "First name in Arabic (optional)",
+		"lastNameAr": "Last name in Arabic (optional)",
 		"role": "I am a",
 		"haveAccount": "Already have an account?",
 		"loginLink": "Log in"
@@ -226,7 +230,8 @@
 			"thumbnail": "Cover image",
 			"replaceThumbnail": "Replace cover image (optional)",
 			"thumbnailHint": "JPEG, PNG, WebP or GIF, up to 10 MB. A resized copy is made in the background.",
-			"title": "Title"
+			"title": "Title",
+			"description": "Description"
 		},
 		"curriculum": {
 			"empty": "No sections yet. Add the first one below.",
@@ -257,7 +262,9 @@
 			"status": {
 				"processing": "Processing",
 				"failed": "Processing failed"
-			}
+			},
+			"title": "Lesson title",
+			"description": "Description"
 		},
 		"exam": {
 			"back": "Back to exams",

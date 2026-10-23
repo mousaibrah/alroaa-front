@@ -2,10 +2,10 @@ import { useEffect, useMemo, useState, type FormEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
 import type { CourseInput } from '../../types/admin';
 import type { Course } from '../../types/courses';
 import { ErrorBanner } from '../common/ErrorBanner';
+import { BilingualField } from '../common/BilingualField';
 import { Field } from '../common/Field';
 import { errorMessage } from '../../utils/errors';
 import { toast } from 'sonner';
@@ -22,10 +22,11 @@ const IMAGE_TYPES = 'image/jpeg,image/png,image/webp,image/gif';
 
 export default function CourseForm({ course, submitLabel, onSubmit }: Props) {
 	const { t } = useTranslation();
-	const [titleEn, setTitleEn] = useState(course?.titleEn ?? '');
-	const [titleAr, setTitleAr] = useState(course?.titleAr ?? '');
-	const [descriptionEn, setDescriptionEn] = useState(course?.descriptionEn ?? '');
-	const [descriptionAr, setDescriptionAr] = useState(course?.descriptionAr ?? '');
+	const [title, setTitle] = useState({ en: course?.titleEn ?? '', ar: course?.titleAr ?? '' });
+	const [description, setDescription] = useState({
+		en: course?.descriptionEn ?? '',
+		ar: course?.descriptionAr ?? '',
+	});
 	const [price, setPrice] = useState(String(course?.price ?? 0));
 	const [currency, setCurrency] = useState(course?.currency ?? 'SAR');
 	const [thumbnail, setThumbnail] = useState<File | null>(null);
@@ -44,10 +45,10 @@ export default function CourseForm({ course, submitLabel, onSubmit }: Props) {
 		setSaving(true);
 		try {
 			await onSubmit({
-				titleEn: titleEn.trim(),
-				titleAr: titleAr.trim(),
-				descriptionEn,
-				descriptionAr,
+				titleEn: title.en.trim(),
+				titleAr: title.ar.trim(),
+				descriptionEn: description.en,
+				descriptionAr: description.ar,
 				price: Number(price),
 				currency: currency.toUpperCase(),
 				thumbnail,
@@ -63,42 +64,21 @@ export default function CourseForm({ course, submitLabel, onSubmit }: Props) {
 	return (
 		<form onSubmit={(e) => void submit(e)} className="space-y-4">
 			<ErrorBanner message={error} />
-			<div className="grid gap-4 sm:grid-cols-2">
-				<Field label={t('admin.course.titleEn')}>
-					<Input
-						required
-						dir="ltr"
-						maxLength={255}
-						value={titleEn}
-						onChange={(e) => setTitleEn(e.target.value)}
-					/>
-				</Field>
-				<Field label={t('admin.course.titleAr')}>
-					<Input
-						required
-						dir="rtl"
-						maxLength={255}
-						value={titleAr}
-						onChange={(e) => setTitleAr(e.target.value)}
-					/>
-				</Field>
-				<Field label={t('admin.course.descriptionEn')}>
-					<Textarea
-						rows={4}
-						dir="ltr"
-						value={descriptionEn}
-						onChange={(e) => setDescriptionEn(e.target.value)}
-					/>
-				</Field>
-				<Field label={t('admin.course.descriptionAr')}>
-					<Textarea
-						rows={4}
-						dir="rtl"
-						value={descriptionAr}
-						onChange={(e) => setDescriptionAr(e.target.value)}
-					/>
-				</Field>
-			</div>
+			<BilingualField
+				label={t('admin.course.title')}
+				required
+				maxLength={255}
+				valueEn={title.en}
+				valueAr={title.ar}
+				onChange={setTitle}
+			/>
+			<BilingualField
+				label={t('admin.course.description')}
+				rows={4}
+				valueEn={description.en}
+				valueAr={description.ar}
+				onChange={setDescription}
+			/>
 			<div className="grid grid-cols-2 gap-4">
 				<Field label={t('admin.course.price')}>
 					<Input

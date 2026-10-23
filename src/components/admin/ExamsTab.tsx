@@ -10,9 +10,11 @@ import ExamBuilder from './ExamBuilder';
 import { ErrorBanner } from '../common/ErrorBanner';
 import { errorMessage } from '../../utils/errors';
 import { toast } from 'sonner';
+import { useLocalize } from '../../hooks/useLocalize';
 
 export default function ExamsTab({ courseId }: { courseId: number }) {
 	const { t } = useTranslation();
+	const { l } = useLocalize();
 	const {
 		data: exams,
 		error,
@@ -20,7 +22,7 @@ export default function ExamsTab({ courseId }: { courseId: number }) {
 		reload,
 	} = useApiQuery((signal) => listExams(courseId, signal), `exams:${courseId}`);
 	const [editingId, setEditingId] = useState<number | null>(null);
-	const [title, setTitle] = useState('');
+	const [title, setTitle] = useState({ en: '', ar: '' });
 	const [actionError, setActionError] = useState<string | null>(null);
 
 	if (editingId !== null) {
@@ -39,8 +41,11 @@ export default function ExamsTab({ courseId }: { courseId: number }) {
 		e.preventDefault();
 		setActionError(null);
 		try {
-			const exam = await createExam(courseId, { title: title.trim() });
-			setTitle('');
+			const exam = await createExam(courseId, {
+				titleEn: title.en.trim(),
+				titleAr: title.ar.trim(),
+			});
+			setTitle({ en: '', ar: '' });
 			setEditingId(exam.id); // go straight into the builder
 		} catch (err) {
 			setActionError(errorMessage(err));
@@ -73,7 +78,7 @@ export default function ExamsTab({ courseId }: { courseId: number }) {
 						{exams.map((exam) => (
 							<li key={exam.id} className="flex items-center gap-3 px-4 py-3 text-sm">
 								<div className="flex-1">
-									<p className="font-medium text-foreground">{exam.title}</p>
+									<p className="font-medium text-foreground">{l(exam, 'title')}</p>
 									<p className="text-xs text-muted-foreground">
 										{t('admin.exam.summary', {
 											count: exam.questionCount,
@@ -104,10 +109,19 @@ export default function ExamsTab({ courseId }: { courseId: number }) {
 			<form onSubmit={(e) => void create(e)} className="flex gap-2">
 				<Input
 					required
+					dir="ltr"
 					maxLength={255}
-					placeholder={t('admin.exam.newTitle')}
-					value={title}
-					onChange={(e) => setTitle(e.target.value)}
+					placeholder={`${t('admin.exam.newTitle')} (${t('common.english')})`}
+					value={title.en}
+					onChange={(e) => setTitle({ ...title, en: e.target.value })}
+				/>
+				<Input
+					required
+					dir="rtl"
+					maxLength={255}
+					placeholder={`${t('admin.exam.newTitle')} (${t('common.arabic')})`}
+					value={title.ar}
+					onChange={(e) => setTitle({ ...title, ar: e.target.value })}
 				/>
 				<Button type="submit">+ {t('admin.exam.create')}</Button>
 			</form>

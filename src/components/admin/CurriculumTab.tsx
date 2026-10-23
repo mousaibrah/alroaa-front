@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useLocalized } from '../../hooks/useLocalized';
+import { useLocalize } from '../../hooks/useLocalize';
 import {
 	createLesson,
 	createSection,
@@ -35,12 +35,16 @@ type OpenForm = { kind: 'new'; sectionId: number } | { kind: 'edit'; lessonId: n
 
 export default function CurriculumTab({ course, reload }: Props) {
 	const { t } = useTranslation();
-	const loc = useLocalized();
+	const { l } = useLocalize();
 	const [error, setError] = useState<string | null>(null);
 	const [busy, setBusy] = useState(false);
 	const [openForm, setOpenForm] = useState<OpenForm>(null);
-	const [newSection, setNewSection] = useState('');
-	const [editingSection, setEditingSection] = useState<{ id: number; title: string } | null>(null);
+	const [newSection, setNewSection] = useState({ en: '', ar: '' });
+	const [editingSection, setEditingSection] = useState<{
+		id: number;
+		en: string;
+		ar: string;
+	} | null>(null);
 
 	// Runs an API call, then refetches the course so the list shows server truth.
 	const run = async (action: () => Promise<unknown>, success?: string): Promise<boolean> => {
@@ -61,8 +65,9 @@ export default function CurriculumTab({ course, reload }: Props) {
 
 	const addSection = async (e: FormEvent) => {
 		e.preventDefault();
-		if (await run(() => createSection(course.id, { title: newSection.trim() }), t('toast.created')))
-			setNewSection('');
+		const data = { titleEn: newSection.en.trim(), titleAr: newSection.ar.trim() };
+		if (await run(() => createSection(course.id, data), t('toast.created')))
+			setNewSection({ en: '', ar: '' });
 	};
 
 	const confirmDelete = (message: string, action: () => Promise<unknown>) => {
@@ -75,7 +80,7 @@ export default function CurriculumTab({ course, reload }: Props) {
 	};
 
 	const moveLesson = (section: Section, index: number, delta: -1 | 1) => {
-		const ids = moveItem(section.lessons, index, delta).map((l) => l.id);
+		const ids = moveItem(section.lessons, index, delta).map((x) => x.id);
 		void run(() => reorderLessons(section.id, ids));
 	};
 
@@ -102,15 +107,30 @@ export default function CurriculumTab({ course, reload }: Props) {
 								onSubmit={(e) => {
 									e.preventDefault();
 									void run(
-										() => updateSection(section.id, { title: editingSection.title.trim() }),
+										() =>
+											updateSection(section.id, {
+												titleEn: editingSection.en.trim(),
+												titleAr: editingSection.ar.trim(),
+											}),
 										t('toast.saved')
 									).then((ok) => ok && setEditingSection(null));
 								}}>
 								<Input
 									required
 									autoFocus
-									value={editingSection.title}
-									onChange={(e) => setEditingSection({ id: section.id, title: e.target.value })}
+									dir="ltr"
+									maxLength={255}
+									placeholder={t('common.english')}
+									value={editingSection.en}
+									onChange={(e) => setEditingSection({ ...editingSection, en: e.target.value })}
+								/>
+								<Input
+									required
+									dir="rtl"
+									maxLength={255}
+									placeholder={t('common.arabic')}
+									value={editingSection.ar}
+									onChange={(e) => setEditingSection({ ...editingSection, ar: e.target.value })}
 								/>
 								<Button type="submit" disabled={busy}>
 									{t('admin.save')}
@@ -126,11 +146,11 @@ export default function CurriculumTab({ course, reload }: Props) {
 						) : (
 							<>
 								<h3 className="flex-1 text-sm font-semibold text-foreground">
-									{sIndex + 1}. {section.title}
+									{sIndex + 1}. {l(section, 'title')}
 								</h3>
 								<Button
 									type="button"
-									onClick={() => setEditingSection({ id: section.id, title: section.title })}
+									onClick={() => setEditingSection({ id: section.id, en: section.titleEn, ar: section.titleAr })}
 									variant="outline"
 									size="sm">
 									{t('admin.rename')}
@@ -173,7 +193,7 @@ export default function CurriculumTab({ course, reload }: Props) {
 											disabled={busy}
 										/>
 										<span className="flex-1">
-											{loc(lesson.titleEn, lesson.titleAr)}
+											{l(lesson, 'title')}
 											<span className="ms-2 text-xs text-muted-foreground">
 												{t(`admin.lesson.${lesson.lessonType}`)}{' '}
 												{formatDuration(lesson.durationSec)}
@@ -237,10 +257,19 @@ export default function CurriculumTab({ course, reload }: Props) {
 			<form onSubmit={(e) => void addSection(e)} className="flex gap-2">
 				<Input
 					required
+					dir="ltr"
 					maxLength={255}
-					placeholder={t('admin.curriculum.sectionTitle')}
-					value={newSection}
-					onChange={(e) => setNewSection(e.target.value)}
+					placeholder={`${t('admin.curriculum.sectionTitle')} (${t('common.english')})`}
+					value={newSection.en}
+					onChange={(e) => setNewSection({ ...newSection, en: e.target.value })}
+				/>
+				<Input
+					required
+					dir="rtl"
+					maxLength={255}
+					placeholder={`${t('admin.curriculum.sectionTitle')} (${t('common.arabic')})`}
+					value={newSection.ar}
+					onChange={(e) => setNewSection({ ...newSection, ar: e.target.value })}
 				/>
 				<Button type="submit" disabled={busy}>
 					+ {t('admin.curriculum.addSection')}

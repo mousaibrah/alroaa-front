@@ -57,8 +57,10 @@ export interface Lesson {
 
 export interface Section {
 	id: number;
-	title: string;
-	description: string | null;
+	titleEn: string;
+	titleAr: string;
+	descriptionEn: string | null;
+	descriptionAr: string | null;
 	sortOrder: number;
 	lessons: Lesson[];
 }
@@ -66,8 +68,10 @@ export interface Section {
 // Exam summary on the course page (no questions or answers).
 export interface CourseExam {
 	id: number;
-	title: string;
-	description: string | null;
+	titleEn: string;
+	titleAr: string;
+	descriptionEn: string | null;
+	descriptionAr: string | null;
 	passingScore: number;
 	durationSec: number | null;
 	questionCount: number;

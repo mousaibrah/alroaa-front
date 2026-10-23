@@ -2,8 +2,10 @@
 export interface Certificate {
 	code: string;
 	holderName: string;
+	holderNameAr: string | null;
 	courseId: number;
-	courseTitle: string;
+	courseTitleEn: string;
+	courseTitleAr: string;
 	learningSeconds: number;
 	issuedAt: string;
 }

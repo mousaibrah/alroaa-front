@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useLocalized } from '../hooks/useLocalized';
 import { Link, useParams } from 'react-router-dom';
 import { CheckCircle2 } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
@@ -15,12 +14,13 @@ import { useApiQuery } from '../hooks/useApiQuery';
 import { CheckoutSkeleton } from '../components/feedback/skeletons';
 import { paths } from '@/routes/paths';
 import { toast } from 'sonner';
+import { useLocalize } from '../hooks/useLocalize';
 
 // Stand-in for the payment gateway's hosted page (mock provider only). A real
 // gateway redirects away from the app, and returns to the course page.
 export default function CheckoutPage() {
 	const { t, i18n } = useTranslation();
-	const loc = useLocalized();
+	const { l } = useLocalize();
 	const { paymentId } = useParams();
 	const id = Number(paymentId);
 	const [result, setResult] = useState<Payment | null>(null);
@@ -77,7 +77,7 @@ export default function CheckoutPage() {
 					<dl className="space-y-2 text-sm">
 						<div className="flex justify-between gap-4">
 							<dt className="text-muted-foreground">{t('checkout.course')}</dt>
-							<dd className="font-medium text-foreground">{loc(data.course.titleEn, data.course.titleAr)}</dd>
+							<dd className="font-medium text-foreground">{l(data.course, 'title')}</dd>
 						</div>
 						<div className="flex justify-between gap-4">
 							<dt className="text-muted-foreground">{t('checkout.amount')}</dt>

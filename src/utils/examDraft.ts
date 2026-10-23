@@ -5,22 +5,26 @@ import type { Exam, ExamSaveInput, QuestionType } from '../types/admin';
 export interface DraftOption {
 	key: string;
 	id?: number;
-	optionText: string;
+	optionTextEn: string;
+	optionTextAr: string;
 	isCorrect: boolean;
 }
 
 export interface DraftQuestion {
 	key: string;
 	id?: number;
-	text: string;
+	textEn: string;
+	textAr: string;
 	questionType: QuestionType;
 	points: string;
 	options: DraftOption[];
 }
 
 export interface Draft {
-	title: string;
-	description: string;
+	titleEn: string;
+	titleAr: string;
+	descriptionEn: string;
+	descriptionAr: string;
 	passingScore: string;
 	durationMin: string;
 	questions: DraftQuestion[];
@@ -31,36 +35,42 @@ const uid = () => `k${++counter}`;
 
 export const MAX_OPTIONS = 20;
 
-export const newOption = (optionText = '', isCorrect = false): DraftOption => ({
+export const newOption = (optionTextEn = '', optionTextAr = '', isCorrect = false): DraftOption => ({
 	key: uid(),
-	optionText,
+	optionTextEn,
+	optionTextAr,
 	isCorrect,
 });
 
 export const newQuestion = (): DraftQuestion => ({
 	key: uid(),
-	text: '',
+	textEn: '',
+	textAr: '',
 	questionType: 'single_choice',
 	points: '1',
-	options: [newOption('', true), newOption()],
+	options: [newOption('', '', true), newOption()],
 });
 
 export function toDraft(exam: Exam): Draft {
 	return {
-		title: exam.title,
-		description: exam.description ?? '',
+		titleEn: exam.titleEn,
+		titleAr: exam.titleAr,
+		descriptionEn: exam.descriptionEn ?? '',
+		descriptionAr: exam.descriptionAr ?? '',
 		passingScore: String(exam.passingScore),
 		durationMin: exam.durationSec ? String(exam.durationSec / 60) : '',
 		questions: exam.questions.map((q) => ({
 			key: uid(),
 			id: q.id,
-			text: q.text,
+			textEn: q.textEn,
+			textAr: q.textAr,
 			questionType: q.questionType,
 			points: String(q.points),
 			options: q.options.map((o) => ({
 				key: uid(),
 				id: o.id,
-				optionText: o.optionText,
+				optionTextEn: o.optionTextEn,
+				optionTextAr: o.optionTextAr,
 				isCorrect: o.isCorrect,
 			})),
 		})),
@@ -69,18 +79,22 @@ export function toDraft(exam: Exam): Draft {
 
 export function fromDraft(d: Draft): ExamSaveInput {
 	return {
-		title: d.title.trim(),
-		description: d.description.trim() || null,
+		titleEn: d.titleEn.trim(),
+		titleAr: d.titleAr.trim(),
+		descriptionEn: d.descriptionEn.trim() || null,
+		descriptionAr: d.descriptionAr.trim() || null,
 		passingScore: Number(d.passingScore),
 		durationSec: d.durationMin.trim() === '' ? null : Math.round(Number(d.durationMin) * 60),
 		questions: d.questions.map((q) => ({
 			id: q.id,
-			text: q.text.trim(),
+			textEn: q.textEn.trim(),
+			textAr: q.textAr.trim(),
 			questionType: q.questionType,
 			points: Number(q.points),
 			options: q.options.map((o) => ({
 				id: o.id,
-				optionText: o.optionText.trim(),
+				optionTextEn: o.optionTextEn.trim(),
+				optionTextAr: o.optionTextAr.trim(),
 				isCorrect: o.isCorrect,
 			})),
 		})),
@@ -99,7 +113,7 @@ export function setCorrect(q: DraftQuestion, optionKey: string, checked: boolean
 export function changeType(
 	q: DraftQuestion,
 	questionType: QuestionType,
-	labels: { true: string; false: string }
+	labels: { trueEn: string; trueAr: string; falseEn: string; falseAr: string }
 ): DraftQuestion {
 	if (questionType === q.questionType) return q;
 	if (questionType === 'true_false') {
@@ -109,8 +123,18 @@ export function changeType(
 			...q,
 			questionType,
 			options: [
-				{ ...(a ?? newOption()), optionText: labels.true, isCorrect: true },
-				{ ...(b ?? newOption()), optionText: labels.false, isCorrect: false },
+				{
+					...(a ?? newOption()),
+					optionTextEn: labels.trueEn,
+					optionTextAr: labels.trueAr,
+					isCorrect: true,
+				},
+				{
+					...(b ?? newOption()),
+					optionTextEn: labels.falseEn,
+					optionTextAr: labels.falseAr,
+					isCorrect: false,
+				},
 			],
 		};
 	}
@@ -148,7 +172,7 @@ export interface DraftIssue {
 // are caught before saving; the server still enforces them.
 export function validateDraft(d: Draft): DraftIssue[] {
 	const issues: DraftIssue[] = [];
-	if (!d.title.trim()) issues.push({ code: 'title' });
+	if (!d.titleEn.trim() || !d.titleAr.trim()) issues.push({ code: 'title' });
 
 	const passing = Number(d.passingScore);
 	if (
@@ -171,9 +195,10 @@ export function validateDraft(d: Draft): DraftIssue[] {
 		} else {
 			total += points;
 		}
-		if (!q.text.trim()) issues.push({ code: 'questionText', n });
+		if (!q.textEn.trim() || !q.textAr.trim()) issues.push({ code: 'questionText', n });
 		if (q.options.length < 2) issues.push({ code: 'optionsMin', n });
-		if (q.options.some((o) => !o.optionText.trim())) issues.push({ code: 'optionText', n });
+		if (q.options.some((o) => !o.optionTextEn.trim() || !o.optionTextAr.trim()))
+			issues.push({ code: 'optionText', n });
 		if (q.questionType === 'true_false' && q.options.length !== 2)
 			issues.push({ code: 'trueFalseOptions', n });
 		const correct = q.options.filter((o) => o.isCorrect).length;

@@ -8,6 +8,8 @@ import { paths } from '@/routes/paths';
 import { useAuth } from '../../auth/useAuth';
 import { languageNames, supportedLanguages, type Language } from '../../i18n';
 import { toast } from 'sonner';
+import { useLocalize } from '../../hooks/useLocalize';
+import { firstName } from '../../utils/localized';
 
 // Pages that need an account: after logging out of one of these the user goes
 // home. Any other page is public, so they simply stay on it.
@@ -34,6 +36,7 @@ const SCROLLED_AFTER_PX = 40;
 // the account buttons. It gets a soft shadow once the page is scrolled (or on app pages).
 export default function Header({ solid }: { solid: boolean }) {
 	const { t, i18n } = useTranslation();
+	const { lang } = useLocalize();
 	const { isAuthenticated, user, role, logout } = useAuth();
 	const location = useLocation();
 	const { pathname } = location;
@@ -84,7 +87,7 @@ export default function Header({ solid }: { solid: boolean }) {
 			<NavLink
 				to={paths.profile}
 				className={({ isActive }) => cn('site-nav-link', isActive && 'is-active')}>
-				{user?.firstName ?? t('nav.profile')}
+				{user ? firstName(user, lang) : t('nav.profile')}
 			</NavLink>
 			<Button
 				type="button"

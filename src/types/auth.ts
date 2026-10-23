@@ -3,6 +3,9 @@ export interface User {
 	id: number;
 	firstName: string;
 	lastName: string;
+	// Optional Arabic spelling, used in the Arabic UI and on certificates.
+	firstNameAr: string | null;
+	lastNameAr: string | null;
 	email: string;
 	image: string | null;
 	gender: 0 | 1 | null; // 0 = male, 1 = female
@@ -26,6 +29,8 @@ export interface LoginRequest {
 export interface RegisterRequest {
 	firstName: string;
 	lastName: string;
+	firstNameAr?: string;
+	lastNameAr?: string;
 	email: string;
 	password: string;
 	image?: string;

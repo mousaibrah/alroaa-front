@@ -35,6 +35,8 @@ export default function RegisterForm() {
 		defaultValues: {
 			firstName: '',
 			lastName: '',
+			firstNameAr: '',
+			lastNameAr: '',
 			email: '',
 			password: '',
 			confirmPassword: '',
@@ -49,6 +51,8 @@ export default function RegisterForm() {
 			await registerUser({
 				firstName: values.firstName,
 				lastName: values.lastName,
+				firstNameAr: values.firstNameAr || undefined,
+				lastNameAr: values.lastNameAr || undefined,
 				email: values.email,
 				password: values.password,
 				role: values.role,
@@ -85,6 +89,22 @@ export default function RegisterForm() {
 							label={t('register.lastName')}
 							error={errors.lastName?.message}
 							{...register('lastName')}
+						/>
+					</div>
+					<div className="grid grid-cols-2 gap-4">
+						<FormField
+							id="firstNameAr"
+							dir="rtl"
+							label={t('register.firstNameAr')}
+							error={errors.firstNameAr?.message}
+							{...register('firstNameAr')}
+						/>
+						<FormField
+							id="lastNameAr"
+							dir="rtl"
+							label={t('register.lastNameAr')}
+							error={errors.lastNameAr?.message}
+							{...register('lastNameAr')}
 						/>
 					</div>
 					<FormField
