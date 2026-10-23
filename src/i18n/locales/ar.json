@@ -346,6 +346,32 @@
 			"summary_few": "{{count}} أسئلة · درجة النجاح {{passing}}",
 			"summary_many": "{{count}} سؤالاً · درجة النجاح {{passing}}",
 			"summary_other": "{{count}} سؤال · درجة النجاح {{passing}}"
+		},
+		"upload": {
+			"drop": {
+				"video": "اسحب فيديو إلى هنا، أو",
+				"image": "اسحب صورة إلى هنا، أو"
+			},
+			"browse": "تصفّح",
+			"types": {
+				"video": "MP4 أو WebM أو MOV. يبدأ الرفع فوراً، ويمكنك متابعة تعبئة النموذج.",
+				"image": "JPG أو PNG أو WebP أو GIF"
+			},
+			"wrongType": {
+				"video": "اختر فيديو بصيغة MP4 أو WebM أو MOV.",
+				"image": "اختر صورة بصيغة JPG أو PNG أو WebP أو GIF."
+			},
+			"required": "اختر ملفاً لهذا الدرس.",
+			"progress": "تقدّم الرفع",
+			"ofTotal": "{{loaded}} من {{total}}",
+			"timeLeft": "متبقٍ {{time}}",
+			"done": "تم الرفع",
+			"failed": "انقطع الرفع. تحقّق من اتصالك ثم أعد المحاولة.",
+			"retry": "إعادة المحاولة",
+			"replace": "استبدال",
+			"cancel": "إلغاء الرفع",
+			"remove": "إزالة الملف",
+			"savingAfter": "سيُحفظ بعد اكتمال الرفع… {{percent}}%"
 		}
 	},
 	"checkout": {

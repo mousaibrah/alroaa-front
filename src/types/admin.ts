@@ -32,8 +32,9 @@ export interface SectionInput {
 	descriptionAr?: string;
 }
 
-// Sent as multipart/form-data. `file` is required when creating; on update it
-// replaces the content. An empty durationSec is read from the video.
+// Sent as JSON. `contentMediaId` is a file uploaded beforehand (see
+// api/uploads); required when creating, on update it replaces the content. An
+// empty durationSec is read from the video.
 export interface LessonInput {
 	titleEn?: string;
 	titleAr?: string;
@@ -42,7 +43,7 @@ export interface LessonInput {
 	lessonType?: LessonType;
 	durationSec?: number | null;
 	isPreview?: boolean;
-	file?: File | null;
+	contentMediaId?: string;
 }
 
 export type QuestionType = 'single_choice' | 'multiple_choice' | 'true_false';

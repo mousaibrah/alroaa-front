@@ -28,4 +28,8 @@ export const endpoints = {
 	myCertificates: '/certificates/me',
 	certificateVerify: (code: string) => `/certificates/verify/${encodeURIComponent(code)}`,
 	lessonProgress: (lessonId: number) => `/lessons/${lessonId}/progress`,
+	mediaMultipart: '/media/multipart',
+	mediaMultipartPart: (id: string) => `/media/${id}/multipart/part`,
+	mediaMultipartComplete: (id: string) => `/media/${id}/multipart/complete`,
+	mediaMultipartAbort: (id: string) => `/media/${id}/multipart/abort`,
 };

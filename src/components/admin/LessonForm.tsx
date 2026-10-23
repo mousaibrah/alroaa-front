@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
+import { useMediaUpload } from '../../hooks/useMediaUpload';
 import type { LessonInput } from '../../types/admin';
 import type { Lesson, LessonType } from '../../types/courses';
 import SimpleSelect from '../common/SimpleSelect';
@@ -12,6 +13,7 @@ import { BilingualField } from '../common/BilingualField';
 import { Field } from '../common/Field';
 import { errorMessage } from '../../utils/errors';
 import ContentStatusBadge from './ContentStatusBadge';
+import MediaUploadField from './MediaUploadField';
 
 interface Props {
 	lesson?: Lesson;
@@ -33,22 +35,31 @@ export default function LessonForm({ lesson, onSubmit, onCancel }: Props) {
 		ar: lesson?.descriptionAr ?? '',
 	});
 	const [lessonType, setLessonType] = useState<LessonType>(lesson?.lessonType ?? 'video');
-	const [file, setFile] = useState<File | null>(null);
+	// The file uploads straight to storage as soon as it is picked.
+	const upload = useMediaUpload();
 	const [durationSec, setDurationSec] = useState(
 		lesson?.durationSec != null ? String(lesson.durationSec) : ''
 	);
 	const [isPreview, setIsPreview] = useState(lesson?.isPreview ?? false);
 	const [error, setError] = useState<string | null>(null);
 	const [saving, setSaving] = useState(false);
+	const [missingFile, setMissingFile] = useState(false);
 
 	// A new lesson needs a file; so does an existing one whose type changes.
 	const fileRequired = !lesson || lesson.lessonType !== lessonType;
+	const hasFile = upload.status !== 'idle';
 
 	const submit = async (e: FormEvent) => {
 		e.preventDefault();
 		setError(null);
+		if (fileRequired && !hasFile) {
+			setMissingFile(true);
+			return;
+		}
 		setSaving(true);
 		try {
+			// Saving early is fine: this waits for the upload to finish.
+			const contentMediaId = (await upload.result()) ?? undefined;
 			await onSubmit({
 				titleEn: title.en.trim(),
 				titleAr: title.ar.trim(),
@@ -57,7 +68,7 @@ export default function LessonForm({ lesson, onSubmit, onCancel }: Props) {
 				lessonType,
 				durationSec: durationSec === '' ? null : Number(durationSec),
 				isPreview,
-				file,
+				contentMediaId,
 			});
 		} catch (err) {
 			setError(errorMessage(err));
@@ -91,7 +102,7 @@ export default function LessonForm({ lesson, onSubmit, onCancel }: Props) {
 						value={lessonType}
 						onValueChange={(v) => {
 							setLessonType(v);
-							setFile(null);
+							upload.reset();
 						}}
 						options={[
 							{ value: 'video', label: t('admin.lesson.video') },
@@ -109,17 +120,21 @@ export default function LessonForm({ lesson, onSubmit, onCancel }: Props) {
 				</Field>
 			</div>
 			<p className="text-xs text-muted-foreground">{t('admin.lesson.durationHint')}</p>
-			<Field label={t(lesson ? 'admin.lesson.replaceFile' : 'admin.lesson.file')}>
-				{/* key resets the picker when the type changes */}
-				<Input
-					key={lessonType}
-					type="file"
-					required={fileRequired}
-					accept={ACCEPT[lessonType]}
-					onChange={(e) => setFile(e.target.files?.[0] ?? null)}
-				/>
-			</Field>
-			{lesson?.contentUrl && !file && (
+			<MediaUploadField
+				label={t(
+					lesson && !fileRequired ? 'admin.lesson.replaceFile' : 'admin.lesson.file'
+				)}
+				kind={lessonType === 'video' ? 'video' : 'image'}
+				accept={ACCEPT[lessonType]}
+				upload={upload}
+				invalid={missingFile && !hasFile}
+			/>
+			{missingFile && !hasFile && (
+				<p className="text-xs text-destructive" role="alert">
+					{t('admin.upload.required')}
+				</p>
+			)}
+			{lesson?.contentUrl && !hasFile && (
 				<p className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
 					{t('admin.lesson.currentFile')}
 					<a
@@ -139,8 +154,16 @@ export default function LessonForm({ lesson, onSubmit, onCancel }: Props) {
 				{t('admin.lesson.isPreview')}
 			</Label>
 			<div className="flex gap-2">
-				<Button type="submit" disabled={saving}>
-					{saving ? (file ? t('admin.lesson.uploading') : t('admin.saving')) : t('admin.save')}
+				<Button type="submit" disabled={saving || upload.status === 'error'}>
+					{!saving
+						? t('admin.save')
+						: upload.status === 'uploading'
+							? t('admin.upload.savingAfter', {
+									percent: upload.file?.size
+										? Math.round((upload.loaded / upload.file.size) * 100)
+										: 0,
+								})
+							: t('admin.saving')}
 				</Button>
 				<Button type="button" onClick={onCancel} variant="outline" size="sm">
 					{t('admin.cancel')}

@@ -328,6 +328,32 @@
 			},
 			"summary_one": "{{count}} question · passing score {{passing}}",
 			"summary_other": "{{count}} questions · passing score {{passing}}"
+		},
+		"upload": {
+			"drop": {
+				"video": "Drag a video here, or",
+				"image": "Drag an image here, or"
+			},
+			"browse": "browse",
+			"types": {
+				"video": "MP4, WebM or MOV. Uploading starts right away; keep filling in the form.",
+				"image": "JPG, PNG, WebP or GIF"
+			},
+			"wrongType": {
+				"video": "Choose an MP4, WebM or MOV video.",
+				"image": "Choose a JPG, PNG, WebP or GIF image."
+			},
+			"required": "Choose a file for this lesson.",
+			"progress": "Upload progress",
+			"ofTotal": "{{loaded}} of {{total}}",
+			"timeLeft": "{{time}} left",
+			"done": "Uploaded",
+			"failed": "The upload was interrupted. Check your connection and try again.",
+			"retry": "Retry",
+			"replace": "Replace",
+			"cancel": "Cancel upload",
+			"remove": "Remove file",
+			"savingAfter": "Saving after upload… {{percent}}%"
 		}
 	},
 	"checkout": {

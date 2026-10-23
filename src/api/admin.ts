@@ -37,13 +37,13 @@ export const reorderSections = (courseId: number, ids: number[]) =>
 		body: { ids },
 	});
 
+// An empty duration is left out (read from the video), not cleared.
+const lessonBody = (data: LessonInput) => ({ ...data, durationSec: data.durationSec ?? undefined });
+
 export const createLesson = (sectionId: number, data: LessonInput) =>
-	request<Lesson>(endpoints.sectionLessons(sectionId), {
-		method: 'POST',
-		body: toFormData(data),
-	});
+	request<Lesson>(endpoints.sectionLessons(sectionId), { method: 'POST', body: lessonBody(data) });
 export const updateLesson = (id: number, data: LessonInput) =>
-	request<Lesson>(endpoints.lesson(id), { method: 'PATCH', body: toFormData(data) });
+	request<Lesson>(endpoints.lesson(id), { method: 'PATCH', body: lessonBody(data) });
 export const deleteLesson = (id: number) =>
 	request<void>(endpoints.lesson(id), { method: 'DELETE' });
 export const reorderLessons = (sectionId: number, ids: number[]) =>
