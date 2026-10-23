@@ -270,7 +270,6 @@
 			"replaceFile": "Replace file (optional)",
 			"currentFile": "Current file:",
 			"fileHint": "A video for video lessons, an image for text lessons. It is processed after saving; the lesson shows \"Processing\" until it is ready.",
-			"uploading": "Uploading…",
 			"status": {
 				"processing": "Processing",
 				"failed": "Processing failed"

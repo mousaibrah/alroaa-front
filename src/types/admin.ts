@@ -11,8 +11,9 @@ export interface AdminCourseList {
 	limit: number;
 }
 
-// Sent as multipart/form-data. `thumbnail` is the cover image and `introVideo`
-// the introduction video; on update each replaces the current one.
+// Sent as JSON. `thumbnailMediaId` (cover image) and `introVideoMediaId`
+// (introduction video) are files uploaded beforehand (see api/uploads); on
+// update each replaces the current one.
 export interface CourseInput {
 	titleEn?: string;
 	titleAr?: string;
@@ -21,8 +22,8 @@ export interface CourseInput {
 	price?: number;
 	currency?: string;
 	status?: CourseStatus;
-	thumbnail?: File | null;
-	introVideo?: File | null;
+	thumbnailMediaId?: string;
+	introVideoMediaId?: string;
 }
 
 export interface SectionInput {

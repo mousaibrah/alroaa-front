@@ -2,11 +2,13 @@ import { useEffect, useMemo, useState, type FormEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { useMediaUpload } from '../../hooks/useMediaUpload';
 import type { CourseInput } from '../../types/admin';
 import type { Course } from '../../types/courses';
 import { ErrorBanner } from '../common/ErrorBanner';
 import { BilingualField } from '../common/BilingualField';
 import { Field } from '../common/Field';
+import MediaUploadField from './MediaUploadField';
 import { errorMessage } from '../../utils/errors';
 import { toast } from 'sonner';
 
@@ -30,22 +32,36 @@ export default function CourseForm({ course, submitLabel, onSubmit }: Props) {
 	});
 	const [price, setPrice] = useState(String(course?.price ?? 0));
 	const [currency, setCurrency] = useState(course?.currency ?? 'SAR');
-	const [thumbnail, setThumbnail] = useState<File | null>(null);
-	const [introVideo, setIntroVideo] = useState<File | null>(null);
+	// Both upload straight to storage as soon as they are picked.
+	const thumbnail = useMediaUpload();
+	const introVideo = useMediaUpload();
 	const [error, setError] = useState<string | null>(null);
 	const [saving, setSaving] = useState(false);
 
 	// Local preview of the picked image (released when it changes).
-	const preview = useMemo(() => (thumbnail ? URL.createObjectURL(thumbnail) : null), [thumbnail]);
+	const picked = thumbnail.file;
+	const preview = useMemo(() => (picked ? URL.createObjectURL(picked) : null), [picked]);
 	useEffect(() => () => (preview ? URL.revokeObjectURL(preview) : undefined), [preview]);
 
 	const shown = preview ?? course?.thumbnailUrl ?? null;
+
+	// Progress of whatever is still uploading, for the save button.
+	const uploading = [thumbnail, introVideo].filter((u) => u.status === 'uploading');
+	const uploadTotal = uploading.reduce((sum, u) => sum + (u.file?.size ?? 0), 0);
+	const uploadPercent = uploadTotal
+		? Math.round((uploading.reduce((sum, u) => sum + u.loaded, 0) / uploadTotal) * 100)
+		: 0;
 
 	const submit = async (e: FormEvent) => {
 		e.preventDefault();
 		setError(null);
 		setSaving(true);
 		try {
+			// Saving early is fine: this waits for the uploads to finish.
+			const [thumbnailMediaId, introVideoMediaId] = await Promise.all([
+				thumbnail.result(),
+				introVideo.result(),
+			]);
 			await onSubmit({
 				titleEn: title.en.trim(),
 				titleAr: title.ar.trim(),
@@ -53,10 +69,13 @@ export default function CourseForm({ course, submitLabel, onSubmit }: Props) {
 				descriptionAr: description.ar,
 				price: Number(price),
 				currency: currency.toUpperCase(),
-				thumbnail,
-				introVideo,
+				thumbnailMediaId: thumbnailMediaId ?? undefined,
+				introVideoMediaId: introVideoMediaId ?? undefined,
 			});
 			toast.success(t(course ? 'toast.saved' : 'toast.created'));
+			// Saved: the course now shows these files as its current ones.
+			thumbnail.reset();
+			introVideo.reset();
 		} catch (err) {
 			setError(errorMessage(err));
 		} finally {
@@ -105,14 +124,12 @@ export default function CourseForm({ course, submitLabel, onSubmit }: Props) {
 					/>
 				</Field>
 			</div>
-			<Field
-				label={t(course?.thumbnailUrl ? 'admin.course.replaceThumbnail' : 'admin.course.thumbnail')}>
-				<Input
-					type="file"
-					accept={IMAGE_TYPES}
-					onChange={(e) => setThumbnail(e.target.files?.[0] ?? null)}
-				/>
-			</Field>
+			<MediaUploadField
+				label={t(course?.thumbnailUrl ? 'admin.course.replaceThumbnail' : 'admin.course.thumbnail')}
+				kind="image"
+				accept={IMAGE_TYPES}
+				upload={thumbnail}
+			/>
 			{shown && (
 				<img
 					src={shown}
@@ -121,17 +138,15 @@ export default function CourseForm({ course, submitLabel, onSubmit }: Props) {
 				/>
 			)}
 			<p className="text-xs text-muted-foreground">{t('admin.course.thumbnailHint')}</p>
-			<Field
+			<MediaUploadField
 				label={t(
 					course?.introVideoUrl ? 'admin.course.replaceIntroVideo' : 'admin.course.introVideo'
-				)}>
-				<Input
-					type="file"
-					accept={VIDEO_TYPES}
-					onChange={(e) => setIntroVideo(e.target.files?.[0] ?? null)}
-				/>
-			</Field>
-			{course?.introVideoUrl && !introVideo && (
+				)}
+				kind="video"
+				accept={VIDEO_TYPES}
+				upload={introVideo}
+			/>
+			{course?.introVideoUrl && introVideo.status === 'idle' && (
 				<video
 					src={course.introVideoUrl}
 					controls
@@ -141,10 +156,14 @@ export default function CourseForm({ course, submitLabel, onSubmit }: Props) {
 			)}
 			<p className="text-xs text-muted-foreground">{t('admin.course.introVideoHint')}</p>
 			<div className="flex items-center gap-3">
-				<Button type="submit" disabled={saving}>
-					{saving
-						? t(thumbnail || introVideo ? 'admin.lesson.uploading' : 'admin.saving')
-						: submitLabel}
+				<Button
+					type="submit"
+					disabled={saving || thumbnail.status === 'error' || introVideo.status === 'error'}>
+					{!saving
+						? submitLabel
+						: uploading.length
+							? t('admin.upload.savingAfter', { percent: uploadPercent })
+							: t('admin.saving')}
 				</Button>
 			</div>
 		</form>

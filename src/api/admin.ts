@@ -1,4 +1,4 @@
-import { request, toFormData } from './client';
+import { request } from './client';
 import { endpoints } from './endpoints';
 import type {
 	AdminCourseList,
@@ -19,9 +19,9 @@ export const listAllCourses = (
 	request<AdminCourseList>(endpoints.courses, { params: { ...params, all: true }, signal });
 
 export const createCourse = (data: CourseInput) =>
-	request<Course>(endpoints.courses, { method: 'POST', body: toFormData(data) });
+	request<Course>(endpoints.courses, { method: 'POST', body: data });
 export const updateCourse = (id: number, data: CourseInput) =>
-	request<Course>(endpoints.course(id), { method: 'PATCH', body: toFormData(data) });
+	request<Course>(endpoints.course(id), { method: 'PATCH', body: data });
 export const deleteCourse = (id: number) =>
 	request<void>(endpoints.course(id), { method: 'DELETE' });
 
