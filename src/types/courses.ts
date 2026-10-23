@@ -16,6 +16,10 @@ export interface Course {
 	// The cover image; switches to a resized copy once it is processed.
 	thumbnailUrl: string | null;
 	thumbnailMediaId: string | null;
+	// Intro video for the overview page (public); switches to the web MP4 once
+	// it is processed.
+	introVideoUrl: string | null;
+	introVideoMediaId: string | null;
 	createdAt: string;
 	updatedAt: string;
 }

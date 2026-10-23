@@ -18,17 +18,10 @@ export function localize<K extends string>(obj: Bilingual<K>, key: K, lang: Lang
 interface Named {
 	firstName: string;
 	lastName: string;
-	firstNameAr?: string | null;
-	lastNameAr?: string | null;
 }
 
-// The Arabic spelling is optional, so fall back to the name as entered at
-// sign-up (any language) whenever a part is missing.
-export const firstName = (user: Named, lang: Lang): string =>
-	(lang === 'ar' && user.firstNameAr) || user.firstName;
+// Names are stored once, as entered at sign-up (any language).
+export const firstName = (user: Named): string => user.firstName;
 
-export const lastName = (user: Named, lang: Lang): string =>
-	(lang === 'ar' && user.lastNameAr) || user.lastName;
-
-export const fullName = (user: Named, lang: Lang): string =>
-	[firstName(user, lang), lastName(user, lang)].filter(Boolean).join(' ');
+export const fullName = (user: Named): string =>
+	[user.firstName, user.lastName].filter(Boolean).join(' ');

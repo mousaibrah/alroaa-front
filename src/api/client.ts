@@ -32,6 +32,17 @@ interface RequestOptions {
 	keepalive?: boolean;
 }
 
+// Multipart sends every field as text; missing values are left out (an empty
+// description is sent, so it can be cleared).
+export const toFormData = (data: object): FormData => {
+	const form = new FormData();
+	for (const [key, value] of Object.entries(data)) {
+		if (value === undefined || value === null) continue;
+		form.append(key, value instanceof File ? value : String(value));
+	}
+	return form;
+};
+
 export async function request<T>(path: string, options: RequestOptions = {}): Promise<T> {
 	const { method = 'GET', body, params, signal, keepCache = false, keepalive = false } = options;
 

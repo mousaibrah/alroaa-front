@@ -11,8 +11,8 @@ export interface AdminCourseList {
 	limit: number;
 }
 
-// Sent as multipart/form-data. `thumbnail` is the cover image; on update it
-// replaces the current one.
+// Sent as multipart/form-data. `thumbnail` is the cover image and `introVideo`
+// the introduction video; on update each replaces the current one.
 export interface CourseInput {
 	titleEn?: string;
 	titleAr?: string;
@@ -22,6 +22,7 @@ export interface CourseInput {
 	currency?: string;
 	status?: CourseStatus;
 	thumbnail?: File | null;
+	introVideo?: File | null;
 }
 
 export interface SectionInput {

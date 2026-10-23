@@ -17,8 +17,9 @@ interface Props {
 	onSubmit: (data: CourseInput) => Promise<void>;
 }
 
-// Image types the backend accepts for the cover.
+// File types the backend accepts for the cover and the intro video.
 const IMAGE_TYPES = 'image/jpeg,image/png,image/webp,image/gif';
+const VIDEO_TYPES = 'video/mp4,video/webm,video/quicktime';
 
 export default function CourseForm({ course, submitLabel, onSubmit }: Props) {
 	const { t } = useTranslation();
@@ -30,6 +31,7 @@ export default function CourseForm({ course, submitLabel, onSubmit }: Props) {
 	const [price, setPrice] = useState(String(course?.price ?? 0));
 	const [currency, setCurrency] = useState(course?.currency ?? 'SAR');
 	const [thumbnail, setThumbnail] = useState<File | null>(null);
+	const [introVideo, setIntroVideo] = useState<File | null>(null);
 	const [error, setError] = useState<string | null>(null);
 	const [saving, setSaving] = useState(false);
 
@@ -52,6 +54,7 @@ export default function CourseForm({ course, submitLabel, onSubmit }: Props) {
 				price: Number(price),
 				currency: currency.toUpperCase(),
 				thumbnail,
+				introVideo,
 			});
 			toast.success(t(course ? 'toast.saved' : 'toast.created'));
 		} catch (err) {
@@ -118,9 +121,30 @@ export default function CourseForm({ course, submitLabel, onSubmit }: Props) {
 				/>
 			)}
 			<p className="text-xs text-muted-foreground">{t('admin.course.thumbnailHint')}</p>
+			<Field
+				label={t(
+					course?.introVideoUrl ? 'admin.course.replaceIntroVideo' : 'admin.course.introVideo'
+				)}>
+				<Input
+					type="file"
+					accept={VIDEO_TYPES}
+					onChange={(e) => setIntroVideo(e.target.files?.[0] ?? null)}
+				/>
+			</Field>
+			{course?.introVideoUrl && !introVideo && (
+				<video
+					src={course.introVideoUrl}
+					controls
+					preload="metadata"
+					className="aspect-video w-full max-w-xs rounded-md border bg-black"
+				/>
+			)}
+			<p className="text-xs text-muted-foreground">{t('admin.course.introVideoHint')}</p>
 			<div className="flex items-center gap-3">
 				<Button type="submit" disabled={saving}>
-					{saving ? t('admin.saving') : submitLabel}
+					{saving
+						? t(thumbnail || introVideo ? 'admin.lesson.uploading' : 'admin.saving')
+						: submitLabel}
 				</Button>
 			</div>
 		</form>

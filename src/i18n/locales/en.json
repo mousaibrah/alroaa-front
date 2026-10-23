@@ -60,11 +60,13 @@
 		"submitting": "Submitting...",
 		"firstName": "First name",
 		"lastName": "Last name",
-		"firstNameAr": "First name in Arabic (optional)",
-		"lastNameAr": "Last name in Arabic (optional)",
-		"role": "I am a",
 		"haveAccount": "Already have an account?",
-		"loginLink": "Log in"
+		"loginLink": "Log in",
+		"image": "Profile picture (optional)",
+		"imageHint": "JPEG, PNG, WebP or GIF, up to {{mb}} MB (optional)",
+		"removeImage": "Remove picture",
+		"gender": "Gender",
+		"dob": "Date of birth (optional)"
 	},
 	"validation": {
 		"emailInvalid": "Enter a valid email address",
@@ -74,7 +76,12 @@
 		"lastNameRequired": "Last name is required",
 		"passwordRequired": "Password is required",
 		"passwordMax": "Password must be at most 72 characters",
-		"tooLong": "Too long"
+		"tooLong": "Too long",
+		"dobInvalid": "Enter a valid date",
+		"dobFuture": "Date of birth cannot be in the future",
+		"imageType": "Use a JPEG, PNG, WebP or GIF image",
+		"imageSize": "The image must be at most {{mb}} MB",
+		"passwordSame": "The new password must be different from the current one"
 	},
 	"auth": {
 		"email": "Email",
@@ -85,7 +92,9 @@
 			"emailTaken": "This email is already registered",
 			"network": "Cannot reach the server. Check your connection and try again.",
 			"server": "Something went wrong on the server. Please try again later.",
-			"unknown": "Something went wrong. Please try again."
+			"unknown": "Something went wrong. Please try again.",
+			"invalidData": "Some of the details are not valid. Check them and try again.",
+			"imageTooLarge": "The picture is too large."
 		}
 	},
 	"login": {
@@ -97,8 +106,7 @@
 	},
 	"roles": {
 		"admin": "Admin",
-		"student": "Student",
-		"instructor": "Instructor"
+		"user": "User"
 	},
 	"forbidden": {
 		"title": "403",
@@ -190,7 +198,8 @@
 			"lessons": "Lessons",
 			"duration": "Duration",
 			"exams": "Exams"
-		}
+		},
+		"introVideo": "Introduction video"
 	},
 	"admin": {
 		"title": "Manage programs",
@@ -231,7 +240,10 @@
 			"replaceThumbnail": "Replace cover image (optional)",
 			"thumbnailHint": "JPEG, PNG, WebP or GIF, up to 10 MB. A resized copy is made in the background.",
 			"title": "Title",
-			"description": "Description"
+			"description": "Description",
+			"introVideo": "Introduction video",
+			"replaceIntroVideo": "Replace introduction video (optional)",
+			"introVideoHint": "MP4, WebM or MOV. Shown on the course overview page to everyone; it is processed in the background after saving."
 		},
 		"curriculum": {
 			"empty": "No sections yet. Add the first one below.",
@@ -613,7 +625,12 @@
 			"activeHint": "Programs in progress",
 			"completed": "Completed programs",
 			"completedHint": "Programs you finished"
-		}
+		},
+		"image": "Profile picture",
+		"gender": "Gender",
+		"dob": "Date of birth",
+		"memberSince": "Member since",
+		"notSet": "Not set"
 	},
 	"toast": {
 		"loggedIn": "Logged in successfully",
@@ -626,5 +643,31 @@
 		"deleted": "Deleted",
 		"statusChanged": "Program status updated",
 		"examSaved": "Exam saved"
+	},
+	"gender": {
+		"male": "Male",
+		"female": "Female"
+	},
+	"account": {
+		"settingsTitle": "Account settings",
+		"detailsTitle": "Personal details",
+		"changePicture": "Change profile picture",
+		"uploading": "Uploading…",
+		"pictureSaved": "Profile picture updated",
+		"emailTitle": "Email address",
+		"currentEmail": "Current:",
+		"newEmail": "New email",
+		"changeEmail": "Change email",
+		"emailChanged": "Email changed",
+		"passwordTitle": "Password",
+		"currentPassword": "Current password",
+		"newPassword": "New password",
+		"changePassword": "Change password",
+		"passwordChanged": "Password changed",
+		"signsOutOthers": "For your security, this signs you out on your other devices.",
+		"errors": {
+			"wrongPassword": "Your current password is incorrect",
+			"sameEmail": "This is already your email"
+		}
 	}
 }

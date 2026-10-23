@@ -25,6 +25,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 		setSession(loadSession());
 	}, []);
 
+	const refreshSession = useCallback(() => setSession(loadSession()), []);
+
 	const payload = useMemo(() => decodeToken(session?.token ?? null), [session]);
 
 	// The API client calls this when the backend answers 401 to an
@@ -65,9 +67,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 			login,
 			register,
 			logout,
+			refreshSession,
 			hasPermission: (...required) => required.every((p) => permissions.includes(p)),
 		};
-	}, [session, payload, login, register, logout]);
+	}, [session, payload, login, register, logout, refreshSession]);
 
 	return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }

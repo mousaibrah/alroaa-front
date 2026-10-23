@@ -3,9 +3,6 @@ export interface User {
 	id: number;
 	firstName: string;
 	lastName: string;
-	// Optional Arabic spelling, used in the Arabic UI and on certificates.
-	firstNameAr: string | null;
-	lastNameAr: string | null;
 	email: string;
 	image: string | null;
 	gender: 0 | 1 | null; // 0 = male, 1 = female
@@ -14,10 +11,10 @@ export interface User {
 	createdAt: string;
 }
 
+// Permissions are not in the body; they are read from the token claims.
 export interface AuthResponse {
 	user: User;
 	role: string;
-	permissions: string[];
 	accessToken: string;
 }
 
@@ -29,14 +26,30 @@ export interface LoginRequest {
 export interface RegisterRequest {
 	firstName: string;
 	lastName: string;
-	firstNameAr?: string;
-	lastNameAr?: string;
 	email: string;
 	password: string;
-	image?: string;
+	// Sent as multipart/form-data; `image` is the optional profile picture.
+	image?: File | null;
 	gender?: 0 | 1;
 	dob?: string;
-	role?: 'student' | 'instructor';
+}
+
+// PATCH /users/me: `null` clears gender or dob.
+export interface ProfileUpdate {
+	firstName?: string;
+	lastName?: string;
+	gender?: 0 | 1 | null;
+	dob?: string | null;
+}
+
+export interface ChangeEmailRequest {
+	email: string;
+	currentPassword: string;
+}
+
+export interface ChangePasswordRequest {
+	currentPassword: string;
+	newPassword: string;
 }
 
 // Claims inside the access token (testback/src/auth/jwt-payload.ts).

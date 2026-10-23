@@ -33,6 +33,12 @@ export const saveSession = ({ token, user }: StoredSession): void => {
 	localStorage.setItem(USER_KEY, JSON.stringify(user));
 };
 
+// Replaces the stored user after a profile change, keeping the token (and the
+// cache: the same person is still signed in).
+export const saveUser = (user: User): void => {
+	localStorage.setItem(USER_KEY, JSON.stringify(user));
+};
+
 export const clearSession = (): void => {
 	clearAll();
 	localStorage.removeItem(TOKEN_KEY);

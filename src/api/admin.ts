@@ -1,4 +1,4 @@
-import { request } from './client';
+import { request, toFormData } from './client';
 import { endpoints } from './endpoints';
 import type {
 	AdminCourseList,
@@ -17,17 +17,6 @@ export const listAllCourses = (
 	signal?: AbortSignal
 ): Promise<AdminCourseList> =>
 	request<AdminCourseList>(endpoints.courses, { params: { ...params, all: true }, signal });
-
-// Multipart sends every field as text; missing values are left out (an empty
-// description is sent, so it can be cleared).
-const toFormData = (data: object): FormData => {
-	const form = new FormData();
-	for (const [key, value] of Object.entries(data)) {
-		if (value === undefined || value === null) continue;
-		form.append(key, value instanceof File ? value : String(value));
-	}
-	return form;
-};
 
 export const createCourse = (data: CourseInput) =>
 	request<Course>(endpoints.courses, { method: 'POST', body: toFormData(data) });

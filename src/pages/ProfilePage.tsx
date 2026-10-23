@@ -11,6 +11,9 @@ import { listMyEnrollments } from '../api/enrollments';
 import { Permission } from '../auth/permissions';
 import { useAuth } from '../auth/useAuth';
 import { ErrorBanner } from '../components/common/ErrorBanner';
+import EmailForm from '../components/profile/EmailForm';
+import PasswordForm from '../components/profile/PasswordForm';
+import ProfileDetailsForm from '../components/profile/ProfileDetailsForm';
 import { Skeleton } from '../components/feedback/Skeleton';
 import { useApiQuery } from '../hooks/useApiQuery';
 import { usePageTitle } from '../hooks/usePageTitle';
@@ -23,7 +26,7 @@ const PHOTOS = ['records', 'audit', 'mgmt', 'park', 'tests', 'rehab'] as const;
 // where to continue, and the list of your programs.
 export default function ProfilePage() {
 	const { t, i18n } = useTranslation();
-	const { l, lang } = useLocalize();
+	const { l } = useLocalize();
 	usePageTitle(t('profile.title'));
 	const { user, role, permissions, hasPermission } = useAuth();
 	const canEnroll = hasPermission(Permission.ENROLLMENTS_CREATE);
@@ -40,12 +43,20 @@ export default function ProfilePage() {
 		enabled: canEnroll,
 	});
 
-	const name = user ? fullName(user, lang) : '';
+	const name = user ? fullName(user) : '';
 	const initial = (name || '?').charAt(0).toUpperCase();
 	const list = enrollments.data ?? [];
 	const active = list.filter((e) => e.status === 'active');
 	const completed = list.filter((e) => e.status === 'completed');
 	const next = active[0];
+
+	// dob is a plain YYYY-MM-DD date: format it at UTC so it never shifts a day.
+	const formatDate = (value: string, utc = false) =>
+		new Intl.DateTimeFormat(i18n.language, {
+			dateStyle: 'long',
+			timeZone: utc ? 'UTC' : undefined,
+		}).format(new Date(value));
+	const notSet = <span className="text-muted-foreground">{t('profile.notSet')}</span>;
 
 	const formatPermission = (str: string) =>
 		str
@@ -74,11 +85,19 @@ export default function ProfilePage() {
 			{/* Side panel */}
 			<aside className="h-fit rounded-2xl border bg-card p-5">
 				<div className="flex flex-col items-center gap-2 border-b pb-5 text-center">
-					<span
-						aria-hidden
-						className="grid size-16 place-items-center rounded-full bg-sand text-2xl font-bold text-primary">
-						{initial}
-					</span>
+					{user?.image ? (
+						<img
+							src={user.image}
+							alt={t('profile.image')}
+							className="size-20 rounded-full border-2 border-sand object-cover"
+						/>
+					) : (
+						<span
+							aria-hidden
+							className="grid size-20 place-items-center rounded-full bg-sand text-2xl font-bold text-primary">
+							{initial}
+						</span>
+					)}
 					<p className="text-lg font-bold text-primary-dark">{name}</p>
 					<p dir="ltr" className="max-w-full truncate text-sm text-muted-foreground">
 						{user?.email}
@@ -104,7 +123,7 @@ export default function ProfilePage() {
 				<header>
 					<p className="mb-2 text-sm font-medium text-gold-ink">{t('profile.eyebrow')}</p>
 					<h1 className="text-3xl font-extrabold text-primary-dark md:text-4xl">
-						{t('profile.welcome', { name: user ? firstName(user, lang) : undefined })}
+						{t('profile.welcome', { name: user ? firstName(user) : undefined })}
 					</h1>
 				</header>
 
@@ -269,6 +288,32 @@ export default function ProfilePage() {
 									{user?.email}
 								</dd>
 							</div>
+							<div>
+								<dt className="font-medium text-muted-foreground">{t('profile.gender')}</dt>
+								<dd className="text-foreground">
+									{user?.gender === 0
+										? t('gender.male')
+										: user?.gender === 1
+											? t('gender.female')
+											: notSet}
+								</dd>
+							</div>
+							<div>
+								<dt className="font-medium text-muted-foreground">{t('profile.dob')}</dt>
+								<dd className="text-foreground">{user?.dob ? formatDate(user.dob, true) : notSet}</dd>
+							</div>
+							<div>
+								<dt className="font-medium text-muted-foreground">{t('profile.role')}</dt>
+								<dd className="text-foreground">
+									{role ? t(`roles.${role}` as never, { defaultValue: role }) : notSet}
+								</dd>
+							</div>
+							<div>
+								<dt className="font-medium text-muted-foreground">{t('profile.memberSince')}</dt>
+								<dd className="text-foreground">
+									{user?.createdAt ? formatDate(user.createdAt) : notSet}
+								</dd>
+							</div>
 							<div className="sm:col-span-2">
 								<dt className="font-medium text-muted-foreground">{t('profile.permissions')}</dt>
 								<dd className="mt-1 flex flex-wrap gap-2">
@@ -282,6 +327,21 @@ export default function ProfilePage() {
 						</dl>
 					</CardContent>
 				</Card>
+
+				{/* Settings: details and picture, then email and password (these two ask
+				    for the current password) */}
+				{user && (
+					<section aria-labelledby="account-settings" className="space-y-6">
+						<h2 id="account-settings" className="text-2xl font-extrabold text-primary-dark">
+							{t('account.settingsTitle')}
+						</h2>
+						<ProfileDetailsForm user={user} />
+						<div className="grid gap-6 xl:grid-cols-2">
+							<EmailForm currentEmail={user.email} />
+							<PasswordForm />
+						</div>
+					</section>
+				)}
 			</div>
 		</div>
 	);

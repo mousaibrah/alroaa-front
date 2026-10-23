@@ -15,6 +15,7 @@ import EnrollButton from '../components/courses/EnrollButton';
 import ExamList from '../components/courses/ExamList';
 import ProgressBar from '../components/courses/ProgressBar';
 import UnlockButton from '../components/courses/UnlockButton';
+import VideoPlayer from '../components/video/VideoPlayer';
 import { CourseDetailSkeleton } from '../components/feedback/skeletons';
 import { useApiQuery } from '../hooks/useApiQuery';
 import { usePageTitle } from '../hooks/usePageTitle';
@@ -167,6 +168,15 @@ export default function CourseOverviewPage() {
 						<p className="mt-4 max-w-2xl text-lg leading-8 text-foreground/80">
 							{l(course, 'description')}
 						</p>
+					)}
+					{/* Public intro video: plays for everyone, no enrollment needed. */}
+					{course.introVideoUrl && (
+						<section aria-label={t('courses.introVideo')} className="mt-6 max-w-3xl">
+							<VideoPlayer
+								source={{ url: course.introVideoUrl, kind: 'file', expiresAt: null }}
+								poster={course.thumbnailUrl ?? undefined}
+							/>
+						</section>
 					)}
 					<p className="mt-4 flex flex-wrap gap-x-5 gap-y-1 text-foreground/80">
 						{lessons.length > 0 && <span>{lessonCount(lessons.length)}</span>}

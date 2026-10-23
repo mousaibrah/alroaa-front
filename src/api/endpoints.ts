@@ -2,6 +2,10 @@
 export const endpoints = {
 	login: '/auth/login',
 	register: '/auth/register',
+	me: '/users/me',
+	myImage: '/users/me/image',
+	myEmail: '/users/me/email',
+	myPassword: '/users/me/password',
 	courses: '/courses',
 	course: (id: number) => `/courses/${id}`,
 	courseSections: (courseId: number) => `/courses/${courseId}/sections`,
