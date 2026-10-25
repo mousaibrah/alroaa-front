@@ -50,7 +50,7 @@ type Failure = {
 };
 type WebkitVideo = HTMLVideoElement & { webkitEnterFullscreen?: () => void };
 
-// A video player with its own controls: play/pause, seek, volume, speed
+// A video player with its own controls: play/pause, volume, speed
 // (1x/1.5x/2x), fullscreen, plus loading, buffering and error states. Plays
 // HLS (.m3u8) through hls.js (natively on Safari) and plain files directly.
 export default function VideoPlayer({
@@ -81,7 +81,6 @@ export default function VideoPlayer({
   const [playing, setPlaying] = useState(false);
   const [buffering, setBuffering] = useState(false);
   const [time, setTime] = useState(0);
-  const [scrub, setScrub] = useState<number | null>(null);
   const [duration, setDuration] = useState(0);
   const [volume, setVolume] = useState(1);
   const [muted, setMuted] = useState(false);
@@ -200,15 +199,6 @@ export default function VideoPlayer({
     else video.pause();
   };
 
-  const seekBy = (delta: number) => {
-    const video = videoRef.current;
-    if (!video || !Number.isFinite(video.duration)) return;
-    video.currentTime = Math.min(
-      Math.max(video.currentTime + delta, 0),
-      video.duration,
-    );
-  };
-
   const toggleMute = () => {
     const video = videoRef.current;
     if (video) video.muted = !video.muted;
@@ -240,8 +230,6 @@ export default function VideoPlayer({
     const handled = {
       " ": togglePlay,
       k: togglePlay,
-      ArrowRight: () => seekBy(5),
-      ArrowLeft: () => seekBy(-5),
       m: toggleMute,
       f: () => void toggleFullscreen(),
     }[e.key];
@@ -251,7 +239,7 @@ export default function VideoPlayer({
     reveal();
   };
 
-  const position = scrub ?? time;
+  const position = time;
   const iconButton = "text-white hover:bg-white/20 hover:text-white";
 
   return (
@@ -394,22 +382,21 @@ export default function VideoPlayer({
           showControls ? "opacity-100" : "pointer-events-none opacity-0",
         )}
       >
-        <Slider
-          aria-label={t("player.seek")}
-          dir="ltr"
-          min={0}
-          max={duration > 0 && Number.isFinite(duration) ? duration : 1}
-          step={0.1}
-          value={[Math.min(position, duration > 0 ? duration : 1)]}
-          disabled={!duration || !Number.isFinite(duration)}
-          onValueChange={([v]) => setScrub(v)}
-          onValueCommit={([v]) => {
-            const video = videoRef.current;
-            if (video) video.currentTime = v;
-            setTime(v);
-            setScrub(null);
-          }}
-        />
+        <div
+          aria-hidden
+          className="pointer-events-none h-1 w-full overflow-hidden rounded-full bg-white/30"
+        >
+          <div
+            className="h-full bg-white"
+            style={{
+              width: `${
+                duration > 0 && Number.isFinite(duration)
+                  ? Math.min(100, (position / duration) * 100)
+                  : 0
+              }%`,
+            }}
+          />
+        </div>
         <div className="flex flex-wrap items-center gap-1">
           <Button
             type="button"
