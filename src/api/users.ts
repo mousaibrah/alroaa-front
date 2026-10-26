@@ -4,7 +4,6 @@ import { persist } from './auth';
 import { saveUser } from './token';
 import type {
 	AuthResponse,
-	ChangeEmailRequest,
 	ChangePasswordRequest,
 	ProfileUpdate,
 	User,
@@ -24,10 +23,7 @@ export const updateProfile = (data: ProfileUpdate): Promise<User> =>
 export const uploadProfileImage = (image: File): Promise<User> =>
 	request<User>(endpoints.myImage, { method: 'PUT', body: toFormData({ image }) }).then(remember);
 
-// Both need the current password and sign out every other session; the
+// Needs the current password and signs out every other session; the
 // response carries the new token for this one.
-export const changeEmail = (data: ChangeEmailRequest): Promise<AuthResponse> =>
-	request<AuthResponse>(endpoints.myEmail, { method: 'PATCH', body: data }).then(persist);
-
 export const changePassword = (data: ChangePasswordRequest): Promise<AuthResponse> =>
 	request<AuthResponse>(endpoints.myPassword, { method: 'PUT', body: data }).then(persist);

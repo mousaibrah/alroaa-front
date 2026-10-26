@@ -4,13 +4,12 @@ import {
 	checkPhone,
 	currentPassword,
 	dob,
-	email,
 	newPassword,
 	phoneFields,
 	requiredText,
 } from './fields';
 
-// Limits match the backend UpdateProfileDto / ChangeEmailDto / ChangePasswordDto.
+// Limits match the backend UpdateProfileDto / ChangePasswordDto.
 // Accounts from before phone numbers may leave it empty until they add one;
 // once set it can be changed but not removed.
 export const profileSchema = (hasPhone: boolean) =>
@@ -26,8 +25,6 @@ export const profileSchema = (hasPhone: boolean) =>
 		})
 		.superRefine(checkPhone(hasPhone));
 
-export const emailSchema = z.object({ email, currentPassword });
-
 export const passwordSchema = z
 	.object({ currentPassword, newPassword, confirmPassword: z.string() })
 	.superRefine(checkPasswordsMatch('newPassword'))
@@ -37,5 +34,4 @@ export const passwordSchema = z
 	});
 
 export type ProfileFormValues = z.infer<ReturnType<typeof profileSchema>>;
-export type EmailFormValues = z.infer<typeof emailSchema>;
 export type PasswordFormValues = z.infer<typeof passwordSchema>;

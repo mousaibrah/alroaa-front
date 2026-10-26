@@ -707,11 +707,6 @@
 		"changePicture": "تغيير الصورة الشخصية",
 		"uploading": "جارٍ الرفع…",
 		"pictureSaved": "تم تحديث الصورة الشخصية",
-		"emailTitle": "البريد الإلكتروني",
-		"currentEmail": "الحالي:",
-		"newEmail": "البريد الإلكتروني الجديد",
-		"changeEmail": "تغيير البريد الإلكتروني",
-		"emailChanged": "تم تغيير البريد الإلكتروني",
 		"passwordTitle": "كلمة المرور",
 		"currentPassword": "كلمة المرور الحالية",
 		"newPassword": "كلمة المرور الجديدة",
@@ -719,8 +714,7 @@
 		"passwordChanged": "تم تغيير كلمة المرور",
 		"signsOutOthers": "حفاظاً على أمانك، سيتم تسجيل خروجك من أجهزتك الأخرى.",
 		"errors": {
-			"wrongPassword": "كلمة المرور الحالية غير صحيحة",
-			"sameEmail": "هذا هو بريدك الإلكتروني الحالي"
+			"wrongPassword": "كلمة المرور الحالية غير صحيحة"
 		}
 	},
 	"phone": {

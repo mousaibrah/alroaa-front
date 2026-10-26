@@ -11,7 +11,6 @@ import { listMyEnrollments } from '../api/enrollments';
 import { Permission } from '../auth/permissions';
 import { useAuth } from '../auth/useAuth';
 import { ErrorBanner } from '../components/common/ErrorBanner';
-import EmailForm from '../components/profile/EmailForm';
 import PasswordForm from '../components/profile/PasswordForm';
 import ProfileDetailsForm from '../components/profile/ProfileDetailsForm';
 import { Skeleton } from '../components/feedback/Skeleton';
@@ -339,18 +338,15 @@ export default function ProfilePage() {
 					</CardContent>
 				</Card>
 
-				{/* Settings: details and picture, then email and password (these two ask
-				    for the current password) */}
+				{/* Settings: details and picture, then the password (asks for the
+				    current one). The email can't be changed. */}
 				{user && (
 					<section aria-labelledby="account-settings" className="space-y-6">
 						<h2 id="account-settings" className="text-2xl font-extrabold text-primary-dark">
 							{t('account.settingsTitle')}
 						</h2>
 						<ProfileDetailsForm user={user} />
-						<div className="grid gap-6 xl:grid-cols-2">
-							<EmailForm currentEmail={user.email} />
-							<PasswordForm />
-						</div>
+						<PasswordForm />
 					</section>
 				)}
 			</div>

@@ -689,11 +689,6 @@
 		"changePicture": "Change profile picture",
 		"uploading": "Uploading…",
 		"pictureSaved": "Profile picture updated",
-		"emailTitle": "Email address",
-		"currentEmail": "Current:",
-		"newEmail": "New email",
-		"changeEmail": "Change email",
-		"emailChanged": "Email changed",
 		"passwordTitle": "Password",
 		"currentPassword": "Current password",
 		"newPassword": "New password",
@@ -701,8 +696,7 @@
 		"passwordChanged": "Password changed",
 		"signsOutOthers": "For your security, this signs you out on your other devices.",
 		"errors": {
-			"wrongPassword": "Your current password is incorrect",
-			"sameEmail": "This is already your email"
+			"wrongPassword": "Your current password is incorrect"
 		}
 	},
 	"phone": {
