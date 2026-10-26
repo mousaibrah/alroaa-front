@@ -7,7 +7,8 @@
 //   cached copy immediately and refreshes it in the background when it is
 //   older than the `staleMs` the page asked for.
 // - Any change the user makes (POST/PUT/PATCH/DELETE) marks everything stale
-//   and refreshes what is on screen; logging in or out empties the cache.
+//   and refreshes what is on screen; logging in or out empties the cache and
+//   reloads what is on screen.
 
 export interface QuerySnapshot<T = unknown> {
 	data?: T;
@@ -115,5 +116,10 @@ export const clearAll = (): void => {
 		entry.inflight = undefined;
 	}
 	entries.forEach(notify);
-	for (const [key, entry] of entries) if (entry.listeners.size === 0) entries.delete(key);
+	for (const [key, entry] of entries) {
+		if (entry.listeners.size === 0) entries.delete(key);
+		// What is on screen loads again for the new user; otherwise it would
+		// wait forever for the answer that was just dropped.
+		else if (entry.fetcher) void run(entry, entry.fetcher);
+	}
 };

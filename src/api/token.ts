@@ -27,10 +27,11 @@ export interface StoredSession {
 	user: User;
 }
 
+// The cache is emptied after the change, so pages refetch as the new user.
 export const saveSession = ({ token, user }: StoredSession): void => {
-	clearAll(); // nothing cached for the previous user may be shown
 	localStorage.setItem(TOKEN_KEY, token);
 	localStorage.setItem(USER_KEY, JSON.stringify(user));
+	clearAll(); // nothing cached for the previous user may be shown
 };
 
 // Replaces the stored user after a profile change, keeping the token (and the
@@ -39,10 +40,13 @@ export const saveUser = (user: User): void => {
 	localStorage.setItem(USER_KEY, JSON.stringify(user));
 };
 
+// Visitors who were never signed in have nothing to clear, so their cache
+// (and the requests already running) is left alone.
 export const clearSession = (): void => {
-	clearAll();
+	if (getToken() === null && localStorage.getItem(USER_KEY) === null) return;
 	localStorage.removeItem(TOKEN_KEY);
 	localStorage.removeItem(USER_KEY);
+	clearAll();
 };
 
 // Returns the stored session, or null (and cleans up) when it is missing,
