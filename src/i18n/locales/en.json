@@ -669,7 +669,7 @@
 	},
 	"toast": {
 		"loggedIn": "Logged in successfully",
-		"registered": "Your account was created",
+		"registered": "Your account was created. Check your email for the code.",
 		"loggedOut": "You have been logged out",
 		"enrolled": "You are enrolled in this program",
 		"paid": "Payment successful. The whole program is now unlocked.",
@@ -701,5 +701,27 @@
 	},
 	"phone": {
 		"countryCode": "Country code"
+	},
+	"verify": {
+		"title": "Verify your email",
+		"description": "Enter the {{length}}-digit code we sent to",
+		"codeLabel": "Verification code",
+		"submit": "Verify",
+		"submitting": "Verifying...",
+		"success": "Your email is verified. Welcome!",
+		"noCode": "Didn't get the code?",
+		"resend": "Send a new code",
+		"resending": "Sending...",
+		"resendIn": "Send a new code in {{seconds}}s",
+		"resent": "A new code is on its way",
+		"backToLogin": "Back to log in",
+		"sessionUnverified": "Your email isn't verified yet, so you were logged out. We've emailed you a code.",
+		"errors": {
+			"incorrect": "The code is incorrect. Check it and try again.",
+			"expired": "The code has expired. Send a new one.",
+			"tooMany": "Too many wrong attempts. Send a new code.",
+			"alreadyVerified": "This email is already verified. You can log in.",
+			"wait": "Please wait a moment before asking for a new code."
+		}
 	}
 }

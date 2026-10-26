@@ -10,6 +10,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ErrorBanner } from '../common/ErrorBanner';
 import FormField from './FormField';
+import type { VerifyEmailState } from './VerifyEmailForm';
 import { paths } from '@/routes/paths';
 import { toast } from 'sonner';
 
@@ -37,7 +38,13 @@ export default function LoginForm() {
 	const onSubmit = async (data: LoginFormValues) => {
 		setServerError(null);
 		try {
-			await login(data);
+			const verification = await login(data);
+			if (verification) {
+				// Unverified email: a code was sent, open the code screen.
+				const state: VerifyEmailState = { ...verification, from };
+				navigate(paths.verifyEmail, { state });
+				return;
+			}
 			toast.success(t('toast.loggedIn'));
 			navigate(destination, { replace: true });
 		} catch (error) {

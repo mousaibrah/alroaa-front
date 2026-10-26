@@ -21,6 +21,7 @@ import { ErrorBanner } from "../common/ErrorBanner";
 import SimpleSelect from "../common/SimpleSelect";
 import FormField from "./FormField";
 import PhoneField from "./PhoneField";
+import type { VerifyEmailState } from "./VerifyEmailForm";
 
 export default function RegisterForm() {
   const { t } = useTranslation();
@@ -31,9 +32,6 @@ export default function RegisterForm() {
   const from = (
     location.state as { from?: { pathname: string; search?: string } } | null
   )?.from;
-  const destination = from
-    ? `${from.pathname}${from.search ?? ""}`
-    : paths.profile;
   const [serverError, setServerError] = useState<string | null>(null);
 
   const {
@@ -72,8 +70,9 @@ export default function RegisterForm() {
   const onSubmit = async (values: RegisterFormValues) => {
     setServerError(null);
     try {
-      // The backend signs the user in on register, so go straight in.
-      await registerUser({
+      // The account starts unverified: the backend emails a code and the code
+      // screen logs the user in (then goes on to `from`).
+      const verification = await registerUser({
         firstName: values.firstName,
         lastName: values.lastName,
         email: values.email,
@@ -85,7 +84,8 @@ export default function RegisterForm() {
         image: values.image,
       });
       toast.success(t("toast.registered"));
-      navigate(destination, { replace: true });
+      const state: VerifyEmailState = { ...verification, from };
+      navigate(paths.verifyEmail, { state });
     } catch (error) {
       setServerError(authErrorKey(error));
     }

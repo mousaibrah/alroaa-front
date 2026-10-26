@@ -18,6 +18,7 @@ import NotFoundPage from '../pages/NotFoundPage';
 import ProfilePage from '../pages/ProfilePage';
 import VerifyCertificatePage from '../pages/VerifyCertificatePage';
 import RegisterPage from '../pages/RegisterPage';
+import VerifyEmailPage from '../pages/VerifyEmailPage';
 import ServicesPage from '../pages/ServicesPage';
 import GuestOnly from './guards/GuestOnly';
 import RequireAuth from './guards/RequireAuth';
@@ -40,6 +41,7 @@ export default function AppRoutes() {
 				<Route element={<GuestOnly />}>
 					<Route path={routePatterns.login} element={<LoginPage />} />
 					<Route path={routePatterns.register} element={<RegisterPage />} />
+					<Route path={routePatterns.verifyEmail} element={<VerifyEmailPage />} />
 				</Route>
 
 				{/* Browsing the catalogue is open to guests; the lessons are not */}

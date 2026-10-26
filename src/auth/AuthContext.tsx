@@ -1,9 +1,18 @@
 import { useCallback, useEffect, useMemo, useState, type ReactNode } from 'react';
+import { useNavigate } from 'react-router-dom';
 import * as authApi from '../api/auth';
-import { setUnauthorizedHandler } from '../api/client';
+import { EMAIL_NOT_VERIFIED, setUnauthorizedHandler, type ApiError } from '../api/client';
+import { getMe } from '../api/users';
+import { paths } from '@/routes/paths';
+import type { VerifyEmailState } from '../components/auth/VerifyEmailForm';
 import { clearAll } from '@/lib/queryCache';
 import { clearSession, decodeToken, loadSession, type StoredSession } from '../api/token';
-import type { LoginRequest, RegisterRequest } from '../types/auth';
+import {
+	needsVerification,
+	type LoginRequest,
+	type RegisterRequest,
+	type VerifyEmailRequest,
+} from '../types/auth';
 import { AuthContext, type AuthContextValue } from './context';
 
 export function AuthProvider({ children }: { children: ReactNode }) {
@@ -15,13 +24,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 		setSession(null);
 	}, []);
 
+	// Resolves to the verification details when the email isn't verified yet
+	// (no session then), or null once logged in.
 	const login = useCallback(async (data: LoginRequest) => {
-		await authApi.login(data);
+		const response = await authApi.login(data);
+		if (needsVerification(response)) return response;
 		setSession(loadSession());
+		return null;
 	}, []);
 
-	const register = useCallback(async (data: RegisterRequest) => {
-		await authApi.register(data);
+	// New accounts are unverified: this only sends the code.
+	const register = useCallback((data: RegisterRequest) => authApi.register(data), []);
+
+	const verifyEmail = useCallback(async (data: VerifyEmailRequest) => {
+		await authApi.verifyEmail(data);
 		setSession(loadSession());
 	}, []);
 
@@ -29,11 +45,37 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
 	const payload = useMemo(() => decodeToken(session?.token ?? null), [session]);
 
+	const navigate = useNavigate();
+
 	// The API client calls this when the backend answers 401 to an
-	// authenticated request (revoked or invalid token).
+	// authenticated request (revoked or invalid token). An account whose email
+	// isn't verified is sent to the code screen, which emails a new code.
 	useEffect(() => {
-		setUnauthorizedHandler(logout);
-	}, [logout]);
+		setUnauthorizedHandler((error: ApiError) => {
+			logout();
+			if (error.code !== EMAIL_NOT_VERIFIED || !error.email) return;
+			const state: VerifyEmailState = {
+				email: error.email,
+				resendAvailableIn: 0,
+				sessionEnded: true,
+				sendCode: true,
+				from: { pathname: window.location.pathname, search: window.location.search },
+			};
+			navigate(paths.verifyEmail, { replace: true, state });
+		});
+	}, [logout, navigate]);
+
+	// Checks a stored session once on load, so one the backend no longer
+	// accepts (e.g. an unverified email) ends right away instead of on the
+	// first protected request. Also refreshes the stored user.
+	useEffect(() => {
+		if (!loadSession()) return;
+		const controller = new AbortController();
+		getMe(controller.signal)
+			.then(() => setSession(loadSession()))
+			.catch(() => undefined); // a 401 already went through the handler above
+		return () => controller.abort();
+	}, []);
 
 	// Log out the moment the token expires, even if the tab is idle.
 	useEffect(() => {
@@ -66,11 +108,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 			isAuthenticated: session !== null,
 			login,
 			register,
+			verifyEmail,
 			logout,
 			refreshSession,
 			hasPermission: (...required) => required.every((p) => permissions.includes(p)),
 		};
-	}, [session, payload, login, register, logout, refreshSession]);
+	}, [session, payload, login, register, verifyEmail, logout, refreshSession]);
 
 	return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }

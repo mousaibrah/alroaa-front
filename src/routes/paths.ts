@@ -8,6 +8,7 @@ export const paths = {
 	contact: '/contact',
 	login: '/login',
 	register: '/register',
+	verifyEmail: '/verify-email',
 	profile: '/profile',
 	// kept so old links and bookmarks still work
 	legacyDashboard: '/dashboard',
@@ -36,6 +37,7 @@ export const routePatterns = {
 	contact: 'contact',
 	login: 'login',
 	register: 'register',
+	verifyEmail: 'verify-email',
 	profile: 'profile',
 	legacyDashboard: 'dashboard',
 	courses: 'courses',

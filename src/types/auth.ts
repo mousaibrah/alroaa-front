@@ -20,6 +20,23 @@ export interface AuthResponse {
 	accessToken: string;
 }
 
+// Register, and login while the email is unverified: no token yet, a 6-digit
+// code was emailed and the code screen should open.
+export interface VerificationRequired {
+	verificationRequired: true;
+	email: string;
+	resendAvailableIn: number; // seconds until another code can be requested
+}
+
+export const needsVerification = (
+	response: AuthResponse | VerificationRequired
+): response is VerificationRequired => 'verificationRequired' in response;
+
+export interface VerifyEmailRequest {
+	email: string;
+	code: string;
+}
+
 export interface LoginRequest {
 	email: string;
 	password: string;

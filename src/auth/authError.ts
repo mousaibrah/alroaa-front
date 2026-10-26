@@ -15,3 +15,17 @@ export function authErrorKey(error: unknown): string {
 	if (error instanceof TypeError) return 'auth.errors.network'; // fetch failed
 	return 'auth.errors.unknown';
 }
+
+// Translation key for a failed code check or resend on the verify email screen.
+export function verifyErrorKey(error: unknown): string {
+	if (error instanceof ApiError) {
+		if (error.status === 429) return 'verify.errors.wait';
+		if (error.status === 400) {
+			if (/expired/i.test(error.message)) return 'verify.errors.expired';
+			if (/too many/i.test(error.message)) return 'verify.errors.tooMany';
+			if (/already verified/i.test(error.message)) return 'verify.errors.alreadyVerified';
+			return 'verify.errors.incorrect';
+		}
+	}
+	return authErrorKey(error);
+}

@@ -6,17 +6,25 @@ const BASE_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:3000';
 
 export class ApiError extends Error {
 	readonly status: number;
+	// Machine-readable reason from the backend, e.g. EMAIL_NOT_VERIFIED.
+	readonly code?: string;
+	readonly email?: string;
 
-	constructor(status: number, message: string) {
+	constructor(status: number, message: string, details: { code?: string; email?: string } = {}) {
 		super(message);
 		this.name = 'ApiError';
 		this.status = status;
+		this.code = details.code;
+		this.email = details.email;
 	}
 }
 
+// The backend refuses the session of an account whose email isn't verified.
+export const EMAIL_NOT_VERIFIED = 'EMAIL_NOT_VERIFIED';
+
 // Called when the backend rejects the token (401), so the app can log out.
-let onUnauthorized: (() => void) | undefined;
-export const setUnauthorizedHandler = (handler: () => void): void => {
+let onUnauthorized: ((error: ApiError) => void) | undefined;
+export const setUnauthorizedHandler = (handler: (error: ApiError) => void): void => {
 	onUnauthorized = handler;
 };
 
@@ -68,14 +76,18 @@ export async function request<T>(path: string, options: RequestOptions = {}): Pr
 
 	if (!response.ok) {
 		const error = (await response.json().catch(() => null)) as ApiErrorBody | null;
+		const message = Array.isArray(error?.message) ? error.message.join(', ') : error?.message;
+		const apiError = new ApiError(response.status, message ?? response.statusText, {
+			code: error?.code,
+			email: error?.email,
+		});
 		// Only treat 401 as "logged out" when we actually sent a token; a failed
 		// login also returns 401.
 		if (response.status === 401 && token) {
 			clearSession();
-			onUnauthorized?.();
+			onUnauthorized?.(apiError);
 		}
-		const message = Array.isArray(error?.message) ? error.message.join(', ') : error?.message;
-		throw new ApiError(response.status, message ?? response.statusText);
+		throw apiError;
 	}
 
 	if (method !== 'GET' && !keepCache) invalidateAll();
