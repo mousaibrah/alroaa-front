@@ -452,7 +452,8 @@
 			"contact": "Contact",
 			"address": "Riyadh, Saudi Arabia",
 			"rights": "Alroaa Natural Trading Company. All rights reserved.",
-			"payments": "Payment methods"
+			"payments": "Payment methods",
+			"privacy": "Privacy Policy"
 		},
 		"home": {
 			"title": "Home",
@@ -634,6 +635,107 @@
 				"send": "Sorry, your message could not be sent. Please try again or contact us on WhatsApp."
 			},
 			"sent": "Thank you, your message was received and we will contact you soon."
+		},
+		"privacy": {
+			"title": "Privacy Policy",
+			"sub": "How Alroaa Natural Trading Company and the Alroaa Learning platform collect, use and protect your personal information.",
+			"updated": "Last updated: {{date}}",
+			"toc": "On this page",
+			"intro": "At Alroaa Natural Trading Company and its learning platform, Alroaa Learning, we are committed to the highest privacy standards in collecting and using your personal information, in line with the Personal Data Protection Law of the Kingdom of Saudi Arabia. This Privacy Policy explains what data we collect, how we use it, when we share it, and the rights you have over it.",
+			"contactTitle": "Contact us",
+			"contactText": "For any question about this policy, or to exercise any of your rights, email us or reach us through the Contact Us page.",
+			"contactLink": "Contact Us page",
+			"sections": [
+				{
+					"id": "collect",
+					"title": "What data do we collect?",
+					"intro": "We only collect the data we need to provide our services, including:",
+					"items": [
+						"Account details when you register: first and last name, email address, mobile number and password (stored encrypted, so no one can read it). You may also add your gender, date of birth and a profile picture if you wish.",
+						"Learning data: the programs you enroll in, your progress through the lessons, your exam answers and results, and the certificates issued to you.",
+						"Payment details: the purchases you make on the platform, such as the program, amount, payment status and date.",
+						"Messages: your name, mobile number, email and message when you contact us through the Contact Us form, by email or on WhatsApp, and a record of any previous communication with us.",
+						"Technical data: such as your IP address, browser type and operating system, which our servers record automatically to run and protect the website."
+					]
+				},
+				{
+					"id": "use",
+					"title": "How do we use your personal information?",
+					"items": [
+						"To create and manage your account and verify your email address.",
+						"To deliver our training programs, track your progress, grade exams and issue certificates.",
+						"To complete payments and keep records of them.",
+						"To answer your questions and messages, and provide the environmental and consulting services you request.",
+						"To send messages the service needs, such as verification codes, payment confirmations and important account notices.",
+						"To improve our services and protect the website and its users from fraud and abuse.",
+						"To meet our contractual and legal obligations."
+					],
+					"outro": "We do not sell your personal data, and we do not use it to show you personalized ads."
+				},
+				{
+					"id": "certificates",
+					"title": "Certificate verification",
+					"intro": "Every certificate we issue has a unique verification code. Anyone with that code, such as your employer, can confirm the certificate is genuine on the Verify Certificate page, where they will see the holder's name, the program name, the learning hours and the issue date. Share your certificate code only with people you want to verify it."
+				},
+				{
+					"id": "protection",
+					"title": "Protecting your personal information",
+					"intro": "We take active steps to keep your personal information secure, using technical and organizational controls designed to prevent unauthorized access, use, modification or destruction. These include storing passwords encrypted and limiting access to data to the people who need it for their work.",
+					"outro": "However, no method of transmission or storage over the internet is completely secure, so we cannot guarantee the absolute security of your information."
+				},
+				{
+					"id": "sharing",
+					"title": "Data sharing",
+					"intro": "We only share your data in the following cases, and only with parties that protect data to a standard similar to this policy:",
+					"items": [
+						"Service providers: parties that help us run the platform, such as the online payment gateway, the email delivery service, and hosting and cloud storage for files and videos. They use your data only to perform the tasks we give them and are contractually bound to keep it confidential.",
+						"Legal obligations and user safety: we disclose data when necessary to comply with the law or requests from the competent authorities, or to protect our rights and the safety of our users and others, including fraud prevention.",
+						"Business transfers: if our company or its assets are acquired, customer data will pass to the new owner as part of the transferred assets and will remain protected under this policy.",
+						"External links: our website may link to other sites, such as our social media accounts and WhatsApp. We recommend reviewing their privacy policies before sharing any personal information, as we do not control how they handle your data."
+					],
+					"outro": "Card details: we do not store, sell or share your credit card or mada card details with anyone; they are entered and processed directly by the payment gateway."
+				},
+				{
+					"id": "marketing",
+					"title": "Marketing messages",
+					"intro": "We will only send you promotional messages about our programs and services with your consent, and every such message will include a way to unsubscribe at any time."
+				},
+				{
+					"id": "storage",
+					"title": "Cookies and browser storage",
+					"intro": "Our website does not use advertising cookies or tracking tools. We use your browser's storage only to keep you signed in, remember the language you chose, and save your answers while you take an exam so they are not lost if the page reloads.",
+					"outro": "You can delete this data at any time in your browser settings; doing so signs you out and returns the site to its default language."
+				},
+				{
+					"id": "retention",
+					"title": "How long we keep data",
+					"intro": "We keep your data for as long as your account exists and as needed to provide our services. We keep payment and certificate records for as long as the law requires, and so that issued certificates remain verifiable."
+				},
+				{
+					"id": "rights",
+					"title": "Your rights",
+					"intro": "Under the Personal Data Protection Law, you have the right to:",
+					"items": [
+						"Know how your data is collected and processed, as explained in this policy.",
+						"Access the personal data we hold about you and receive a copy of it.",
+						"Correct and update your data; you can edit most of it yourself on your Profile page.",
+						"Ask us to delete your data when it is no longer needed, unless the law requires us to keep it.",
+						"Withdraw your consent to the processing of your data at any time.",
+						"File a complaint with the Saudi Data and AI Authority (SDAIA)."
+					],
+					"outro": "If you find that any information we hold about you is inaccurate or out of date, or you want to exercise any of these rights, contact us using the details below and we will take the necessary steps."
+				},
+				{
+					"id": "children",
+					"title": "Minors",
+					"intro": "If you provide information about a person under 18, you confirm that you are their parent or legal guardian and consent to us collecting, using and processing that information as described in this policy."
+				},
+				{
+					"id": "changes",
+					"title": "Changes to this policy",
+					"intro": "We may change or update this policy from time to time as needed to meet requirements and standards, so we recommend reviewing it regularly. Changes take effect as soon as they are published on this page, and the \"Last updated\" date above shows when it last changed."
+				}
+			]
 		}
 	},
 	"profile": {
