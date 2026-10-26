@@ -7,6 +7,8 @@ export interface User {
 	image: string | null;
 	gender: 0 | 1 | null; // 0 = male, 1 = female
 	dob: string | null; // YYYY-MM-DD
+	countryCode: string; // e.g. +966
+	phoneNumber: string | null; // digits only; null for older accounts
 	roleId: number;
 	createdAt: string;
 }
@@ -32,14 +34,19 @@ export interface RegisterRequest {
 	image?: File | null;
 	gender?: 0 | 1;
 	dob?: string;
+	countryCode?: string; // defaults to +966
+	phoneNumber: string;
 }
 
-// PATCH /users/me: `null` clears gender or dob.
+// PATCH /users/me: `null` clears gender or dob. A phone number can be changed
+// but not removed; either half sent alone keeps the other.
 export interface ProfileUpdate {
 	firstName?: string;
 	lastName?: string;
 	gender?: 0 | 1 | null;
 	dob?: string | null;
+	countryCode?: string;
+	phoneNumber?: string;
 }
 
 export interface ChangeEmailRequest {

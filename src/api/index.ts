@@ -18,3 +18,4 @@ export type * from '../types/enrollment';
 export * from './attempts';
 export type * from '../types/attempts';
 export * from './users';
+export * from './contact';

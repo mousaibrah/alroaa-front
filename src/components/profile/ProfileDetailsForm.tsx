@@ -9,15 +9,17 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { updateProfile, uploadProfileImage } from '../../api/users';
 import { useAuth } from '../../auth/useAuth';
-import { IMAGE_TYPES, MAX_IMAGE_MB } from '../../schemas/register.schema';
-import { profileSchema, today, type ProfileFormValues } from '../../schemas/profile.schema';
+import { IMAGE_TYPES, MAX_IMAGE_MB, today } from '../../schemas/fields';
+import { profileSchema, type ProfileFormValues } from '../../schemas/profile.schema';
 import type { User } from '../../types/auth';
 import { ErrorBanner } from '../common/ErrorBanner';
 import SimpleSelect from '../common/SimpleSelect';
 import FormField from '../auth/FormField';
+import PhoneField from '../auth/PhoneField';
+import { DEFAULT_COUNTRY_CODE, normalizePhoneNumber } from '../../utils/phone';
 import { accountErrorKey } from './accountError';
 
-// Name, gender, date of birth and the profile picture. No password needed.
+// Name, gender, date of birth, phone and the profile picture. No password needed.
 export default function ProfileDetailsForm({ user }: { user: User }) {
 	const { t } = useTranslation();
 	const { refreshSession } = useAuth();
@@ -32,12 +34,15 @@ export default function ProfileDetailsForm({ user }: { user: User }) {
 		reset,
 		formState: { errors, isSubmitting, isDirty },
 	} = useForm<ProfileFormValues>({
-		resolver: zodResolver(profileSchema),
+		mode: 'onTouched',
+		resolver: zodResolver(profileSchema(user.phoneNumber !== null)),
 		defaultValues: {
 			firstName: user.firstName,
 			lastName: user.lastName,
 			gender: user.gender === null ? 'none' : (String(user.gender) as '0' | '1'),
 			dob: user.dob ?? '',
+			countryCode: user.countryCode || DEFAULT_COUNTRY_CODE,
+			phoneNumber: user.phoneNumber ?? '',
 		},
 	});
 
@@ -49,6 +54,8 @@ export default function ProfileDetailsForm({ user }: { user: User }) {
 				lastName: values.lastName,
 				gender: values.gender === 'none' ? null : (Number(values.gender) as 0 | 1),
 				dob: values.dob || null,
+				// Sent only when it changed; an empty number (older accounts) stays unset.
+				...phoneChange(values),
 			});
 			refreshSession();
 			reset(values);
@@ -56,6 +63,13 @@ export default function ProfileDetailsForm({ user }: { user: User }) {
 		} catch (err) {
 			setError(accountErrorKey(err));
 		}
+	};
+
+	const phoneChange = (values: ProfileFormValues) => {
+		const phoneNumber = normalizePhoneNumber(values.phoneNumber);
+		if (phoneNumber === '') return {};
+		if (phoneNumber === user.phoneNumber && values.countryCode === user.countryCode) return {};
+		return { countryCode: values.countryCode, phoneNumber };
 	};
 
 	// The picture is saved as soon as it is picked.
@@ -163,6 +177,22 @@ export default function ProfileDetailsForm({ user }: { user: User }) {
 							error={errors.dob?.message}
 							{...register('dob')}
 						/>
+						<div className="sm:col-span-2">
+							<Controller
+								control={control}
+								name="countryCode"
+								render={({ field }) => (
+									<PhoneField
+										id="profile-phoneNumber"
+										label={t('profile.phone')}
+										countryCode={field.value}
+										onCountryCodeChange={field.onChange}
+										error={errors.phoneNumber?.message}
+										{...register('phoneNumber')}
+									/>
+								)}
+							/>
+						</div>
 					</div>
 
 					<Button type="submit" disabled={isSubmitting || !isDirty}>

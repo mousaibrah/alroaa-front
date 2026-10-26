@@ -66,7 +66,8 @@
 		"imageHint": "JPEG, PNG, WebP or GIF, up to {{mb}} MB (optional)",
 		"removeImage": "Remove picture",
 		"gender": "Gender",
-		"dob": "Date of birth (optional)"
+		"dob": "Date of birth (optional)",
+		"phone": "Phone number"
 	},
 	"validation": {
 		"emailInvalid": "Enter a valid email address",
@@ -81,7 +82,15 @@
 		"dobFuture": "Date of birth cannot be in the future",
 		"imageType": "Use a JPEG, PNG, WebP or GIF image",
 		"imageSize": "The image must be at most {{mb}} MB",
-		"passwordSame": "The new password must be different from the current one"
+		"passwordSame": "The new password must be different from the current one",
+		"phoneRequired": "Phone number is required",
+		"phoneDigits": "Use digits only",
+		"phoneInvalid": "Enter a valid phone number",
+		"phoneSaudi": "Enter a Saudi mobile number like 05XXXXXXXX",
+		"emailRequired": "Email is required",
+		"nameRequired": "Name is required",
+		"messageRequired": "Please write your message",
+		"confirmRequired": "Confirm your password"
 	},
 	"auth": {
 		"email": "Email",
@@ -94,7 +103,8 @@
 			"server": "Something went wrong on the server. Please try again later.",
 			"unknown": "Something went wrong. Please try again.",
 			"invalidData": "Some of the details are not valid. Check them and try again.",
-			"imageTooLarge": "The picture is too large."
+			"imageTooLarge": "The picture is too large.",
+			"phoneTaken": "This phone number is already registered"
 		}
 	},
 	"login": {
@@ -441,7 +451,8 @@
 			"services": "Services",
 			"contact": "Contact",
 			"address": "Riyadh, Saudi Arabia",
-			"rights": "Alroaa Natural Trading Company. All rights reserved."
+			"rights": "Alroaa Natural Trading Company. All rights reserved.",
+			"payments": "Payment methods"
 		},
 		"home": {
 			"title": "Home",
@@ -619,10 +630,8 @@
 				"sending": "Sending..."
 			},
 			"errors": {
-				"name": "Please enter your name.",
-				"email": "Please enter a valid email address.",
-				"message": "Please write your message.",
-				"invalid": "Please fill in the required fields correctly."
+				"invalid": "Please fill in the required fields correctly.",
+				"send": "Sorry, your message could not be sent. Please try again or contact us on WhatsApp."
 			},
 			"sent": "Thank you, your message was received and we will contact you soon."
 		}
@@ -655,7 +664,8 @@
 		"gender": "Gender",
 		"dob": "Date of birth",
 		"memberSince": "Member since",
-		"notSet": "Not set"
+		"notSet": "Not set",
+		"phone": "Phone number"
 	},
 	"toast": {
 		"loggedIn": "Logged in successfully",
@@ -694,5 +704,8 @@
 			"wrongPassword": "Your current password is incorrect",
 			"sameEmail": "This is already your email"
 		}
+	},
+	"phone": {
+		"countryCode": "Country code"
 	}
 }

@@ -24,6 +24,7 @@ export default function PasswordForm() {
 		reset,
 		formState: { errors, isSubmitting },
 	} = useForm<PasswordFormValues>({
+		mode: 'onTouched',
 		resolver: zodResolver(passwordSchema),
 		defaultValues: { currentPassword: '', newPassword: '', confirmPassword: '' },
 	});

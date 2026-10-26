@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
+import { sendContactMessage } from '../api';
 import { ErrorBanner } from '../components/common/ErrorBanner';
 import HeroSmall from '../components/site/HeroSmall';
 import { CONTACT } from '../data/site';
@@ -29,16 +30,25 @@ export default function ContactPage() {
 		reset,
 		formState: { errors, isSubmitting, isSubmitted },
 	} = useForm<ContactFormValues>({
+		mode: 'onTouched',
 		resolver: zodResolver(contactSchema),
 		defaultValues: EMPTY,
 	});
 
 	const onSubmit = async (values: ContactFormValues) => {
 		if (values.website) return; // bots fill the hidden field
-		// UI only for now: there is no endpoint yet. Send the message here, e.g.
-		// await request('/contact', { method: 'POST', body: values });
-		toast.success(t('site.contact.sent'));
-		reset(EMPTY);
+		try {
+			await sendContactMessage({
+				fullName: values.name,
+				phoneNumber: values.phone,
+				email: values.email,
+				message: values.message,
+			});
+			toast.success(t('site.contact.sent'));
+			reset(EMPTY);
+		} catch {
+			toast.error(t('site.contact.errors.send'));
+		}
 	};
 
 	const [phone1, phone2] = CONTACT.phones;
@@ -169,9 +179,11 @@ export default function ContactPage() {
 										dir="ltr"
 										autoComplete="tel"
 										className="ps-10 text-start"
+										aria-invalid={!!errors.phone}
 										{...register('phone')}
 									/>
 								</div>
+								{fieldError(errors.phone?.message)}
 							</div>
 						</div>
 						<div className="grid gap-1.5">

@@ -2,12 +2,28 @@ import { paths } from '@/routes/paths';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { CONTACT, SERVICES } from '../../data/site';
+import { ApplePayIcon } from '../icons/ApplePayIcon';
+import { MadaPayIcon } from '../icons/MadapayIcon';
+import { MastercardIcon } from '../icons/MastercardIcon';
+import { VisaIcon } from '../icons/VisaIcon';
+
+// Each viewBox crops the icon to its artwork so all four show at the same size.
+// Visa and Mastercard draw their own card (logo cut out of it); the others get one.
+const PAYMENT_METHODS = [
+	{ name: 'Visa', Icon: VisaIcon, viewBox: '0 186 1000 628', card: true },
+	{ name: 'Mastercard', Icon: MastercardIcon, viewBox: '0 195 1000 628', card: true },
+	{ name: 'mada', Icon: MadaPayIcon, viewBox: '4 10.5 40 27', card: false },
+	{ name: 'Apple Pay', Icon: ApplePayIcon, viewBox: '0 8.5 32 15', card: false },
+];
+
+// Card size: 48×30, the shape of a payment card.
+const CARD = 'h-7.5 w-12 rounded-xs';
 
 export default function Footer() {
 	const { t } = useTranslation();
 	return (
 		<footer className="bg-primary-dark text-white/80">
-			<div className="mx-auto grid max-w-7xl gap-10 px-5 py-14 md:grid-cols-3">
+			<div className="mx-auto grid max-w-7xl gap-10 px-5 py-14 md:grid-cols-2 lg:grid-cols-4">
 				<div>
 					<div className="mb-4 flex items-center gap-3">
 						<img src="/assets/img/logo-mark-white.png" alt="" className="size-12" />
@@ -64,6 +80,25 @@ export default function Footer() {
 							</a>
 						))}
 					</div>
+				</div>
+				<div>
+					<h4 className="mb-4 font-bold text-white">{t('site.footer.payments')}</h4>
+					<ul className="flex flex-wrap gap-2">
+						{PAYMENT_METHODS.map(({ name, Icon, viewBox, card }) => (
+							<li key={name} title={name}>
+								{card ? (
+									<Icon role="img" aria-label={name} viewBox={viewBox} className={`${CARD} text-white`} />
+								) : (
+									<span
+										role="img"
+										aria-label={name}
+										className={`${CARD} grid place-items-center bg-white text-primary-dark`}>
+										<Icon aria-hidden viewBox={viewBox} strokeWidth={2.5} className="h-4 w-9" />
+									</span>
+								)}
+							</li>
+						))}
+					</ul>
 				</div>
 			</div>
 			<div className="border-t border-white/10 py-5 text-center text-xs">

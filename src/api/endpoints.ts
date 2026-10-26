@@ -32,4 +32,5 @@ export const endpoints = {
 	mediaMultipartPart: (id: string) => `/media/${id}/multipart/part`,
 	mediaMultipartComplete: (id: string) => `/media/${id}/multipart/complete`,
 	mediaMultipartAbort: (id: string) => `/media/${id}/multipart/abort`,
+	contact: '/contact',
 };

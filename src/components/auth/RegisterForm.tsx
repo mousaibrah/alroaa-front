@@ -10,16 +10,17 @@ import { useTranslation } from "react-i18next";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { authErrorKey } from "../../auth/authError";
+import { DEFAULT_COUNTRY_CODE, normalizePhoneNumber } from "../../utils/phone";
 import { useAuth } from "../../auth/useAuth";
+import { IMAGE_TYPES, MAX_IMAGE_MB, today } from "../../schemas/fields";
 import {
-  IMAGE_TYPES,
-  MAX_IMAGE_MB,
   registerSchema,
   type RegisterFormValues,
 } from "../../schemas/register.schema";
 import { ErrorBanner } from "../common/ErrorBanner";
 import SimpleSelect from "../common/SimpleSelect";
 import FormField from "./FormField";
+import PhoneField from "./PhoneField";
 
 export default function RegisterForm() {
   const { t } = useTranslation();
@@ -41,11 +42,14 @@ export default function RegisterForm() {
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm<RegisterFormValues>({
+    mode: "onTouched",
     resolver: zodResolver(registerSchema),
     defaultValues: {
       firstName: "",
       lastName: "",
       email: "",
+      countryCode: DEFAULT_COUNTRY_CODE,
+      phoneNumber: "",
       password: "",
       confirmPassword: "",
       gender: "0",
@@ -64,7 +68,6 @@ export default function RegisterForm() {
     () => () => (preview ? URL.revokeObjectURL(preview) : undefined),
     [preview],
   );
-  const today = new Date().toISOString().slice(0, 10);
 
   const onSubmit = async (values: RegisterFormValues) => {
     setServerError(null);
@@ -74,6 +77,8 @@ export default function RegisterForm() {
         firstName: values.firstName,
         lastName: values.lastName,
         email: values.email,
+        countryCode: values.countryCode,
+        phoneNumber: normalizePhoneNumber(values.phoneNumber),
         password: values.password,
         gender: Number(values.gender) as 0 | 1,
         dob: values.dob || undefined,
@@ -178,6 +183,20 @@ export default function RegisterForm() {
             error={errors.email?.message}
             {...register("email")}
           />
+          <Controller
+            control={control}
+            name="countryCode"
+            render={({ field }) => (
+              <PhoneField
+                id="phoneNumber"
+                label={t("register.phone")}
+                countryCode={field.value}
+                onCountryCodeChange={field.onChange}
+                error={errors.phoneNumber?.message}
+                {...register("phoneNumber")}
+              />
+            )}
+          />
           <div className="grid grid-cols-2 gap-4">
             <div className="grid gap-1.5">
               <Label htmlFor="gender">{t("register.gender")}</Label>
@@ -202,7 +221,7 @@ export default function RegisterForm() {
               type="date"
               autoComplete="bday"
               min="1900-01-01"
-              max={today}
+              max={today()}
               label={t("register.dob")}
               error={errors.dob?.message}
               {...register("dob")}

@@ -24,6 +24,7 @@ export default function EmailForm({ currentEmail }: { currentEmail: string }) {
 		reset,
 		formState: { errors, isSubmitting },
 	} = useForm<EmailFormValues>({
+		mode: 'onTouched',
 		resolver: zodResolver(emailSchema),
 		defaultValues: { email: '', currentPassword: '' },
 	});

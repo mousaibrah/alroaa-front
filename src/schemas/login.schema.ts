@@ -1,9 +1,9 @@
 import { z } from 'zod';
+import { currentPassword, email } from './fields';
 
-// Error messages are translation keys; the form renders them with t().
 export const loginSchema = z.object({
-	email: z.email('validation.emailInvalid'),
-	password: z.string().min(1, 'validation.passwordRequired'),
+	email,
+	password: currentPassword,
 });
 
 export type LoginFormValues = z.infer<typeof loginSchema>;

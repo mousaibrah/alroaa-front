@@ -19,6 +19,7 @@ import { useApiQuery } from '../hooks/useApiQuery';
 import { usePageTitle } from '../hooks/usePageTitle';
 import { useLocalize } from '../hooks/useLocalize';
 import { firstName, fullName } from '../utils/localized';
+import { formatPhone } from '../utils/phone';
 
 const PHOTOS = ['records', 'audit', 'mgmt', 'park', 'tests', 'rehab'] as const;
 
@@ -286,6 +287,16 @@ export default function ProfilePage() {
 								<dt className="font-medium text-muted-foreground">{t('auth.email')}</dt>
 								<dd dir="ltr" className="text-start text-foreground">
 									{user?.email}
+								</dd>
+							</div>
+							<div>
+								<dt className="font-medium text-muted-foreground">{t('profile.phone')}</dt>
+								<dd className="text-foreground">
+									{user?.phoneNumber ? (
+										<bdi dir="ltr">{formatPhone(user.countryCode, user.phoneNumber)}</bdi>
+									) : (
+										notSet
+									)}
 								</dd>
 							</div>
 							<div>
