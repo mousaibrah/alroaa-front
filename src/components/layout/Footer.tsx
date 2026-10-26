@@ -101,8 +101,13 @@ export default function Footer() {
 					</ul>
 				</div>
 			</div>
-			<div className="border-t border-white/10 py-5 text-center text-xs">
-				© {new Date().getFullYear()} {t('site.footer.rights')}
+			<div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-2 border-t border-white/10 px-5 py-5 text-xs sm:flex-row">
+				<span>
+					© {new Date().getFullYear()} {t('site.footer.rights')}
+				</span>
+				<Link className="hover:text-brand-secondary" to={paths.privacy}>
+					{t('site.footer.privacy')}
+				</Link>
 			</div>
 		</footer>
 	);

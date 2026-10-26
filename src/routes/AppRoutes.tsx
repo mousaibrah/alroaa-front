@@ -8,6 +8,7 @@ import AttemptPage from '../pages/AttemptPage';
 import CheckoutPage from '../pages/CheckoutPage';
 import ClientsPage from '../pages/ClientsPage';
 import ContactPage from '../pages/ContactPage';
+import PrivacyPage from '../pages/PrivacyPage';
 import CourseLearnPage from '../pages/CourseLearnPage';
 import CourseOverviewPage from '../pages/CourseOverviewPage';
 import CoursesPage from '../pages/CoursesPage';
@@ -34,6 +35,7 @@ export default function AppRoutes() {
 				<Route path={routePatterns.services} element={<ServicesPage />} />
 				<Route path={routePatterns.clients} element={<ClientsPage />} />
 				<Route path={routePatterns.contact} element={<ContactPage />} />
+				<Route path={routePatterns.privacy} element={<PrivacyPage />} />
 			</Route>
 
 			{/* Platform: sign in, courses, profile, admin */}
