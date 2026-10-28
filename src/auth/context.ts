@@ -2,6 +2,7 @@ import { createContext } from 'react';
 import type {
 	LoginRequest,
 	RegisterRequest,
+	ResetPasswordRequest,
 	User,
 	VerificationRequired,
 	VerifyEmailRequest,
@@ -18,6 +19,8 @@ export interface AuthContextValue {
 	// Always ends in the code screen: new accounts start unverified.
 	register: (data: RegisterRequest) => Promise<VerificationRequired>;
 	verifyEmail: (data: VerifyEmailRequest) => Promise<void>;
+	// Sets a new password with the emailed code and logs in.
+	resetPassword: (data: ResetPasswordRequest) => Promise<void>;
 	logout: () => void;
 	// Re-reads the stored session after a profile or password change.
 	refreshSession: () => void;

@@ -13,12 +13,14 @@ import CourseLearnPage from '../pages/CourseLearnPage';
 import CourseOverviewPage from '../pages/CourseOverviewPage';
 import CoursesPage from '../pages/CoursesPage';
 import ForbiddenPage from '../pages/ForbiddenPage';
+import ForgotPasswordPage from '../pages/ForgotPasswordPage';
 import HomePage from '../pages/HomePage';
 import LoginPage from '../pages/LoginPage';
 import NotFoundPage from '../pages/NotFoundPage';
 import ProfilePage from '../pages/ProfilePage';
 import VerifyCertificatePage from '../pages/VerifyCertificatePage';
 import RegisterPage from '../pages/RegisterPage';
+import ResetPasswordPage from '../pages/ResetPasswordPage';
 import VerifyEmailPage from '../pages/VerifyEmailPage';
 import ServicesPage from '../pages/ServicesPage';
 import GuestOnly from './guards/GuestOnly';
@@ -44,6 +46,8 @@ export default function AppRoutes() {
 					<Route path={routePatterns.login} element={<LoginPage />} />
 					<Route path={routePatterns.register} element={<RegisterPage />} />
 					<Route path={routePatterns.verifyEmail} element={<VerifyEmailPage />} />
+					<Route path={routePatterns.forgotPassword} element={<ForgotPasswordPage />} />
+					<Route path={routePatterns.resetPassword} element={<ResetPasswordPage />} />
 				</Route>
 
 				{/* Browsing the catalogue is open to guests; the lessons are not */}

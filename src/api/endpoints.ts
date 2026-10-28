@@ -4,6 +4,8 @@ export const endpoints = {
 	register: '/auth/register',
 	verifyEmail: '/auth/verify-email',
 	resendVerification: '/auth/resend-verification',
+	forgotPassword: '/auth/forgot-password',
+	resetPassword: '/auth/reset-password',
 	me: '/users/me',
 	myImage: '/users/me/image',
 	myPassword: '/users/me/password',

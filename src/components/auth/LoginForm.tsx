@@ -10,6 +10,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ErrorBanner } from '../common/ErrorBanner';
 import FormField from './FormField';
+import type { ForgotPasswordState } from './ForgotPasswordForm';
 import type { VerifyEmailState } from './VerifyEmailForm';
 import { paths } from '@/routes/paths';
 import { toast } from 'sonner';
@@ -24,6 +25,7 @@ export default function LoginForm() {
 	const {
 		register,
 		handleSubmit,
+		getValues,
 		formState: { errors, isSubmitting },
 	} = useForm<LoginFormValues>({
 		mode: 'onTouched',
@@ -80,6 +82,19 @@ export default function LoginForm() {
 						error={errors.password?.message}
 						{...register('password')}
 					/>
+					<div className="-mt-2 text-end text-sm">
+						{/* Carries the email typed so far over to the forgot password form. */}
+						<Link
+							to={paths.forgotPassword}
+							onClick={(e) => {
+								e.preventDefault();
+								const state: ForgotPasswordState = { email: getValues('email').trim(), from };
+								navigate(paths.forgotPassword, { state });
+							}}
+							className="font-medium text-primary hover:underline">
+							{t('login.forgotPassword')}
+						</Link>
+					</div>
 
 					<Button type="submit" disabled={isSubmitting} className="w-full">
 						{isSubmitting ? t('login.submitting') : t('login.submit')}

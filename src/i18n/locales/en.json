@@ -90,7 +90,8 @@
 		"emailRequired": "Email is required",
 		"nameRequired": "Name is required",
 		"messageRequired": "Please write your message",
-		"confirmRequired": "Confirm your password"
+		"confirmRequired": "Confirm your password",
+		"codeRequired": "Enter the 6-digit code"
 	},
 	"auth": {
 		"email": "Email",
@@ -112,7 +113,8 @@
 		"submit": "Log in",
 		"submitting": "Logging in...",
 		"noAccount": "Don't have an account?",
-		"registerLink": "Register"
+		"registerLink": "Register",
+		"forgotPassword": "Forgot your password?"
 	},
 	"roles": {
 		"admin": "Admin",
@@ -825,5 +827,19 @@
 			"alreadyVerified": "This email is already verified. You can log in.",
 			"wait": "Please wait a moment before asking for a new code."
 		}
+	},
+	"forgot": {
+		"title": "Forgot your password?",
+		"description": "Enter your account's email and we'll send you a code to set a new password.",
+		"submit": "Send the code",
+		"submitting": "Sending..."
+	},
+	"reset": {
+		"title": "Set a new password",
+		"description": "If this email has an account, we sent a {{length}}-digit code to",
+		"submit": "Save the new password",
+		"submitting": "Saving...",
+		"success": "Your password was changed. Welcome back!",
+		"signsOutOthers": "This signs you out on every other device."
 	}
 }

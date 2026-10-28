@@ -6,6 +6,7 @@ import {
 	type AuthResponse,
 	type LoginRequest,
 	type RegisterRequest,
+	type ResetPasswordRequest,
 	type VerificationRequired,
 	type VerifyEmailRequest,
 } from '../types/auth';
@@ -35,3 +36,14 @@ export const resendVerification = (email: string): Promise<{ resendAvailableIn: 
 		method: 'POST',
 		body: { email },
 	});
+
+// Emails a reset code. Answers the same whether or not the email has an account.
+export const forgotPassword = (email: string): Promise<{ resendAvailableIn: number }> =>
+	request<{ resendAvailableIn: number }>(endpoints.forgotPassword, {
+		method: 'POST',
+		body: { email },
+	});
+
+// The right code sets the new password, signs out other devices and logs in.
+export const resetPassword = (data: ResetPasswordRequest): Promise<AuthResponse> =>
+	request<AuthResponse>(endpoints.resetPassword, { method: 'POST', body: data }).then(persist);

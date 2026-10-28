@@ -10,6 +10,8 @@ export const paths = {
 	login: '/login',
 	register: '/register',
 	verifyEmail: '/verify-email',
+	forgotPassword: '/forgot-password',
+	resetPassword: '/reset-password',
 	profile: '/profile',
 	// kept so old links and bookmarks still work
 	legacyDashboard: '/dashboard',
@@ -40,6 +42,8 @@ export const routePatterns = {
 	login: 'login',
 	register: 'register',
 	verifyEmail: 'verify-email',
+	forgotPassword: 'forgot-password',
+	resetPassword: 'reset-password',
 	profile: 'profile',
 	legacyDashboard: 'dashboard',
 	courses: 'courses',

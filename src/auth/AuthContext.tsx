@@ -11,6 +11,7 @@ import {
 	needsVerification,
 	type LoginRequest,
 	type RegisterRequest,
+	type ResetPasswordRequest,
 	type VerifyEmailRequest,
 } from '../types/auth';
 import { AuthContext, type AuthContextValue } from './context';
@@ -38,6 +39,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
 	const verifyEmail = useCallback(async (data: VerifyEmailRequest) => {
 		await authApi.verifyEmail(data);
+		setSession(loadSession());
+	}, []);
+
+	const resetPassword = useCallback(async (data: ResetPasswordRequest) => {
+		await authApi.resetPassword(data);
 		setSession(loadSession());
 	}, []);
 
@@ -109,11 +115,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 			login,
 			register,
 			verifyEmail,
+			resetPassword,
 			logout,
 			refreshSession,
 			hasPermission: (...required) => required.every((p) => permissions.includes(p)),
 		};
-	}, [session, payload, login, register, verifyEmail, logout, refreshSession]);
+	}, [session, payload, login, register, verifyEmail, resetPassword, logout, refreshSession]);
 
 	return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }

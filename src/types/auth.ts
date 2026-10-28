@@ -37,6 +37,13 @@ export interface VerifyEmailRequest {
 	code: string;
 }
 
+// POST /auth/reset-password: the emailed code and the new password.
+export interface ResetPasswordRequest {
+	email: string;
+	code: string;
+	newPassword: string;
+}
+
 export interface LoginRequest {
 	email: string;
 	password: string;
